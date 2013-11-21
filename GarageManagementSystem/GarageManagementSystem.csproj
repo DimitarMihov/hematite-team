@@ -41,11 +41,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Car.cs" />
+    <Compile Include="CarState.cs" />
+    <Compile Include="Distributor.cs" />
+    <Compile Include="Employee.cs" />
+    <Compile Include="Extra.cs" />
+    <Compile Include="IContactable.cs" />
+    <Compile Include="IFunctionable.cs" />
+    <Compile Include="INamable.cs" />
+    <Compile Include="IPricable.cs" />
+    <Compile Include="Owner.cs" />
+    <Compile Include="Part.cs" />
+    <Compile Include="Person.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repair.cs" />
+    <Compile Include="Service.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ServiceDiagram.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
