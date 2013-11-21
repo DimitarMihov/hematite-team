@@ -40,11 +40,11 @@ namespace General
 
         public void AddEmployee(Employee employee)
         {
-            this.Employees.Add(employee)
+            this.Employees.Add(employee);
         }
         public void RemoveEmployee(Employee employee)
         {
-            this.Employees.Remove(employee)
+            this.Employees.Remove(employee);
         }
 
         public void AddCar(Car car)
