@@ -47,8 +47,6 @@
     <Compile Include="Employee.cs" />
     <Compile Include="Extra.cs" />
     <Compile Include="IContactable.cs" />
-    <Compile Include="IFunctionable.cs" />
-    <Compile Include="INamable.cs" />
     <Compile Include="IPricable.cs" />
     <Compile Include="Owner.cs" />
     <Compile Include="Part.cs" />
