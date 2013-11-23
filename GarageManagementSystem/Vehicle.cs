@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Threading;
 
-    public class Car // or Vehicle
+    public class Vehicle
     {
         static long nextId;
 
@@ -27,20 +27,19 @@
         public Person ContactPerson { get; set; }
 
         public List<Repair> Repairs { get; private set; }
-
-
-        public Car(string manufacturer, string model)
+        
+        public Vehicle(string manufacturer, string model, CarStatus status = CarStatus.Informational)
         {
             this.Manufacturer = manufacturer;
             this.Model = model;
-            this.Status = CarStatus.New;
+            this.Status = status;
             this.Id = Interlocked.Increment(ref nextId);
         }
 
-        public Car(string manufacturer, string model, int year, string color = String.Empty, int horsePower, int mileage,
+        public Vehicle(string manufacturer, string model, int year, string color = String.Empty, int horsePower, int mileage,
             FuelType fuelType, Gearbox gearbox, string comments = String.Empty, string registrationNumber = String.Empty,
             CarStatus status = CarStatus.New, Person owner, Person contactPerson, List<Repair> repairs = new List<Repair>())
-            : this(manufacturer, model)
+            : this(manufacturer, model, status)
         {
             this.Year = year;
             this.Color = color;
@@ -48,7 +47,6 @@
             this.Mileage = mileage;
             this.FuelType = fuelType;
             this.Gearbox = gearbox;
-            this.Status = status;
             this.Comments = comments;
             this.RegistrationNumber = registrationNumber;
             this.Owner = owner;
@@ -70,7 +68,7 @@
             }
         }
 
-        public bool Equals(Car value)
+        public bool Equals(Vehicle value)
         {
             if (ReferenceEquals(null, value))
             {
@@ -91,7 +89,7 @@
 
         public override bool Equals(object obj)
         {
-            Car temp = obj as Car;
+            Vehicle temp = obj as Vehicle;
             if (temp == null)
             {
                 return false;
@@ -102,6 +100,8 @@
 
         public void AddRepair(Repair repair)
         {
+            // TODO: check if this repair not exist yet
+            this.Repairs.Add(repair);
         }
     }
 }

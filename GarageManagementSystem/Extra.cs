@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GarageManagementSystem
 {
-    public class Extra : INamable, IPricable, IFunctionable
+    public class Extra : IPricable
     {
         public int Name
         {

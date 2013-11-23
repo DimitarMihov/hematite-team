@@ -11,5 +11,6 @@
         InProgress,
         Feedback, // Waiting client to approve something
         Completed, // The car service/maintenance is fully completed
+        Informational
     }
 }
