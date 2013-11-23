@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace GarageManagementSystem
+﻿namespace GarageManagementSystem
 {
+    using System;
+
     public interface IPricable
     {
-        int Price
-        {
-            get;
-            set;
-        }
+        decimal Price { get; set; }
     }
 }

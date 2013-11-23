@@ -1,68 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace GarageManagementSystem
+﻿namespace GarageManagementSystem
 {
+    using System;
+    using System.Collections.Generic;
+
     public class Part : IPricable
     {
-        public int Name
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public long Id { get; set; }
 
-        public int Price
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public string Name { get; set; }
 
-        public int Function
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        // This parts is approved for this List of Vehicle
+        public List<Vehicle> VehicleList { get; private set; }
 
-        public int CatalocNumber
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
-        }
+        public decimal Price { get; set; } // Appreciation exist ?
 
-        public int Distributor
+        // Distributor or Owner if the part is purchased from owner
+        public Person Provider { get; set; }
+
+        public Part(long id, string name, List<Vehicle> vehicleList = new List<Vehicle>(), decimal price, Person provider)
         {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
+            this.Id = id;
+            this.Name = name;
+            this.VehicleList = vehicleList;
+            this.Price = price;
+            this.Provider = provider;
         }
     }
 }
