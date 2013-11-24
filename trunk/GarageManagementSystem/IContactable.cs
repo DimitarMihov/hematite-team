@@ -1,34 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace GarageManagementSystem
+﻿namespace GarageManagementSystem
 {
+    using System;
+    using System.Linq;
+
     public interface IContactable
     {
-        int Address
-        {
-            get;
-            set;
-        }
-
-        int MobilePhone
-        {
-            get;
-            set;
-        }
-
-        int Email
-        {
-            get;
-            set;
-        }
-
-        int Name
-        {
-            get;
-            set;
-        }
+        string Name { get; set; }
+        Address Address { get; set; }
+        string Phone { get; set; }
+        string Email { get; set; }
+        string Comment { get; set; }
     }
 }

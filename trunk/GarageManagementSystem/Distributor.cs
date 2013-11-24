@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace GarageManagementSystem
+﻿namespace GarageManagementSystem
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class Distributor : Person
     {
-        private int parts;
+        public List<Part> Part { get; set; }
     }
 }
