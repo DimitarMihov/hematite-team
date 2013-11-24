@@ -11,13 +11,13 @@
   <Class Name="GarageManagementSystem.Person">
     <Position X="5.25" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAAAAAQAAAQAAAAAAEACAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAEACAAAAAAAAAAAAQAAAAAAAACAAAAIAAAAAA=</HashCode>
       <FileName>Person.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="GarageManagementSystem.Owner">
-    <Position X="8.25" Y="0.5" Width="1.5" />
+    <Position X="8.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Owner.cs</FileName>
@@ -33,7 +33,7 @@
   <Class Name="GarageManagementSystem.Distributor">
     <Position X="8.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Distributor.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -55,7 +55,7 @@
   <Class Name="GarageManagementSystem.Part">
     <Position X="8.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIAAAAAAAQAAAAAAAAgAAAYAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAAQAEAAAAAAAIAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Part.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -71,7 +71,7 @@
   <Interface Name="GarageManagementSystem.IContactable">
     <Position X="0.5" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAAAAAAAAAQAAAAAAEACAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAEACAAAAAAAAAAAAQAAAAAAAACAAAAIAAAAAA=</HashCode>
       <FileName>IContactable.cs</FileName>
     </TypeIdentifier>
   </Interface>

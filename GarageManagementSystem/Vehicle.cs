@@ -27,7 +27,7 @@
         public Person ContactPerson { get; set; }
 
         public List<Repair> Repairs { get; private set; }
-        
+
         public Vehicle(string manufacturer, string model, CarStatus status = CarStatus.Informational)
         {
             this.Manufacturer = manufacturer;
@@ -36,9 +36,9 @@
             this.Id = Interlocked.Increment(ref nextId);
         }
 
-        public Vehicle(string manufacturer, string model, int year, string color = String.Empty, int horsePower, int mileage,
-            FuelType fuelType, Gearbox gearbox, string comments = String.Empty, string registrationNumber = String.Empty,
-            CarStatus status = CarStatus.New, Person owner, Person contactPerson, List<Repair> repairs = new List<Repair>())
+        public Vehicle(string manufacturer, string model, int? year, int? horsePower, int? mileage,
+            FuelType fuelType, Gearbox gearbox, Person owner, Person contactPerson,
+            string color, string comments, string registrationNumber, List<Repair> repairs, CarStatus status = CarStatus.New)
             : this(manufacturer, model, status)
         {
             this.Year = year;

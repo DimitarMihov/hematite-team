@@ -1,60 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace GarageManagementSystem
+﻿namespace GarageManagementSystem
 {
+    using System;
+    using System.Linq;
+
     public abstract class Person : IContactable
     {
-        private int sex;
+        public string Name { get; set; }
 
-        public int Name
+        public Address Address { get; set; }
+
+        public string Phone { get; set; }
+
+        public string Email { get; set; }
+
+        public string Comment { get; set; }
+
+        protected Person(string phone)
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            this.Phone = phone;
         }
 
-        public int Address
+        protected Person(string phone, string comment)
+            : this(phone)
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            this.Comment = comment;
         }
 
-        public int MobilePhone
+        protected Person(string name, Address address, string phone, string email, string comment)
+            : this(phone, comment)
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public int Email
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            this.Name = name;
+            this.Address = address;
+            this.Email = email;
         }
     }
 }

@@ -17,13 +17,19 @@
         // Distributor or Owner if the part is purchased from owner
         public Person Provider { get; set; }
 
-        public Part(long id, string name, List<Vehicle> vehicleList = new List<Vehicle>(), decimal price, Person provider)
+        public Part(long id, string name, decimal price, Person provider)
         {
             this.Id = id;
             this.Name = name;
-            this.VehicleList = vehicleList;
+            this.VehicleList = new List<Vehicle>();
             this.Price = price;
             this.Provider = provider;
+        }
+
+        public Part(long id, string name, decimal price, Person provider, List<Vehicle> vehicleList)
+            : this(id, name, price, provider)
+        {
+            this.VehicleList = vehicleList;
         }
     }
 }
