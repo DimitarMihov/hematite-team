@@ -42,5 +42,17 @@ namespace GarageManagementSystem
                 throw new NotImplementedException();
             }
         }
+
+        decimal IPricable.Price
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

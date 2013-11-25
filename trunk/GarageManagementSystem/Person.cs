@@ -5,6 +5,8 @@
 
     public abstract class Person : IContactable
     {
+        public Person() { }
+
         public string Name { get; set; }
 
         public Address Address { get; set; }

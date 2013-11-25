@@ -5,6 +5,7 @@ using System.Text;
 
 namespace GarageManagementSystem
 {
+    // TODO: Fix the properties in the repair class. Implement the IPricable interface
     public class Repair : IPricable
     {
         private int caption;
@@ -15,6 +16,18 @@ namespace GarageManagementSystem
         private int date;
     
         public int Price
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        decimal IPricable.Price
         {
             get
             {
