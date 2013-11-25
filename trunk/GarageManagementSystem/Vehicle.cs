@@ -28,6 +28,14 @@
 
         public List<Repair> Repairs { get; private set; }
 
+        public Vehicle(string manufacturer, string model, int year, string registrationNumber)
+        {
+            this.Manufacturer = manufacturer;
+            this.Model = model;
+            this.Year = year;
+            this.RegistrationNumber = registrationNumber;
+        }
+
         public Vehicle(string manufacturer, string model, CarStatus status = CarStatus.Informational)
         {
             this.Manufacturer = manufacturer;
