@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GarageManagementSystem;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -52,6 +53,21 @@ namespace UI
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             // TODO: Implement the delete method
+        }
+
+        private void RegisteredCars_Loaded(object sender, RoutedEventArgs e)
+        {
+            RegisteredCars.Items.Clear();
+
+            foreach (var vehicle in Service.AutoShopInstance.GetVehiclesList())
+            {
+                var newListBoxItem = new ListBoxItem();
+
+                newListBoxItem.Content = vehicle.Manufacturer + " " + vehicle.Model + " " + vehicle.RegistrationNumber;
+                newListBoxItem.Tag = vehicle;
+
+                RegisteredCars.Items.Add(newListBoxItem);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GarageManagementSystem;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -33,6 +34,9 @@ namespace UI
             this.Suspending += OnSuspending;
 
             // TODO: Create methods to load cars, employees, distributors etc from a DB or a file
+            Service.AutoShopInstance.AddVehicle(new Vehicle("Peugeot", "106", 1999, "CA 3919 LN"));
+            Service.AutoShopInstance.AddVehicle(new Vehicle("BMW", "5", 2002, "PA 8750 HA"));
+            Service.AutoShopInstance.AddVehicle(new Vehicle("Mercedes", "SLK", 2010, "A 8993 MM"));
         }
 
         /// <summary>

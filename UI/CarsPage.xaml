@@ -13,7 +13,7 @@
     <Page.Resources>
         <x:String x:Key="AppName">Cars</x:String>
     </Page.Resources>
-    
+
     <Grid Style="{StaticResource LayoutRootStyle}">
         <Grid.RowDefinitions>
             <RowDefinition Height="140"/>
@@ -25,7 +25,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            
+
             <StackPanel Grid.Column="0" 
                         Orientation="Horizontal"
                         VerticalAlignment="Center">
@@ -41,7 +41,7 @@
                 <Button x:Name="DeleteButton"
                         Style="{StaticResource DeleteAppBarButtonStyle}" 
                         Width="99"
-                        Click="DeleteButton_Click"/>                
+                        Click="DeleteButton_Click"/>
 
             </StackPanel>
 
@@ -51,7 +51,27 @@
                        Style="{StaticResource PageHeaderTextStyle}"
                        VerticalAlignment="Center"/>
         </Grid>
-        
+
+        <StackPanel Grid.Row="1" 
+                    Orientation="Horizontal" 
+                    Margin="10 0 0 0">
+
+            <ListBox x:Name="RegisteredCars"
+                     Loaded="RegisteredCars_Loaded" Width="356">
+
+                <ListBoxItem Content="Test" />
+            </ListBox>
+
+            <StackPanel Name="SelectedCarDetails"
+                        Background="Black"
+                        Margin="10 3 0 0"
+                        Width="1000">
+                <TextBlock>
+            	    <Run Text="Test"/>
+                </TextBlock>
+            </StackPanel>
+
+        </StackPanel>
 
     </Grid>
 </common:LayoutAwarePage>
