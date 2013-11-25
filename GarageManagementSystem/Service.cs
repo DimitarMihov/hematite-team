@@ -31,14 +31,45 @@ namespace GarageManagementSystem
             this.vehicles.Add(vehicle);
         }
 
+        public List<Vehicle> GetVehiclesList()
+        {
+            return this.vehicles;
+        }
+
+        public Vehicle GetVehicleByIndex(int index)
+        {
+            return this.vehicles[index];
+        }
+
         public void AddDistributor(Distributor distributor)
         {
             this.distributors.Add(distributor);
+        }
+
+        public List<Distributor> GetDistributorsList()
+        {
+            return this.distributors;
+        }
+
+        public Distributor GetDistributorByIndex(int index)
+        {
+            return this.distributors[index];
         }
 
         public void AddEmployee(Employee employee)
         {
             this.employees.Add(employee);
         }
+
+        public List<Employee> GetEmployeesList()
+        {
+            return this.employees;
+        }
+
+        public Employee GetEmployeeByIndex(int index)
+        {
+            return this.employees[index];
+        }
+
     }
 }
