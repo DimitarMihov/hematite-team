@@ -5,74 +5,40 @@ using System.Text;
 
 namespace GarageManagementSystem
 {
-    public class Service : IContactable
+    public class Service
     {
-        private int cars;
-        private int distributors;
-        private int employees;
-        private int owners;
-    
-        public int Address
+        private static Service serviceInstance;
+
+        public static Service AutoShopInstance
         {
             get
             {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
+                if (serviceInstance == null)
+                {
+                    serviceInstance = new Service();
+                }
+
+                return serviceInstance;
             }
         }
+        
+        private List<Vehicle> vehicles = new List<Vehicle>();
+        private List<Distributor> distributors = new List<Distributor>();
+        private List<Employee> employees = new List<Employee>();
 
-        public int MobilePhone
+        public void AddVehicle(Vehicle vehicle)
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            this.vehicles.Add(vehicle);
         }
 
-        public int Email
+        public void AddDistributor(Distributor distributor)
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            this.distributors.Add(distributor);
         }
 
-        public int Name
+        public void AddEmployee(Employee employee)
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public void SendEmail()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void SendSMS()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void ShowGraphic()
-        {
-            throw new System.NotImplementedException();
+            this.employees.Add(employee);
         }
     }
 }
