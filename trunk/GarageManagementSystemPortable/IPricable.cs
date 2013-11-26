@@ -5,5 +5,7 @@
     public interface IPricable
     {
         decimal Price { get; set; }
+
+        decimal CalculateMargin();
     }
 }

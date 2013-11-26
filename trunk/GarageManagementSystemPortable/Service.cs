@@ -7,6 +7,13 @@ namespace GarageManagementSystem
 {
     public class Service
     {
+        // TODO: Add at least one more interface and implement it
+        // TODO: "StyleCop" the final code
+        // TODO: Create at least one exception class and implement it somewhere in the code
+        // TODO: Create and use at least one structure in the code
+        // TODO: Update the class diagram before submission
+        // TODO: Create a breaf documentation of the project
+
         private static Service serviceInstance;
 
         public static Service AutoShopInstance

@@ -65,6 +65,7 @@
     <Compile Include="Extra.cs" />
     <Compile Include="FuelType.cs" />
     <Compile Include="Gearbox.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="IContactable.cs" />
     <Compile Include="IPricable.cs" />
     <Compile Include="Owner.cs" />

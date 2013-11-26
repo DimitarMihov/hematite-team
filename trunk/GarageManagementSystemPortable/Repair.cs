@@ -38,5 +38,11 @@ namespace GarageManagementSystem
                 throw new NotImplementedException();
             }
         }
+
+
+        public decimal CalculateMargin()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

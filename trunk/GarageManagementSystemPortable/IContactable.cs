@@ -10,5 +10,8 @@
         string Phone { get; set; }
         string Email { get; set; }
         string Comment { get; set; }
+
+        void SendSms();
+        void SendEmail();
     }
 }

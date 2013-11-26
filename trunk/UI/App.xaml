@@ -3,6 +3,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:UI">
+    
+    <!--TODO: Implement email validation for the forms in the Helper class-->
+    <!--TODO: Optimize the code in the UI-->
+    <!--TODO: Create a Settings page-->
+    <!--TODO: Create Repairs page-->
+    <!--TODO: Implement edit popups for the Cars/Distibutors/Employees etc views-->
+    <!--TODO: Enhance the Add functions (i.e. with dropdowns for enums, etc)-->
 
     <Application.Resources>
         <ResourceDictionary>

@@ -7,6 +7,7 @@ namespace GarageManagementSystem
 {
     public class Extra : IPricable
     {
+        // TODO: Implement the iPricable interface for the Extra class
         public int Name
         {
             get
@@ -53,6 +54,12 @@ namespace GarageManagementSystem
             {
                 throw new NotImplementedException();
             }
+        }
+
+
+        public decimal CalculateMargin()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -8,13 +8,9 @@
         public Person() { }
 
         public string Name { get; set; }
-
         public Address Address { get; set; }
-
         public string Phone { get; set; }
-
         public string Email { get; set; }
-
         public string Comment { get; set; }
 
         protected Person(string phone)
@@ -34,6 +30,17 @@
             this.Name = name;
             this.Address = address;
             this.Email = email;
+        }
+
+
+        public void SendSms()
+        {
+            // TODO: Implement the SendSms() method
+        }
+
+        public void SendEmail()
+        {
+            // TODO: Implement the SendEmail() method
         }
     }
 }

@@ -6,6 +6,7 @@
     {
         Manager,
         JunorMechanic,
-        SeniorMechanic
+        SeniorMechanic,
+        Accountant
     }
 }
