@@ -14,6 +14,13 @@ namespace GarageManagementSystem
         // TODO: Update the class diagram before submission
         // TODO: Create a breaf documentation of the project
 
+        // TODO: UI: Optimize the code in the UI
+        // TODO: UI: Create a Settings page
+        // TODO: UI: Create Repairs page
+        // TODO: UI: Implement edit popups for the Cars/Distibutors/Employees etc views
+        // TODO: UI: Enhance the Add functions (i.e. with dropdowns for enums, etc)
+        // TODO: UI: Implement email validation for the forms in the Helper class
+
         private static Service serviceInstance;
 
         public static Service AutoShopInstance
