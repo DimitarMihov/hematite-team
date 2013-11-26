@@ -1,10 +1,12 @@
-﻿using System;
+﻿using GarageManagementSystem;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
+using System.Reflection;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
@@ -51,7 +53,117 @@ namespace UI
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: Implement the delete method
+            if (RegisteredDistributors.SelectedValue != null)
+            {
+                DeleteDistributorConfirmationPopup.IsOpen = true;
+            }
+        }
+
+        private void RegisteredDistributors_Loaded(object sender, RoutedEventArgs e)
+        {
+            PopulateDistributors();
+        }
+
+        private void PopulateDistributors()
+        {
+            RegisteredDistributors.Items.Clear();
+
+            foreach (var distributor in Service.AutoShopInstance.GetDistributorsList())
+            {
+                var newListBoxItem = new ListBoxItem();
+
+                newListBoxItem.Content = distributor.Name;
+                newListBoxItem.Tag = distributor;
+
+                RegisteredDistributors.Items.Add(newListBoxItem);
+            }
+        }
+
+        private void RegisteredDistributors_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Distributor selectedDistributor = Service.AutoShopInstance.GetDistributorByIndex(RegisteredDistributors.SelectedIndex);
+            SelectedDistributorDetails.Children.Clear();
+
+            var selectedDistributorProperties = selectedDistributor.GetType().GetRuntimeProperties();
+
+            foreach (var property in selectedDistributorProperties)
+            {
+                var propertyStack = new StackPanel();
+                propertyStack.Orientation = Orientation.Horizontal;
+                SelectedDistributorDetails.Children.Add(propertyStack);
+
+                var propertyNameGrid = new Grid();
+                propertyNameGrid.Width = 200;
+                propertyStack.Children.Add(propertyNameGrid);
+
+                var propertyValueGrid = new Grid();
+                propertyStack.Children.Add(propertyValueGrid);
+
+                if (property.GetValue(selectedDistributor) != null)
+                {
+                    var propertyNameBlock = new TextBlock();
+                    string propertyName;
+
+                    var descriptionAttribute = property.GetCustomAttributes().FirstOrDefault(attr => attr.GetType().Name == "DescriptionAttribute");
+
+                    if (descriptionAttribute != null)
+                    {
+                        propertyName = descriptionAttribute.GetType().GetRuntimeProperty("Name").GetValue(descriptionAttribute).ToString().ToUpper();
+                    }
+                    else
+                    {
+                        propertyName = property.Name.ToString().ToUpper();
+                    }
+
+                    propertyNameBlock.Text = propertyName;
+                    propertyNameGrid.Children.Add(propertyNameBlock);
+
+                    var propertyValue = new TextBlock();
+                    var value = property.GetValue(selectedDistributor).ToString();
+                    propertyValue.Text = value;
+                    propertyValueGrid.Children.Add(propertyValue);
+                }
+            }
+        }
+
+        private void DeleteDistributor_Click(object sender, RoutedEventArgs e)
+        {
+            Service.AutoShopInstance.RemoveDistributor(Service.AutoShopInstance.GetDistributorByIndex(RegisteredDistributors.SelectedIndex));
+            DeleteDistributorConfirmationPopup.IsOpen = false;
+            this.Frame.Navigate(typeof(DistributorsPage));
+        }
+
+        private void CancelDistributorDeletion_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteDistributorConfirmationPopup.IsOpen = false;
+        }
+
+        private void CancelDistributorCreation_Click(object sender, RoutedEventArgs e)
+        {
+            AddDistributorDialog.IsOpen = false;
+        }
+
+        private void AddDistributor_Click(object sender, RoutedEventArgs e)
+        {
+            Service.AutoShopInstance.AddDistributor(new Distributor(NameTextBox.Text, PhoneTextBox.Text, EmailTextBox.Text));
+            this.Frame.Navigate(typeof(DistributorsPage));
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddDistributorDialog.IsOpen = true;
+        }
+
+        private void AddDistributorPropertyValuesField_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (NameTextBox.Text != string.Empty && PhoneTextBox.Text != string.Empty && EmailTextBox.Text != string.Empty)
+            {
+                AddDistributor.IsEnabled = true;
+            }
+            else
+            {
+                AddDistributor.IsEnabled = false;
+            }
         }
     }
 }

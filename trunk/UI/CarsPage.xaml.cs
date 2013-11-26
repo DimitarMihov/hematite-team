@@ -53,7 +53,10 @@ namespace UI
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            DeleteCarConfirmationPopup.IsOpen = true;
+            if (RegisteredCars.SelectedValue != null)
+            {
+                DeleteCarConfirmationPopup.IsOpen = true;
+            }            
         }
 
         private void RegisteredCars_Loaded(object sender, RoutedEventArgs e)
@@ -95,7 +98,7 @@ namespace UI
 
                 var propertyValueGrid = new Grid();
                 propertyStack.Children.Add(propertyValueGrid);
-                               
+
                 if (property.GetValue(selectedCar) != null)
                 {
                     var propertyNameBlock = new TextBlock();
@@ -111,15 +114,60 @@ namespace UI
                     {
                         propertyName = property.Name.ToString().ToUpper();
                     }
-                    
+
                     propertyNameBlock.Text = propertyName;
                     propertyNameGrid.Children.Add(propertyNameBlock);
 
                     var propertyValue = new TextBlock();
-                    var value = property.GetValue(selectedCar).ToString();                                                      
+                    var value = property.GetValue(selectedCar).ToString();
                     propertyValue.Text = value;
                     propertyValueGrid.Children.Add(propertyValue);
-                }                
+                }
+            }            
+        }
+
+        private void DeleteCar_Click(object sender, RoutedEventArgs e)
+        {
+            Service.AutoShopInstance.RemoveVehicle(Service.AutoShopInstance.GetVehicleByIndex(RegisteredCars.SelectedIndex));
+            DeleteCarConfirmationPopup.IsOpen = false;
+            this.Frame.Navigate(typeof(CarsPage));
+        }
+
+        private void CancelCarDeletion_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteCarConfirmationPopup.IsOpen = false;
+        }
+
+        private void CancelCarCreation_Click(object sender, RoutedEventArgs e)
+        {
+            AddCarDialog.IsOpen = false;
+        }
+
+        private void AddCar_Click(object sender, RoutedEventArgs e)
+        {
+            Service.AutoShopInstance.AddVehicle(new Vehicle(ManufacuturerTextBox.Text, ModelTextBox.Text, int.Parse(YearTextBox.Text), RegNumberTextBox.Text));
+            this.Frame.Navigate(typeof(CarsPage));
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddCarDialog.IsOpen = true;
+        }
+
+        private void AddCarPropertyValuesField_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (ManufacuturerTextBox.Text != string.Empty && ModelTextBox.Text != string.Empty && YearTextBox.Text != string.Empty && RegNumberTextBox.Text != string.Empty)
+            {
+                int result = 0;
+
+                if (Int32.TryParse(YearTextBox.Text, out result))
+                {
+                    AddCar.IsEnabled = true;
+                }
+            }
+            else
+            {
+                AddCar.IsEnabled = false;
             }
         }
     }

@@ -28,27 +28,33 @@
         <Setter Property="Foreground" Value="{StaticResource ApplicationForegroundThemeBrush}"/>
         <Setter Property="BorderThickness" Value="0" />
     </Style>
-    
-    <!--<Style TargetType="ListBox">
-        <Setter Property="Background" Value="Black" />
-        <Setter Property="Foreground" Value="White" />
-    </Style>
-
-    <Style TargetType="ListBoxItem">
-        <Setter Property="Background" Value="Black" />
-        <Setter Property="Foreground" Value="White" />
-    </Style>-->
 
     <Style TargetType="TextBlock">
         <Setter Property="FontFamily" Value="Segoe UI" />
         <Setter Property="FontSize" Value= "18" />
         <Setter Property="FontWeight" Value="Light" />
     </Style>
+
+    <Style x:Key="AddPopupField" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value= "22" />
+        <Setter Property="FontWeight" Value="Light" />
+        <Setter Property="Height" Value="32" />
+        <Setter Property="Margin" Value="0 0 0 10" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
     
+    <Style TargetType="TextBox">
+        <Setter Property="Margin" Value="0 0 0 10" />
+    </Style>
+
     <Style TargetType="Popup">
-        <Setter Property="VerticalOffset" Value="50" />
-        <Setter Property="HorizontalOffset" Value="100" />
         <Setter Property="IsOpen" Value="False" />
+    </Style>
+    
+    <Style TargetType="Button">
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Foreground" Value="White" />
     </Style>
 
 </ResourceDictionary>

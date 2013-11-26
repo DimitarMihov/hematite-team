@@ -36,7 +36,11 @@
                         Style="{StaticResource HomeAppBarButtonStyle}" 
                         Height="103" />
 
-                <Button x:Name="AddButton" Click="GoBack" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Style="{StaticResource AddAppBarButtonStyle}" Width="99"/>
+                <Button x:Name="AddButton"
+                        IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" 
+                        Style="{StaticResource AddAppBarButtonStyle}" 
+                        Width="99"
+                        Click="AddButton_Click"/>
 
                 <Button x:Name="DeleteButton"
                         Style="{StaticResource DeleteAppBarButtonStyle}" 
@@ -50,8 +54,8 @@
                        Text="{StaticResource AppName}"
                        Style="{StaticResource PageHeaderTextStyle}"
                        VerticalAlignment="Center"/>
-        </Grid>
-
+        </Grid>     
+        
         <StackPanel Grid.Row="1" 
                     Orientation="Horizontal" 
                     Margin="10 0 0 0">
@@ -64,20 +68,112 @@
             <StackPanel Name="SelectedCarDetails"
                         Background="Black"
                         Margin="10 3 0 0"
-                        Width="1000">
-                
+                        Width="1000">        
+                              
             </StackPanel>
+            
+        </StackPanel>
 
-            <Popup Name="DeleteCarConfirmationPopup">
-                <StackPanel>
-                    <TextBlock>Do you really want to delete the selected car?</TextBlock>
-                    <StackPanel Orientation="Horizontal">
-                        <Button Name="DeleteCar" />
-                        <Button Name="CancelCarDeletion" />
+        <Popup x:Name = "AddCarDialog"
+               HorizontalOffset="100"
+               VerticalOffset="0" >
+
+            <Border BorderBrush="Gray" 
+                           BorderThickness="2" 
+                           Background="Black" 
+                           Width="500" 
+                           Height="300"
+                           >
+                
+                <StackPanel HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Width="434">
+                    
+                    <Grid Name="AddCarFields">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Name="AddCarPropetyNames" 
+                                    Grid.Column="0">
+
+                            <TextBlock Style="{StaticResource AddPopupField}">Manufacuturer</TextBlock>
+                            <TextBlock Style="{StaticResource AddPopupField}">Model</TextBlock>
+                            <TextBlock Style="{StaticResource AddPopupField}">Year</TextBlock>
+                            <TextBlock Style="{StaticResource AddPopupField}">Registration Number</TextBlock>
+                            
+                        </StackPanel>
+
+                        <StackPanel Name="AddCarPropertyValues"                            
+                                    Grid.Column="1">
+
+                            <TextBox Name="ManufacuturerTextBox"
+                                     TextChanged="AddCarPropertyValuesField_TextChanged"/>
+                            
+                            <TextBox Name="ModelTextBox"
+                                     TextChanged="AddCarPropertyValuesField_TextChanged"/>
+                            
+                            <TextBox Name="YearTextBox"
+                                     TextChanged="AddCarPropertyValuesField_TextChanged"/>
+                            
+                            <TextBox Name="RegNumberTextBox"
+                                     TextChanged="AddCarPropertyValuesField_TextChanged"/>
+                            
+                        </StackPanel>
+                    </Grid>
+                    
+                    <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Margin="0 10 0 0">
+
+                        <Button Name="AddCar"
+                                Content="Add Car"
+                                IsEnabled="False"
+                                Click="AddCar_Click" />
+
+                        <Button Name="CancelCarCreation"
+                                        Content="Cancel"
+                                        Click="CancelCarCreation_Click"/>
+
                     </StackPanel>
                 </StackPanel>
-            </Popup>
-        </StackPanel>
+            </Border>
+        </Popup>
+
+        <Popup x:Name = "DeleteCarConfirmationPopup"
+                       HorizontalOffset="100"
+                       VerticalOffset="200">
+
+            <Border BorderBrush="Gray" 
+                           BorderThickness="2" 
+                           Background="Black" 
+                           Width="500" 
+                           Height="100"
+                           >
+                <StackPanel HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+
+                    <TextBlock>Do you really want to delete the selected car?</TextBlock>
+
+                    <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Margin="0 10 0 0">
+
+                        <Button Name="DeleteCar"
+                                        Content="Yes"
+                                        Click="DeleteCar_Click"/>
+
+                        <Button Name="CancelCarDeletion"
+                                        Content="No"
+                                        Click="CancelCarDeletion_Click" />
+
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Popup>
 
     </Grid>
 </common:LayoutAwarePage>

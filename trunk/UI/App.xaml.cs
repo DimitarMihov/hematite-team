@@ -37,6 +37,15 @@ namespace UI
             Service.AutoShopInstance.AddVehicle(new Vehicle("Peugeot", "106", 1999, "CA 3919 LN"));
             Service.AutoShopInstance.AddVehicle(new Vehicle("BMW", "5", 2002, "PA 8750 HA"));
             Service.AutoShopInstance.AddVehicle(new Vehicle("Mercedes", "SLK", 2010, "A 8993 MM"));
+
+            Service.AutoShopInstance.AddDistributor(new Distributor("MotoPfohe Ltd", "089 901 5632", "order@motopfohe.bg"));
+            Service.AutoShopInstance.AddDistributor(new Distributor("BetterCars Ltd", "089 598 8915", "order_parts@bettercars.bg"));
+            Service.AutoShopInstance.AddDistributor(new Distributor("PartsForPeople Ltd", "088 991 5987", "office@peopleparts.bg"));
+
+            Service.AutoShopInstance.AddEmployee(new Employee("Marin Ivanov", 500, "088 909 5135"));
+            Service.AutoShopInstance.AddEmployee(new Employee("Ivan Petrov", 750, "089 165 2384"));
+            Service.AutoShopInstance.AddEmployee(new Employee("Kiril Manolov", 800, "087 595 1635"));
+            Service.AutoShopInstance.AddEmployee(new Employee("Iliya Szechev", 450, "085 168 4865"));
         }
 
         /// <summary>

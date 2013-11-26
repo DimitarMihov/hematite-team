@@ -41,6 +41,11 @@ namespace GarageManagementSystem
             return this.vehicles[index];
         }
 
+        public void RemoveVehicle(Vehicle vehicle)
+        {
+            this.vehicles.Remove(vehicle);
+        }
+
         public void AddDistributor(Distributor distributor)
         {
             this.distributors.Add(distributor);
@@ -56,6 +61,11 @@ namespace GarageManagementSystem
             return this.distributors[index];
         }
 
+        public void RemoveDistributor(Distributor distributor)
+        {
+            this.distributors.Remove(distributor);
+        }
+
         public void AddEmployee(Employee employee)
         {
             this.employees.Add(employee);
@@ -69,6 +79,11 @@ namespace GarageManagementSystem
         public Employee GetEmployeeByIndex(int index)
         {
             return this.employees[index];
+        }
+
+        public void RemoveEmployee(Employee employee)
+        {
+            this.employees.Remove(employee);
         }
 
     }
