@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GarageManagementSystem.Address" Collapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAEAAAAAAAIIEAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Address.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GarageManagementSystem.DescriptionAttribute" Collapsed="true">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DescriptionAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GarageManagementSystem.Distributor" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Distributor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GarageManagementSystem.Employee" Collapsed="true">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABACAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Employee.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GarageManagementSystem.Extra" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAYAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extra.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GarageManagementSystem.Owner" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Owner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GarageManagementSystem.Part" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQAEAAAAAAAIAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Part.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GarageManagementSystem.Person" Collapsed="true">
+    <Position X="2.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEACAAAAAAAAAAAAQAAAAAAAACAAAAIAAAAAA=</HashCode>
+      <FileName>Person.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GarageManagementSystem.Repair" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="9.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAEAAAAAAQAAAAAAAAAIAAAAAAAAIAAAAEAAAQgAAAA=</HashCode>
+      <FileName>Repair.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GarageManagementSystem.Service" Collapsed="true">
+    <Position X="11" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAECERAAACIAQAACIAAAIAAAAABEAAsAAAAAAAAA=</HashCode>
+      <FileName>Service.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GarageManagementSystem.Vehicle" Collapsed="true">
+    <Position X="7.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAoGAACEBAAAQAAApJAAAAAAAAEAAMAAEAgAgAAAIAA=</HashCode>
+      <FileName>Vehicle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="GarageManagementSystem.IContactable" Collapsed="true">
+    <Position X="7.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEACAAAAAAAAAAAAQAAAAAAAACAAAAIAAAAAA=</HashCode>
+      <FileName>IContactable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GarageManagementSystem.IPricable" Collapsed="true">
+    <Position X="9.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IPricable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="GarageManagementSystem.CarStatus" Collapsed="true">
+    <Position X="7.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAQAACIAAAADAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>CarStatus.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="GarageManagementSystem.FuelType" Collapsed="true">
+    <Position X="9.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BEAAAQAAQAAAAAAIAwAAAQAEAAAAAAAAAAAAAAABBAA=</HashCode>
+      <FileName>FuelType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="GarageManagementSystem.Gearbox" Collapsed="true">
+    <Position X="11" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAIAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Gearbox.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="GarageManagementSystem.Position" Collapsed="true">
+    <Position X="7.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAAABAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Position.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
