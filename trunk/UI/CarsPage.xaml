@@ -57,20 +57,26 @@
                     Margin="10 0 0 0">
 
             <ListBox x:Name="RegisteredCars"
-                     Loaded="RegisteredCars_Loaded" Width="356">
-
-                <ListBoxItem Content="Test" />
-            </ListBox>
-
+                     Loaded="RegisteredCars_Loaded"
+                     Width="356" 
+                     SelectionChanged="RegisteredCars_SelectionChanged"/>
+           
             <StackPanel Name="SelectedCarDetails"
                         Background="Black"
                         Margin="10 3 0 0"
                         Width="1000">
-                <TextBlock>
-            	    <Run Text="Test"/>
-                </TextBlock>
+                
             </StackPanel>
 
+            <Popup Name="DeleteCarConfirmationPopup">
+                <StackPanel>
+                    <TextBlock>Do you really want to delete the selected car?</TextBlock>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Name="DeleteCar" />
+                        <Button Name="CancelCarDeletion" />
+                    </StackPanel>
+                </StackPanel>
+            </Popup>
         </StackPanel>
 
     </Grid>

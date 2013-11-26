@@ -101,9 +101,9 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <ProjectReference Include="..\GarageManagementSystemPortable\GarageManagementSystemPortable.csproj">
+    <ProjectReference Include="..\GarageManagementSystemPortable\GarageManagementSystem.csproj">
       <Project>{d9bf12a9-05db-415c-b803-27216298c92d}</Project>
-      <Name>GarageManagementSystemPortable</Name>
+      <Name>GarageManagementSystem</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -22,8 +22,12 @@
         public CarStatus Status { get; set; }
         public string Comments { get; set; }
 
+        [DescriptionAttribute("Registration Number")]
         public string RegistrationNumber { get; set; }
+
         public Person Owner { get; set; }
+
+        [DescriptionAttribute("Contact Person")]
         public Person ContactPerson { get; set; }
 
         public List<Repair> Repairs { get; private set; }
