@@ -5,6 +5,7 @@
 
     public class Part : IPricable
     {
+        // TODO: Implement the IPricable interface for the Part class
         public long Id { get; set; }
 
         public string Name { get; set; }
@@ -30,6 +31,12 @@
             : this(id, name, price, provider)
         {
             this.VehicleList = vehicleList;
+        }
+
+
+        public decimal CalculateMargin()
+        {
+            throw new NotImplementedException();
         }
     }
 }

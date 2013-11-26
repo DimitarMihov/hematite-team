@@ -5,8 +5,8 @@ using System.Text;
 
 namespace GarageManagementSystem
 {
-    public class Owner : Person
+    public class Helper
     {
-        // TODO: Create properties/methods for the owner class
+        // TODO: Implement data validations and other auxiliary methods in the Helper class
     }
 }

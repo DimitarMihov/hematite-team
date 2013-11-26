@@ -54,7 +54,7 @@
   <Class Name="GarageManagementSystem.Person" Collapsed="true">
     <Position X="2.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAEACAAAAAAAAAAAAQAAAAAAAACAAAAIAAAAAA=</HashCode>
+      <HashCode>AAAAAAAEACAAAAAAAAAAAAQAAgABAAACAAAAIAAAAAA=</HashCode>
       <FileName>Person.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -84,14 +84,14 @@
   <Interface Name="GarageManagementSystem.IContactable" Collapsed="true">
     <Position X="7.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAEACAAAAAAAAAAAAQAAAAAAAACAAAAIAAAAAA=</HashCode>
+      <HashCode>AAAAAAAEACAAAAAAAAAAAAQAAgABAAACAAAAIAAAAAA=</HashCode>
       <FileName>IContactable.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="GarageManagementSystem.IPricable" Collapsed="true">
     <Position X="9.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IPricable.cs</FileName>
     </TypeIdentifier>
   </Interface>
