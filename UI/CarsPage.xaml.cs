@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -52,10 +53,15 @@ namespace UI
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: Implement the delete method
+            DeleteCarConfirmationPopup.IsOpen = true;
         }
 
         private void RegisteredCars_Loaded(object sender, RoutedEventArgs e)
+        {
+            PopulateVehicles();
+        }
+
+        private void PopulateVehicles()
         {
             RegisteredCars.Items.Clear();
 
@@ -67,6 +73,53 @@ namespace UI
                 newListBoxItem.Tag = vehicle;
 
                 RegisteredCars.Items.Add(newListBoxItem);
+            }
+        }
+
+        private void RegisteredCars_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Vehicle selectedCar = Service.AutoShopInstance.GetVehicleByIndex(RegisteredCars.SelectedIndex);
+            SelectedCarDetails.Children.Clear();
+
+            var selectedCarProperties = selectedCar.GetType().GetRuntimeProperties();
+
+            foreach (var property in selectedCarProperties)
+            {
+                var propertyStack = new StackPanel();
+                propertyStack.Orientation = Orientation.Horizontal;
+                SelectedCarDetails.Children.Add(propertyStack);
+
+                var propertyNameGrid = new Grid();
+                propertyNameGrid.Width = 200;
+                propertyStack.Children.Add(propertyNameGrid);
+
+                var propertyValueGrid = new Grid();
+                propertyStack.Children.Add(propertyValueGrid);
+                               
+                if (property.GetValue(selectedCar) != null)
+                {
+                    var propertyNameBlock = new TextBlock();
+                    string propertyName;
+
+                    var descriptionAttribute = property.GetCustomAttributes().FirstOrDefault(attr => attr.GetType().Name == "DescriptionAttribute");
+
+                    if (descriptionAttribute != null)
+                    {
+                        propertyName = descriptionAttribute.GetType().GetRuntimeProperty("Name").GetValue(descriptionAttribute).ToString().ToUpper();
+                    }
+                    else
+                    {
+                        propertyName = property.Name.ToString().ToUpper();
+                    }
+                    
+                    propertyNameBlock.Text = propertyName;
+                    propertyNameGrid.Children.Add(propertyNameBlock);
+
+                    var propertyValue = new TextBlock();
+                    var value = property.GetValue(selectedCar).ToString();                                                      
+                    propertyValue.Text = value;
+                    propertyValueGrid.Children.Add(propertyValue);
+                }                
             }
         }
     }
