@@ -1,7 +1,9 @@
-﻿using System;
+﻿using GarageManagementSystem;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -51,7 +53,122 @@ namespace UI
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: Implement the delete method
+            if (RegisteredEmployees.SelectedValue != null)
+            {
+                DeleteEmployeeConfirmationPopup.IsOpen = true;
+            }
+        }
+
+        private void RegisteredEmployees_Loaded(object sender, RoutedEventArgs e)
+        {
+            PopulateEmployees();
+        }
+
+        private void PopulateEmployees()
+        {
+            RegisteredEmployees.Items.Clear();
+
+            foreach (var employee in Service.AutoShopInstance.GetEmployeesList())
+            {
+                var newListBoxItem = new ListBoxItem();
+
+                newListBoxItem.Content = employee.Name + " " + employee.Position;
+                newListBoxItem.Tag = employee;
+
+                RegisteredEmployees.Items.Add(newListBoxItem);
+            }
+        }
+
+        private void RegisteredEmployees_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Employee selectedEmployee = Service.AutoShopInstance.GetEmployeeByIndex(RegisteredEmployees.SelectedIndex);
+            SelectedEmployeeDetails.Children.Clear();
+
+            var selectedEmployeeProperties = selectedEmployee.GetType().GetRuntimeProperties();
+
+            foreach (var property in selectedEmployeeProperties)
+            {
+                var propertyStack = new StackPanel();
+                propertyStack.Orientation = Orientation.Horizontal;
+                SelectedEmployeeDetails.Children.Add(propertyStack);
+
+                var propertyNameGrid = new Grid();
+                propertyNameGrid.Width = 200;
+                propertyStack.Children.Add(propertyNameGrid);
+
+                var propertyValueGrid = new Grid();
+                propertyStack.Children.Add(propertyValueGrid);
+
+                if (property.GetValue(selectedEmployee) != null)
+                {
+                    var propertyNameBlock = new TextBlock();
+                    string propertyName;
+
+                    var descriptionAttribute = property.GetCustomAttributes().FirstOrDefault(attr => attr.GetType().Name == "DescriptionAttribute");
+
+                    if (descriptionAttribute != null)
+                    {
+                        propertyName = descriptionAttribute.GetType().GetRuntimeProperty("Name").GetValue(descriptionAttribute).ToString().ToUpper();
+                    }
+                    else
+                    {
+                        propertyName = property.Name.ToString().ToUpper();
+                    }
+
+                    propertyNameBlock.Text = propertyName;
+                    propertyNameGrid.Children.Add(propertyNameBlock);
+
+                    var propertyValue = new TextBlock();
+                    var value = property.GetValue(selectedEmployee).ToString();
+                    propertyValue.Text = value;
+                    propertyValueGrid.Children.Add(propertyValue);
+                }
+            }
+        }
+
+        private void DeleteEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            Service.AutoShopInstance.RemoveVehicle(Service.AutoShopInstance.GetVehicleByIndex(RegisteredEmployees.SelectedIndex));
+            DeleteEmployeeConfirmationPopup.IsOpen = false;
+            this.Frame.Navigate(typeof(EmployeesPage));
+        }
+
+        private void CancelEmployeeDeletion_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteEmployeeConfirmationPopup.IsOpen = false;
+        }
+
+        private void CancelEmployeeCreation_Click(object sender, RoutedEventArgs e)
+        {
+            AddEmployeeDialog.IsOpen = false;
+        }
+
+        private void AddEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            Service.AutoShopInstance.AddEmployee(new Employee(NameTextBox.Text, decimal.Parse(SalaryTextBox.Text), PhoneTextBox.Text));
+            this.Frame.Navigate(typeof(EmployeesPage));
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddEmployeeDialog.IsOpen = true;
+        }
+
+        private void AddEmployeePropertyValuesField_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (NameTextBox.Text != string.Empty && SalaryTextBox.Text != string.Empty && PhoneTextBox.Text != string.Empty)
+            {
+                decimal result = 0;
+
+                if (decimal.TryParse(SalaryTextBox.Text, out result))
+                {
+                    AddEmployee.IsEnabled = true;
+                }
+            }
+            else
+            {
+                AddEmployee.IsEnabled = false;
+            }
         }
     }
 }

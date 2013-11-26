@@ -16,5 +16,13 @@
             this.Position = position;
             this.Rank = rank;
         }
+
+        public Employee(string name, decimal Salary, string phone)
+        {
+            this.Name = name;
+            this.Salary = Salary;
+            this.Phone = phone;
+            this.Position = Position.JunorMechanic;
+        }
     }
 }

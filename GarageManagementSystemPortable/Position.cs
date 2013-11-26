@@ -4,6 +4,8 @@
 
     public enum Position
     {
-
+        Manager,
+        JunorMechanic,
+        SeniorMechanic
     }
 }
