@@ -16,7 +16,7 @@
         public string Color { get; set; }
         public int? HorsePower { get; set; }
         public int? Mileage { get; set; }
-        public CarStatus Status { get; set; }
+        public Status Status { get; set; }
         public string Comments { get; set; }
 
         [DescriptionAttribute("Registration Number")]
@@ -34,7 +34,7 @@
             this.RegistrationNumber = registrationNumber;
         }
 
-        public Vehicle(string manufacturer, string model, CarStatus status = CarStatus.Informational)
+        public Vehicle(string manufacturer, string model, Status status = Status.Informational)
         {
             this.Manufacturer = manufacturer;
             this.Model = model;
@@ -44,7 +44,7 @@
 
         public Vehicle(string manufacturer, string model, int? year, int? horsePower, int? mileage,
             FuelType fuelType, Gearbox gearbox, Person owner,
-            string color, string comments, string registrationNumber, List<Repair> repairs, CarStatus status = CarStatus.New)
+            string color, string comments, string registrationNumber, List<Repair> repairs, Status status = Status.New)
             : base(manufacturer, model, year, fuelType, gearbox)
         {
             this.HorsePower = horsePower;

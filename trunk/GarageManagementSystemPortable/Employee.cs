@@ -19,10 +19,10 @@
             this.Rank = rank;
         }
 
-        public Employee(string name, decimal Salary, string phone)
+        public Employee(string name, decimal salary, string phone)
         {
             this.Name = name;
-            this.Salary = Salary;
+            this.Salary = salary;
             this.Phone = phone;
             this.Position = Position.JunorMechanic;
         }

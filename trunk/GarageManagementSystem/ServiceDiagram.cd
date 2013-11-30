@@ -3,7 +3,7 @@
   <Class Name="GarageManagementSystem.Service">
     <Position X="3.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAigAAQAAIAAQAAgAAAEACAQAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAEACAAjgAAQAAIAAQAAgAAAEACAQAQKAAAAAA=</HashCode>
       <FileName>Service.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -26,7 +26,7 @@
   <Class Name="GarageManagementSystem.Employee">
     <Position X="8.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAQAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAABACAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Employee.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -38,7 +38,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="GarageManagementSystem.Car">
-    <Position X="2.25" Y="4.25" Width="1.5" />
+    <Position X="1.75" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAGEAAAAAAAkkAAAAEBAAAAAAAAAAAAAAAAACAAIAAA=</HashCode>
       <FileName>Car.cs</FileName>
@@ -47,7 +47,7 @@
   <Class Name="GarageManagementSystem.Repair">
     <Position X="6.75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAEAAAAAAQAAAAAAAAAIAAAAAAAAAAAAAEAAAQgAAAA=</HashCode>
+      <HashCode>BAEAAAAAAQAAAAAAAAAIAAAAAAAAIAAAAEAAAQgAAAA=</HashCode>
       <FileName>Repair.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -63,7 +63,7 @@
   <Class Name="GarageManagementSystem.Extra">
     <Position X="14" Y="7.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAQAAAAAAAAAAAAYAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAYAAAAAIAAAAAAAAAAAAAA=</HashCode>
       <FileName>Extra.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -83,7 +83,7 @@
     </TypeIdentifier>
   </Interface>
   <Enum Name="GarageManagementSystem.CarState">
-    <Position X="4.5" Y="4.5" Width="1.5" />
+    <Position X="4.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAABAAAAQAAAA=</HashCode>
       <FileName>CarState.cs</FileName>

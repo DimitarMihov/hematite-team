@@ -7,9 +7,88 @@ namespace GarageManagementSystem
 {
     public class Service
     {
+<<<<<<< .mine
+        private int cars;
+        private int distributors;
+        private int employees;
+        private int owners;
+    
+        string IContactable.Name
+        {
+            get
+            {
+                // TODO: Implement this property getter
+                throw new NotImplementedException();
+            }
+            set
+            {
+                // TODO: Implement this property setter
+                throw new NotImplementedException();
+            }
+        }
+
+        Address IContactable.Address
+        {
+            get
+            {
+                // TODO: Implement this property getter
+                throw new NotImplementedException();
+            }
+            set
+            {
+                // TODO: Implement this property setter
+                throw new NotImplementedException();
+            }
+        }
+
+        public string Phone
+        {
+            get
+            {
+                // TODO: Implement this property getter
+                throw new NotImplementedException();
+            }
+            set
+            {
+                // TODO: Implement this property setter
+                throw new NotImplementedException();
+            }
+        }
+
+        string IContactable.Email
+        {
+            get
+            {
+                // TODO: Implement this property getter
+                throw new NotImplementedException();
+            }
+            set
+            {
+                // TODO: Implement this property setter
+                throw new NotImplementedException();
+            }
+        }
+
+        public string Comment
+        {
+            get
+            {
+                // TODO: Implement this property getter
+                throw new NotImplementedException();
+            }
+            set
+            {
+                // TODO: Implement this property setter
+                throw new NotImplementedException();
+            }
+        }
+
+        public int Address
+=======
         private static Service serviceInstance;
 
         public static Service AutoShopInstance
+>>>>>>> .r22
         {
             get
             {
