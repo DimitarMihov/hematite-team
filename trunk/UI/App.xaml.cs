@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -33,19 +35,10 @@ namespace UI
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
-            // TODO: Create methods to load cars, employees, distributors etc from a DB or a file
-            Service.AutoShopInstance.AddVehicle(new Vehicle("Peugeot", "106", 1999, "CA 3919 LN"));
-            Service.AutoShopInstance.AddVehicle(new Vehicle("BMW", "5", 2002, "PA 8750 HA"));
-            Service.AutoShopInstance.AddVehicle(new Vehicle("Mercedes", "SLK", 2010, "A 8993 MM"));
-
-            Service.AutoShopInstance.AddDistributor(new Distributor("MotoPfohe Ltd", "089 901 5632", "order@motopfohe.bg"));
-            Service.AutoShopInstance.AddDistributor(new Distributor("BetterCars Ltd", "089 598 8915", "order_parts@bettercars.bg"));
-            Service.AutoShopInstance.AddDistributor(new Distributor("PartsForPeople Ltd", "088 991 5987", "office@peopleparts.bg"));
-
-            Service.AutoShopInstance.AddEmployee(new Employee("Marin Ivanov", 500, "088 909 5135"));
-            Service.AutoShopInstance.AddEmployee(new Employee("Ivan Petrov", 750, "089 165 2384"));
-            Service.AutoShopInstance.AddEmployee(new Employee("Kiril Manolov", 800, "087 595 1635"));
-            Service.AutoShopInstance.AddEmployee(new Employee("Iliya Szechev", 450, "085 168 4865"));
+            LoadHardCodeInformation(); // TODO: Comment that after creating the load methods
+            SaveServiceInformation("serverInfo"); // TODO: Transfer this to the adding and removing methods
+            // TODO: Create methods to load cars, employees, distributors etc from a file
+            // LoadServiceInformation();
         }
 
         /// <summary>
@@ -99,6 +92,135 @@ namespace UI
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Create a method to save all data (vehicles, employees, distibutors etc to a DB or a file)
             deferral.Complete();
+        }
+
+
+        private static void LoadHardCodeInformation()
+        {
+            // Owners
+            Address owner1Address = new Address("Sofia", "2000", "Geo Milev", "ul. Ivan Vazov", 2, "no comment");
+            Owner owner1 = new Owner("Ivan Peshev", owner1Address, "0883442233", "coco@ABV.BG", "no comment");
+
+            Address owner2Address = new Address("Plovdiv", "1800", "j.k. Zapad", "ul. Opulchenska", 132, "no comment");
+            Owner owner2 = new Owner("Georgi Georgiev", owner2Address, "0883412333", "macao@abv.bg", "no comment");
+
+            // Parts
+            List<Part> parts = new List<Part>(){ 
+                new Part(1234, "Wheel", 50.00m, new List<VehicleInformation>(){ 
+                    new VehicleInformation("Peugeot", "106", 1999, FuelType.Diesel, Gearbox.Automatic),
+                    new VehicleInformation("BMW", "5", 2002, FuelType.Electric, Gearbox.SemiAutomatic),
+                    new VehicleInformation("Mercedes", "SLK", 2010, FuelType.Electric, Gearbox.SemiAutomatic)
+                    } )
+            };
+
+            // Repairs
+            List<Repair> repairsCar1 = new List<Repair>();
+            repairsCar1.Add(new Repair("Change wheels", 48, parts, DateTime.Now));
+
+            List<Repair> repairsCar2 = new List<Repair>();
+            repairsCar2.Add(new Repair("Change front wheels", 48, parts, DateTime.Now));
+
+            // Vehicles
+            Service.AutoShopInstance.AddVehicle(new Vehicle("Peugeot", "106", 1999, 80, 30000,
+                FuelType.Diesel, Gearbox.Automatic, owner1, "red", "very good", "CA 1234 AC", repairsCar1, CarStatus.Accepted));
+            
+            Service.AutoShopInstance.AddVehicle(new Vehicle("BMW", "5", 2002, 80, 350000, FuelType.Electric, Gearbox.SemiAutomatic,
+                owner2, "red", "no comments", "PA 8750 HA", repairsCar2, CarStatus.Accepted));
+            
+            Service.AutoShopInstance.AddVehicle(new Vehicle("Mercedes", "SLK", 2010, 140, 110000, FuelType.Electric, Gearbox.SemiAutomatic,
+                owner2, "red", "no comments", "A 8993 MM", repairsCar2, CarStatus.Accepted));
+
+            // Distributors
+            Address distributor1Address = new Address("Sofia", "2000", "j.k. Studentski grad", "ul. Vladishka", 23, "no comment");
+            Address distributor2Address = new Address("Sofia", "2000", "Obelq", "ul. Hristo Smirnenski", 55, "no comment");
+            Address distributor3Address = new Address("Sofia", "2000", "j.k. Dianabat", "ul. G.M.Dimitrov", 111, "no comment");
+           
+            Service.AutoShopInstance.AddDistributor(new Distributor("MotoPfohe Ltd", distributor1Address, "089 901 5632", "order@motopfohe.bg", "no comment"));
+            Service.AutoShopInstance.AddDistributor(new Distributor("BetterCars Ltd", distributor2Address, "089 598 8915", "order_parts@bettercars.bg", "no comment"));
+            Service.AutoShopInstance.AddDistributor(new Distributor("PartsForPeople Ltd", distributor3Address, "088 991 5987", "office@peopleparts.bg", "no comment"));
+
+            // Employees
+            Address employee1Address = new Address("Sofia", "2000", "j.k. Mladost 1", "ul. Aleksander Batemberg", 39, "no comment");
+            Address employee2Address = new Address("Sofia", "2000", "j.k. Lulin", "ul. Todor Kableshkov", 24, "no comment");
+            
+            Service.AutoShopInstance.AddEmployee(new Employee(
+                "Marin Ivanov", employee1Address, "0883442233", "coco@ABV.BG", "no comment", 500, Position.Accountant, 2));
+            Service.AutoShopInstance.AddEmployee(new Employee(
+                "Kiril Manolov", employee2Address, "0883212233", "kkks@ABV.BG", "no comment", 300, Position.JunorMechanic, 2));
+        }
+
+        public async static void LoadServiceInformation()
+        {
+            StorageFile file = await KnownFolders.PicturesLibrary.GetFileAsync("vehicleinfo.txt");
+
+            if (file != null)
+            {
+                try
+                {
+                    string fileContent = await FileIO.ReadTextAsync(file); // Chete go celiq
+                    // Spit po \n\r
+
+                    //OutputTextBlock.Text = "The following text was read from '" + file.Name + "':" + Environment.NewLine + Environment.NewLine + fileContent;
+                }
+                catch (FileNotFoundException)
+                {
+                    //rootPage.NotifyUserFileNotExist();
+                }
+            }
+            else
+            {
+                // TODO: create the file
+            }
+        }
+
+
+        public async static void SaveServiceInformation(string fileName)
+        {
+            string fullPath = fileName + ".txt";
+            StorageFile writer = null;
+            bool isFileExists = false;
+
+            try
+            {
+                writer = await KnownFolders.PicturesLibrary.GetFileAsync(fullPath);
+            }
+            catch (FileNotFoundException)
+            {
+                CreateFile(fullPath);
+                isFileExists = true;
+            }
+
+            if (isFileExists)
+            {
+                writer = await KnownFolders.PicturesLibrary.GetFileAsync(fullPath);
+            }
+
+            try
+            {
+                string userContent = Service.SaveServiceInformation();
+
+                if (!String.IsNullOrEmpty(userContent))
+                {
+
+                    await FileIO.WriteTextAsync(writer, userContent);
+                    // OutputTextBlock.Text = "The following text was written to '" + writer.Name + "':" + Environment.NewLine + Environment.NewLine + userContent;
+                }
+                else
+                {
+                    //OutputTextBlock.Text = "The text box is empty, please write something and then click 'Write' again.";
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                //rootPage.NotifyUserFileNotExist();
+            }
+
+        }
+
+        public async static void CreateFile(string fileName)
+        {
+            StorageFolder storageFolder = KnownFolders.PicturesLibrary;
+            StorageFile file = await storageFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
         }
     }
 }
