@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace GarageManagementSystem
+﻿namespace GarageManagementSystem
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using System.Text;
+
     public class Service
     {
         // TODO: Add at least one more interface and implement it
@@ -35,10 +36,28 @@ namespace GarageManagementSystem
                 return serviceInstance;
             }
         }
-        
+
         private List<Vehicle> vehicles = new List<Vehicle>();
         private List<Distributor> distributors = new List<Distributor>();
         private List<Employee> employees = new List<Employee>();
+
+
+        public List<Vehicle> Vehicles
+        {
+            get { return vehicles; }
+            private set { vehicles = value; }
+        }
+        public List<Employee> Employees
+        {
+            get { return employees; }
+            private set { employees = value; }
+        }
+
+        public List<Distributor> Distributors
+        {
+            get { return distributors; }
+            private set { distributors = value; }
+        }
 
         public void AddVehicle(Vehicle vehicle)
         {
@@ -100,5 +119,57 @@ namespace GarageManagementSystem
             this.employees.Remove(employee);
         }
 
+        // Implement multiple
+
+       
+    
+
+        public static string SaveServiceInformation()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+
+            StringBuilder builder = new StringBuilder();
+
+            var serviceTypeProperties = assembly.GetType("GarageManagementSystem.Service").GetProperties();
+
+            foreach (var property in serviceTypeProperties)
+            {
+                if (property.Name == "Vehicles")
+                {
+                    dynamic vehicleList = property.GetValue(serviceInstance, null);
+                    builder.AppendLine("Vehicles");
+                    builder.AppendLine(vehicleList.Count.ToString());
+
+                    foreach (var vehicle in vehicleList)
+                    {
+                        builder.Append(Vehicle.SaveVehicleInformation(vehicle));
+                    }
+                }
+                else if (property.Name == "Distributors")
+                {
+                    dynamic distributorList = property.GetValue(serviceInstance, null);
+                    builder.AppendLine("Distributors");
+                    builder.AppendLine(distributorList.Count.ToString());
+
+                    foreach (var distributor in distributorList)
+                    {
+                        builder.Append(Distributor.SaveDistributorInformation(distributor));
+                    }
+                }
+                else if (property.Name == "Employees")
+                {
+                    dynamic employeeList = property.GetValue(serviceInstance, null);
+                    builder.AppendLine("Employees");
+                    builder.AppendLine(employeeList.Count.ToString());
+
+                    foreach (var employee in employeeList)
+                    {
+                        builder.Append(Employee.SaveEmployeeInformation(employee));
+                    }
+                }
+            }
+
+            return builder.ToString();
+        }
     }
 }

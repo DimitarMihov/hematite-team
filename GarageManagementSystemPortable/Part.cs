@@ -2,41 +2,67 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Reflection;
+    using System.Text;
 
     public class Part : IPricable
     {
-        // TODO: Implement the IPricable interface for the Part class
         public long Id { get; set; }
 
         public string Name { get; set; }
 
         // This parts is approved for this List of Vehicle
-        public List<Vehicle> VehicleList { get; private set; }
+        public List<VehicleInformation> VehicleList { get; private set; }
 
-        public decimal Price { get; set; } // Appreciation exist ?
+        public decimal Price { get; set; }
 
-        // Distributor or Owner if the part is purchased from owner
-        public Person Provider { get; set; }
-
-        public Part(long id, string name, decimal price, Person provider)
+        public Part(long id, string name, decimal price)
         {
             this.Id = id;
             this.Name = name;
-            this.VehicleList = new List<Vehicle>();
+            this.VehicleList = new List<VehicleInformation>();
             this.Price = price;
-            this.Provider = provider;
         }
 
-        public Part(long id, string name, decimal price, Person provider, List<Vehicle> vehicleList)
-            : this(id, name, price, provider)
+        public Part(long id, string name, decimal price, List<VehicleInformation> vehicleList)
+            : this(id, name, price)
         {
             this.VehicleList = vehicleList;
         }
 
-
         public decimal CalculateMargin()
         {
-            throw new NotImplementedException();
+            return this.Price;
+        }
+
+        public static string SavePartInformation(Part part)
+        {
+            StringBuilder builder = new StringBuilder();
+
+            var assembly = Assembly.GetExecutingAssembly();
+
+            var partProperties = assembly.GetType("GarageManagementSystem.Part").GetProperties();
+
+            foreach (var property in partProperties)
+            {
+                if (property.Name == "VehicleList")
+                {
+                    dynamic vehicleList = property.GetValue(part, null);
+                    builder.AppendLine("VehicleList");
+                    builder.AppendLine(vehicleList.Count.ToString());
+                    foreach (var vehicle in vehicleList)
+                    {
+                        builder.Append(VehicleInformation.SaveVehicleListInformation(vehicle));
+                    }
+                }
+                else
+                {
+                    builder.AppendLine(property.Name);
+                    builder.AppendLine(property.GetValue(part, null).ToString());
+                }
+            }
+
+            return builder.ToString();
         }
     }
 }

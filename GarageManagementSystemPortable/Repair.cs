@@ -1,48 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace GarageManagementSystem
+﻿namespace GarageManagementSystem
 {
-    // TODO: Fix the properties in the repair class. Implement the IPricable interface
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using System.Text;
+
     public class Repair : IPricable
     {
-        private int caption;
-        private int guarantee;
-        private int employee;
-        private int service;
-        private int exchangedParts;
-        private int date;
-    
-        public int Price
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public string Caption { get; set; }
+        public int Guarantee { get; set; }
+        public List<Part> ExchangedParts { get; set; }
+        public DateTime Date { get; set; }
+        public decimal Price { get; set; }
 
-        decimal IPricable.Price
+        public Repair(string caption, int guarantee, List<Part> exchangedParts, DateTime date)
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            this.Caption = caption;
+            this.Guarantee = guarantee;
+            this.ExchangedParts = exchangedParts;
+            this.Date = date;
+            this.Price = CalculateMargin();
         }
-
 
         public decimal CalculateMargin()
         {
-            throw new NotImplementedException();
+            decimal sum = 0.0m;
+            foreach (var part in ExchangedParts)
+            {
+                sum += part.Price;
+            }
+
+            sum += 10; // 10 levs for work
+
+            return sum;
+        }
+
+        public static string SaveRepairInformation(Repair repair)
+        {
+            StringBuilder builder = new StringBuilder();
+
+            var assembly = Assembly.GetExecutingAssembly();
+
+            var repairProperties = assembly.GetType("GarageManagementSystem.Repair").GetProperties();
+
+            foreach (var property in repairProperties)
+            {
+                if (property.Name == "ExchangedParts")
+                {
+                    dynamic partList = property.GetValue(repair, null);
+                    builder.AppendLine("ExchangedParts");
+                    builder.AppendLine(partList.Count.ToString());
+                    foreach (var part in partList)
+                    {
+                        builder.Append(Part.SavePartInformation(part));
+                    }
+                }
+                else
+                {
+                    builder.AppendLine(property.Name);
+                    builder.AppendLine(property.GetValue(repair, null).ToString());
+                }
+            }
+
+            return builder.ToString();
         }
     }
 }

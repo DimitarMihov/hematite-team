@@ -2,6 +2,8 @@
 {
     using System;
     using System.Linq;
+    using System.Reflection;
+    using System.Text;
 
     public class Address
     {
@@ -26,5 +28,22 @@
             this.PostalCode = postalCode;
             this.District = district;
         }
+        public static string SaveAddressInformation(Address address)
+        {
+            StringBuilder builder = new StringBuilder();
+
+            var assembly = Assembly.GetExecutingAssembly();
+
+            var ownerProperties = assembly.GetType("GarageManagementSystem.Address").GetProperties();
+
+            foreach (var property in ownerProperties)
+            {
+                builder.AppendLine(property.Name);
+                builder.AppendLine(property.GetValue(address, null).ToString());
+            }
+
+            return builder.ToString();
+        }
+
     }
 }

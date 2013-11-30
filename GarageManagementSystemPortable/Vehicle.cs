@@ -3,22 +3,19 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
+    using System.Text;
     using System.Threading;
 
-    public class Vehicle
+    public class Vehicle : VehicleInformation
     {
         static long nextId;
 
         public long Id { get; private set; }
-        public string Vin { get; set; }
-        public string Manufacturer { get; set; }
-        public string Model { get; set; }
-        public int? Year { get; set; }
+
         public string Color { get; set; }
         public int? HorsePower { get; set; }
         public int? Mileage { get; set; }
-        public FuelType FuelType { get; set; }
-        public Gearbox Gearbox { get; set; }
         public CarStatus Status { get; set; }
         public string Comments { get; set; }
 
@@ -26,9 +23,6 @@
         public string RegistrationNumber { get; set; }
 
         public Person Owner { get; set; }
-
-        [DescriptionAttribute("Contact Person")]
-        public Person ContactPerson { get; set; }
 
         public List<Repair> Repairs { get; private set; }
 
@@ -49,21 +43,18 @@
         }
 
         public Vehicle(string manufacturer, string model, int? year, int? horsePower, int? mileage,
-            FuelType fuelType, Gearbox gearbox, Person owner, Person contactPerson,
+            FuelType fuelType, Gearbox gearbox, Person owner,
             string color, string comments, string registrationNumber, List<Repair> repairs, CarStatus status = CarStatus.New)
-            : this(manufacturer, model, status)
+            : base(manufacturer, model, year, fuelType, gearbox)
         {
-            this.Year = year;
-            this.Color = color;
             this.HorsePower = horsePower;
             this.Mileage = mileage;
-            this.FuelType = fuelType;
-            this.Gearbox = gearbox;
+            this.Owner = owner;
+            this.Color = color;
             this.Comments = comments;
             this.RegistrationNumber = registrationNumber;
-            this.Owner = owner;
-            this.ContactPerson = contactPerson;
             this.Repairs = repairs;
+            this.Status = status;
         }
 
         public override int GetHashCode()
@@ -114,6 +105,44 @@
         {
             // TODO: check if this repair not exist yet
             this.Repairs.Add(repair);
+        }
+
+        public static string SaveVehicleInformation(Vehicle vehicle)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+
+            StringBuilder builder = new StringBuilder();
+
+            var userTypeProperties = assembly.GetType("GarageManagementSystem.Vehicle").GetProperties();
+
+
+            foreach (var property in userTypeProperties)
+            {
+                if (property.GetValue(vehicle, null).ToString() == "GarageManagementSystem.Owner")
+                {
+                    builder.AppendLine("Owner");
+                    builder.AppendLine("1");
+                    builder.Append(Person.SaveOwnerInformation(vehicle.Owner));
+                }
+                else if (property.Name == "Repairs")
+                {
+                    dynamic repairsList = property.GetValue(vehicle, null);
+                    builder.AppendLine("Repairs");
+                    builder.AppendLine(repairsList.Count.ToString());
+
+                    foreach (var repair in repairsList)
+                    {
+                        builder.Append(Repair.SaveRepairInformation(repair));
+                    }
+                }
+                else
+                {
+                    builder.AppendLine(property.Name);
+                    builder.AppendLine(property.GetValue(vehicle, null).ToString());
+                }
+            }
+
+            return builder.ToString();
         }
     }
 }

@@ -4,3 +4,6 @@ D:\Telerik\CSharp\OOP\Team Hematite\GarageManagementSystem\bin\Debug\GarageManag
 D:\Telerik\CSharp\OOP\Team Hematite\GarageManagementSystem\obj\Debug\GarageManagementSystem.csprojResolveAssemblyReference.cache
 D:\Telerik\CSharp\OOP\Team Hematite\GarageManagementSystem\obj\Debug\GarageManagementSystem.exe
 D:\Telerik\CSharp\OOP\Team Hematite\GarageManagementSystem\obj\Debug\GarageManagementSystem.pdb
+D:\Documents\Projects C#\Telerik C# - OOP\TeamWork\GarageManagementSystem\bin\Debug\GarageManagementSystem.exe.config
+D:\Documents\Projects C#\Telerik C# - OOP\TeamWork\GarageManagementSystem\obj\Debug\GarageManagementSystem.exe
+D:\Documents\Projects C#\Telerik C# - OOP\TeamWork\GarageManagementSystem\obj\Debug\GarageManagementSystem.pdb
