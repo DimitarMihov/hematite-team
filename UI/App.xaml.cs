@@ -122,13 +122,13 @@ namespace UI
 
             // Vehicles
             Service.AutoShopInstance.AddVehicle(new Vehicle("Peugeot", "106", 1999, 80, 30000,
-                FuelType.Diesel, Gearbox.Automatic, owner1, "red", "very good", "CA 1234 AC", repairsCar1, CarStatus.Accepted));
+                FuelType.Diesel, Gearbox.Automatic, owner1, "red", "very good", "CA 1234 AC", repairsCar1, Status.Accepted));
             
             Service.AutoShopInstance.AddVehicle(new Vehicle("BMW", "5", 2002, 80, 350000, FuelType.Electric, Gearbox.SemiAutomatic,
-                owner2, "red", "no comments", "PA 8750 HA", repairsCar2, CarStatus.Accepted));
+                owner2, "red", "no comments", "PA 8750 HA", repairsCar2, Status.Accepted));
             
             Service.AutoShopInstance.AddVehicle(new Vehicle("Mercedes", "SLK", 2010, 140, 110000, FuelType.Electric, Gearbox.SemiAutomatic,
-                owner2, "red", "no comments", "A 8993 MM", repairsCar2, CarStatus.Accepted));
+                owner2, "red", "no comments", "A 8993 MM", repairsCar2, Status.Accepted));
 
             // Distributors
             Address distributor1Address = new Address("Sofia", "2000", "j.k. Studentski grad", "ul. Vladishka", 23, "no comment");
