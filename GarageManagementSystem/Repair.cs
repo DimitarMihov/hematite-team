@@ -15,6 +15,20 @@ namespace GarageManagementSystem
         private int exchangedParts;
         private int date;
     
+        decimal IPricable.Price
+        {
+            get
+            {
+                // TODO: Implement this property getter
+                throw new NotImplementedException();
+            }
+            set
+            {
+                // TODO: Implement this property setter
+                throw new NotImplementedException();
+            }
+        }
+
         public int Price
         {
             get
