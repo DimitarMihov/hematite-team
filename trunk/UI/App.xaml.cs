@@ -35,13 +35,14 @@ namespace UI
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
-            LoadHardCodeInformation(); // TODO: Comment that after creating the load methods
-           SaveServiceInformation("serverInfo"); // TODO: Transfer this to the adding and removing methods
+           // LoadHardCodeInformation(); // TODO: Comment that after creating the load methods
+           //SaveServiceInformation("serverInfo"); // TODO: Transfer this to the adding and removing methods
 
             // TODO: Create methods to load cars, employees, distributors etc from a file
             LoadServiceInformation("serverInfo");
-            SaveServiceInformation("serverInfo"); // TODO: Transfer this to the adding and removing methods
+            //SaveServiceInformation("serverInfo"); // TODO: Transfer this to the adding and removing methods
 
+            List<Distributor> sa = Service.AutoShopInstance.Distributors;
         }
 
         /// <summary>
@@ -93,10 +94,10 @@ namespace UI
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Create a method to save all data (vehicles, employees, distibutors etc to a DB or a file)
+            SaveServiceInformation("serverInfo"); // TODO: Transfer this to the adding and removing methods
+
             deferral.Complete();
         }
-
 
         private static void LoadHardCodeInformation()
         {

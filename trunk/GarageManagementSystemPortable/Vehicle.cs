@@ -204,11 +204,10 @@
                 }
                 else
                 {
-                    //nullable
                     index++;
-                    var currentPropertyType = property.PropertyType;
-                    var convertedValue = Convert.ChangeType(lines[index], currentPropertyType, null);
-                    property.SetValue(vehicle, convertedValue, null);
+                    Type t = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+                    object safeValue = (lines[index] == null) ? null : Convert.ChangeType(lines[index], t, null);
+                    property.SetValue(vehicle, safeValue, null);
                 }
             }
 
