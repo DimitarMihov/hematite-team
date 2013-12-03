@@ -57,6 +57,8 @@
             this.Status = status;
         }
 
+        public Vehicle() { }
+
         public override int GetHashCode()
         {
             unchecked
@@ -143,6 +145,74 @@
             }
 
             return builder.ToString();
+        }
+
+        public static Vehicle LoadVehicleInformation(string[] lines, ref int index)
+        {
+            Vehicle vehicle = new Vehicle();
+            var assembly = Assembly.GetExecutingAssembly();
+            var userType = assembly.GetType("GarageManagementSystem.Vehicle");
+            int propertiesCount = Service.PropertiesCount(vehicle); // Get the number of properties
+
+            for (int i = 0; i < propertiesCount; i++, index++)
+            {
+                var property = userType.GetProperty(lines[index]);
+
+                if (property.Name == "Owner")
+                {
+                    index += 2;
+
+                    Owner address = Person.LoadOwnerInformation(lines, ref index);
+
+                    property.SetValue(vehicle, address, null);
+                }
+                else if (property.Name == "Status")
+                {
+                    index++;
+                    var currentPropertyType = property.PropertyType;
+                    Status status = (Status)Enum.Parse(typeof(Status), lines[index], false);
+                    property.SetValue(vehicle, status, null);
+                }
+                else if (property.Name == "FuelType")
+                {
+                    index++;
+                    var currentPropertyType = property.PropertyType;
+                    FuelType fuilType = (FuelType)Enum.Parse(typeof(FuelType), lines[index], false);
+                    property.SetValue(vehicle, fuilType, null);
+                }
+                else if (property.Name == "Gearbox")
+                {
+                    index++;
+                    var currentPropertyType = property.PropertyType;
+                    Gearbox gearBox = (Gearbox)Enum.Parse(typeof(Gearbox), lines[index], false);
+                    property.SetValue(vehicle, gearBox, null);
+                }
+                else if (property.Name == "Repairs")
+                {
+                    List<Repair> repair = new List<Repair>();
+
+                    int stopPoint = int.Parse(lines[index + 1]);
+                    index += 2;
+
+                    for (int element = 0; element < stopPoint; element++)
+                    {
+                        repair.Add(Repair.LoadRepairInformation(lines, ref index));
+                    }
+
+                    index--;
+                    property.SetValue(vehicle, repair, null);
+                }
+                else
+                {
+                    //nullable
+                    index++;
+                    var currentPropertyType = property.PropertyType;
+                    var convertedValue = Convert.ChangeType(lines[index], currentPropertyType, null);
+                    property.SetValue(vehicle, convertedValue, null);
+                }
+            }
+
+            return vehicle;
         }
     }
 }

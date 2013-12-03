@@ -10,7 +10,7 @@
         public string Comment { get; set; }
         public List<Part> Part { get; set; }
         public List<Employee> EmployeeList { get; set; }
-        public DateTime DateTime { get; set; } // TODO: replace with specific class for date, time, duration and etc.
+        public DateTime DateTime { get; set; } 
         public Status Status { get; set; }
         public decimal Price { get; set; }
 

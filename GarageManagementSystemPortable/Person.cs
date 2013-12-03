@@ -71,5 +71,38 @@
             return builder.ToString();
         }
 
+
+        public static Owner LoadOwnerInformation(string[] lines, ref int index)
+        {
+            Owner owner = new Owner();
+            var assembly = Assembly.GetExecutingAssembly();
+            var userType = assembly.GetType("GarageManagementSystem.Owner");
+            int propertiesCount = Service.PropertiesCount(owner); // Get the number of properties
+
+            for (int i = 0; i < propertiesCount; i++, index++)
+            {
+                var property = userType.GetProperty(lines[index]);
+
+                if (property.Name == "Address")
+                {
+                    index += 2;
+
+                    Address address = Address.LoadAddressInformation(lines, ref index);
+
+                    property.SetValue(owner, address, null);
+                }
+                else
+                {
+                    index++;
+                    var currentPropertyType = property.PropertyType;
+                    var convertedValue = Convert.ChangeType(lines[index], currentPropertyType, null);
+                    property.SetValue(owner, convertedValue, null);
+                }
+            }
+
+            index--;
+
+            return owner;
+        }
     }
 }

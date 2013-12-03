@@ -119,11 +119,6 @@
             this.employees.Remove(employee);
         }
 
-        // Implement multiple
-
-       
-    
-
         public static string SaveServiceInformation()
         {
             var assembly = Assembly.GetExecutingAssembly();
@@ -147,7 +142,7 @@
                 }
                 else if (property.Name == "Distributors")
                 {
-                    dynamic distributorList = property.GetValue(serviceInstance, null);
+                    dynamic distributorList = property.GetValue(AutoShopInstance, null);
                     builder.AppendLine("Distributors");
                     builder.AppendLine(distributorList.Count.ToString());
 
@@ -170,6 +165,76 @@
             }
 
             return builder.ToString();
+        }
+
+        public static void LoadServiceInformation(string[] lines)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var userType = assembly.GetType("GarageManagementSystem.Service");
+            
+            for (int index = 0; index < lines.Length - 1; index++)
+            {
+                var property = userType.GetProperty(lines[index]);
+
+                if (property.Name == "Vehicles")
+                {
+                    List<Vehicle> vehicles = new List<Vehicle>();
+                    int stopPoint = int.Parse(lines[index + 1]);
+                    index += 2;
+
+                    for (int element = 0; element < stopPoint; element++)
+                    {
+                        vehicles.Add(Vehicle.LoadVehicleInformation(lines, ref index));
+                    }
+
+                    index--;
+
+                    property.SetValue(AutoShopInstance, vehicles, null);
+                }
+                else if (property.Name == "Distributors")
+                {
+                    List<Distributor> distributors = new List<Distributor>();
+                    int stopPoint = int.Parse(lines[index + 1]);
+                    index += 2;
+
+                    for (int element = 0; element < stopPoint; element++)
+                    {
+                        distributors.Add(Distributor.LoadDistributorInformation(lines, ref index));
+                    }
+
+                    index--;
+
+                    property.SetValue(AutoShopInstance, distributors, null);
+                }
+                else if (property.Name == "Employees")
+                {
+                    List<Employee> employees = new List<Employee>();
+                    int stopPoint = int.Parse(lines[index + 1]);
+                    index += 2;
+
+                    for (int element = 0; element < stopPoint; element++)
+                    {
+                        employees.Add(Employee.LoadEmployeeInformation(lines, ref index));
+                    }
+
+                    index--;
+                    property.SetValue(AutoShopInstance, employees, null); 
+                }
+                /*
+                    var currentPropertyType = property.PropertyType;
+
+                    var convertedValue = Convert.ChangeType(lines[index + 1], currentPropertyType, null);
+
+                    property.SetValue(serviceInstance, convertedValue, null);
+                */
+            }
+        }
+        public static int PropertiesCount(object entity)
+        {
+            return entity.GetType()
+                         .GetProperties()
+                         .Select(x => x.GetValue(entity, null))
+                         .Count(v => v != null || v == null);
         }
     }
 }

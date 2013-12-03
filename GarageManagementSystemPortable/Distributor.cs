@@ -13,14 +13,15 @@
             this.Name = name;
             this.Phone = phone;
             this.Email = email;
-            this.Parts = new List<Part>();
         }
 
-        public Distributor(string name, Address address, string phone, string email, string comment)
-            : base(name,address, phone, email, comment)
+        public Distributor(string name, Address address, string phone, string email, string comment, List<Part> parts)
+            : base(name, address, phone, email, comment)
         {
-            this.Parts = new List<Part>();
+            this.Parts = parts;
         }
+
+        public Distributor() { }
 
         public List<Part> Parts { get; set; }
 
@@ -58,6 +59,52 @@
             }
 
             return builder.ToString();
+        }
+
+        public static Distributor LoadDistributorInformation(string[] lines, ref int index)
+        {
+            Distributor distributor = new Distributor();
+            var assembly = Assembly.GetExecutingAssembly();
+            var userType = assembly.GetType("GarageManagementSystem.Distributor");
+            int propertiesCount = Service.PropertiesCount(distributor); 
+
+            for (int i = 0; i < propertiesCount; i++, index++)
+            {
+                var property = userType.GetProperty(lines[index]);
+
+                if (property.Name == "Address")
+                {
+                    index += 2;
+
+                    Address address = Address.LoadAddressInformation(lines, ref index);
+
+                    property.SetValue(distributor, address, null);
+                }
+                else if (property.Name == "Parts")
+                {
+                    List<Part> parts = new List<Part>();
+
+                    int stopPoint = int.Parse(lines[index + 1]);
+                    index += 2;
+
+                    for (int element = 0; element < stopPoint; element++)
+                    {
+                        parts.Add(Part.LoadPartInformation(lines, ref index));
+                    }
+
+                    index--;
+                    property.SetValue(distributor, parts, null);
+                }
+                else
+                {
+                    index++;
+                    var currentPropertyType = property.PropertyType;
+                    var convertedValue = Convert.ChangeType(lines[index], currentPropertyType, null);
+                    property.SetValue(distributor, convertedValue, null);
+                }
+            }
+
+            return distributor;
         }
     }
 }
