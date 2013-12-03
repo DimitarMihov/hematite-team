@@ -28,6 +28,11 @@
             this.PostalCode = postalCode;
             this.District = district;
         }
+
+        public Address()
+        {
+            // TODO: Complete member initialization
+        }
         public static string SaveAddressInformation(Address address)
         {
             StringBuilder builder = new StringBuilder();
@@ -45,5 +50,29 @@
             return builder.ToString();
         }
 
+
+        public static Address LoadAddressInformation(string[] lines, ref int index)
+        {
+            Address address = new Address();
+
+            var assembly = Assembly.GetExecutingAssembly();
+
+            var userType = assembly.GetType("GarageManagementSystem.Address");
+
+            int propertiesCount = Service.PropertiesCount(address); // Get the number of properties
+
+            for (int i = 0; i < propertiesCount; i++, index++)
+            {
+                var property = userType.GetProperty(lines[index]);
+                index++;
+                Type t = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+                object safeValue = (lines[index] == null) ? null : Convert.ChangeType(lines[index], t, null);
+                property.SetValue(address, safeValue, null);
+            }
+
+            index--;
+
+            return address;
+        }
     }
 }

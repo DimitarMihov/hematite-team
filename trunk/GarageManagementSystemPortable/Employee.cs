@@ -35,6 +35,7 @@
             this.Rank = rank;
         }
 
+        public Employee() { }
         public static string SaveEmployeeInformation(Employee employee)
         {
             StringBuilder builder = new StringBuilder();
@@ -59,6 +60,44 @@
             }
 
             return builder.ToString();
+        }
+
+        public static Employee LoadEmployeeInformation(string[] lines, ref int index)
+        {
+            Employee employee = new Employee();
+            var assembly = Assembly.GetExecutingAssembly();
+            var userType = assembly.GetType("GarageManagementSystem.Employee");
+            int propertiesCount = Service.PropertiesCount(employee); // Get the number of properties
+
+            for (int i = 0; i < propertiesCount; i++, index++)
+            {
+                var property = userType.GetProperty(lines[index]);
+
+                if (property.Name == "Address")
+                {
+                    index += 2;
+
+                    Address address = Address.LoadAddressInformation(lines, ref index);
+
+                    property.SetValue(employee, address, null);
+                }
+                else if (property.Name == "Position")
+                {
+                    index++;
+                    var currentPropertyType = property.PropertyType;
+                    Position position = (Position)Enum.Parse(typeof(Position), lines[index], false);
+                    property.SetValue(employee, position, null);
+                }
+                else
+                {
+                    index++;
+                    var currentPropertyType = property.PropertyType;
+                    var convertedValue = Convert.ChangeType(lines[index], currentPropertyType, null);
+                    property.SetValue(employee, convertedValue, null);
+                }
+            }
+
+            return employee;
         }
     }
 }

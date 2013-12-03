@@ -41,5 +41,42 @@
 
             return builder.ToString();
         }
+
+        public static VehicleInformation LoadVehicleListInformation(string[] lines, ref int index)
+        {
+            VehicleInformation vehicleInformation = new VehicleInformation();
+            var assembly = Assembly.GetExecutingAssembly();
+            var userType = assembly.GetType("GarageManagementSystem.VehicleInformation");
+            int propertiesCount = Service.PropertiesCount(vehicleInformation);
+
+            for (int i = 0; i < propertiesCount; i++, index++)
+            {
+                var property = userType.GetProperty(lines[index]);
+
+                if (property.Name == "FuelType")
+                {
+                    index++;
+                    var currentPropertyType = property.PropertyType;
+                    FuelType fuilType = (FuelType)Enum.Parse(typeof(FuelType), lines[index], false);
+                    property.SetValue(vehicleInformation, fuilType, null);
+                }
+                else if (property.Name == "Gearbox")
+                {
+                    index++;
+                    var currentPropertyType = property.PropertyType;
+                    Gearbox gearBox = (Gearbox)Enum.Parse(typeof(Gearbox), lines[index], false);
+                    property.SetValue(vehicleInformation, gearBox, null);
+                }
+                else
+                {
+                    index++;
+                    Type t = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+                    object safeValue = (lines[index] == null) ? null : Convert.ChangeType(lines[index], t, null);
+                    property.SetValue(vehicleInformation, safeValue, null);
+                }
+            }
+
+            return vehicleInformation;
+        }
     }
 }

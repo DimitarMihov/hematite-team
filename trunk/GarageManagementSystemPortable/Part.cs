@@ -30,6 +30,8 @@
             this.VehicleList = vehicleList;
         }
 
+        public Part() { }
+
         public decimal CalculateMargin()
         {
             return this.Price;
@@ -63,6 +65,44 @@
             }
 
             return builder.ToString();
+        }
+
+        public static Part LoadPartInformation(string[] lines, ref int index)
+        {
+            Part part = new Part();
+            var assembly = Assembly.GetExecutingAssembly();
+            var userType = assembly.GetType("GarageManagementSystem.Part");
+            int propertiesCount = Service.PropertiesCount(part);
+
+            for (int i = 0; i < propertiesCount; i++, index++)
+            {
+                var property = userType.GetProperty(lines[index]);
+
+                if (property.Name == "VehicleList")
+                {
+                    List<VehicleInformation> vehicleInformation = new List<VehicleInformation>();
+
+                    int stopPoint = int.Parse(lines[index + 1]);
+                    index += 2;
+
+                    for (int element = 0; element < stopPoint; element++)
+                    {
+                        vehicleInformation.Add(VehicleInformation.LoadVehicleListInformation(lines, ref index));
+                    }
+
+                    index--;
+                    property.SetValue(part, vehicleInformation, null);
+                }
+                else
+                {
+                    index++;
+                    var currentPropertyType = property.PropertyType;
+                    var convertedValue = Convert.ChangeType(lines[index], currentPropertyType, null);
+                    property.SetValue(part, convertedValue, null);
+                }
+            }
+            
+            return part;
         }
     }
 }

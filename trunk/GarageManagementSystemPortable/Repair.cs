@@ -23,6 +23,8 @@
             this.Price = CalculateMargin();
         }
 
+        public Repair() { }
+
         public decimal CalculateMargin()
         {
             decimal sum = 0.0m;
@@ -64,6 +66,44 @@
             }
 
             return builder.ToString();
+        }
+
+        public static Repair LoadRepairInformation(string[] lines, ref int index)
+        {
+            Repair repair = new Repair();
+            var assembly = Assembly.GetExecutingAssembly();
+            var userType = assembly.GetType("GarageManagementSystem.Repair");
+            int propertiesCount = Service.PropertiesCount(repair);
+
+            for (int i = 0; i < propertiesCount; i++, index++)
+            {
+                var property = userType.GetProperty(lines[index]);
+
+                if (property.Name == "Parts")
+                {
+                    List<Part> parts = new List<Part>();
+
+                    int stopPoint = int.Parse(lines[index + 1]);
+                    index += 2;
+
+                    for (int element = 0; element < stopPoint; element++)
+                    {
+                        parts.Add(Part.LoadPartInformation(lines, ref index));
+                    }
+
+                    index--;
+                    property.SetValue(repair, parts, null);
+                }
+                else
+                {
+                    index++;
+                    var currentPropertyType = property.PropertyType;
+                    var convertedValue = Convert.ChangeType(lines[index], currentPropertyType, null);
+                    property.SetValue(repair, convertedValue, null);
+                }
+            }
+
+            return repair;
         }
     }
 }
