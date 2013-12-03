@@ -61,14 +61,14 @@ namespace UI
 
         private void RegisteredEmployees_Loaded(object sender, RoutedEventArgs e)
         {
-            PopulateEmployees();
+            PopulateEmployees(Service.AutoShopInstance.GetEmployeesList());
         }
 
-        private void PopulateEmployees()
+        private void PopulateEmployees(List<Employee> employeesToDisplay)
         {
             RegisteredEmployees.Items.Clear();
 
-            foreach (var employee in Service.AutoShopInstance.GetEmployeesList())
+            foreach (var employee in employeesToDisplay)
             {
                 var newListBoxItem = new ListBoxItem();
 
@@ -236,6 +236,47 @@ namespace UI
             {
                 EditEmployeeDialog.IsOpen = true;
             }
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            SearchEmployeeDialog.IsOpen = true;
+        }
+
+        private void SearchEmployeePropertyValues_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void KeywordTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (KeywordTextBox.Text.Length >= 3)
+            {
+                SearchEmployee.IsEnabled = true;
+            }
+            else
+            {
+                SearchEmployee.IsEnabled = false;
+            }
+        }
+
+        private void SearchEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            List<Employee> filteredEmployees = Helper.SearchForEmployees(KeywordTextBox.Text);
+            SearchEmployeeDialog.IsOpen = false;
+            PopulateEmployees(filteredEmployees);
+            ClearButton.IsEnabled = true;
+        }
+
+        private void CancelSearchEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            SearchEmployeeDialog.IsOpen = false;
+        }
+
+        private void ClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            ClearButton.IsEnabled = false;
+            this.Frame.Navigate(typeof(EmployeesPage));
         }
     }
 }

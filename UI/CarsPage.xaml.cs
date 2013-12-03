@@ -61,14 +61,14 @@ namespace UI
 
         private void RegisteredCars_Loaded(object sender, RoutedEventArgs e)
         {
-            PopulateVehicles();
+            PopulateVehicles(Service.AutoShopInstance.GetVehiclesList());
         }
 
-        private void PopulateVehicles()
+        private void PopulateVehicles(List<Vehicle> carsToDisplay)
         {
             RegisteredCars.Items.Clear();
 
-            foreach (var vehicle in Service.AutoShopInstance.GetVehiclesList())
+            foreach (var vehicle in carsToDisplay)
             {
                 var newListBoxItem = new ListBoxItem();
 
@@ -240,6 +240,47 @@ namespace UI
         private void homeButton_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(MainMenu));
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            SearchCarDialog.IsOpen = true;
+        }
+
+        private void SearchCarPropertyValues_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void KeywordTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (KeywordTextBox.Text.Length >= 3)
+            {
+                SearchCar.IsEnabled = true;
+            }
+            else
+            {
+                SearchCar.IsEnabled = false;
+            }
+        }
+
+        private void SearchCar_Click(object sender, RoutedEventArgs e)
+        {
+            List<Vehicle> filteredCars = Helper.SearchForVehicles(KeywordTextBox.Text);
+            SearchCarDialog.IsOpen = false;
+            PopulateVehicles(filteredCars);
+            ClearButton.IsEnabled = true;
+        }
+
+        private void CancelSearchCar_Click(object sender, RoutedEventArgs e)
+        {
+            SearchCarDialog.IsOpen = false;
+        }
+
+        private void ClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            ClearButton.IsEnabled = false;
+            this.Frame.Navigate(typeof(CarsPage));
         }
     }
 }

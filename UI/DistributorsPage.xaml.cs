@@ -61,14 +61,14 @@ namespace UI
 
         private void RegisteredDistributors_Loaded(object sender, RoutedEventArgs e)
         {
-            PopulateDistributors();
+            PopulateDistributors(Service.AutoShopInstance.GetDistributorsList());
         }
 
-        private void PopulateDistributors()
+        private void PopulateDistributors(List<Distributor> distributorsToDisplay)
         {
             RegisteredDistributors.Items.Clear();
 
-            foreach (var distributor in Service.AutoShopInstance.GetDistributorsList())
+            foreach (var distributor in distributorsToDisplay)
             {
                 var newListBoxItem = new ListBoxItem();
 
@@ -222,6 +222,47 @@ namespace UI
             {
                 AddDistributor.IsEnabled = false;
             }
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            SearchDistributorDialog.IsOpen = true;
+        }
+
+        private void SearchDistributorPropertyValues_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void KeywordTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (KeywordTextBox.Text.Length >= 3)
+            {
+                SearchDistributor.IsEnabled = true;
+            }
+            else
+            {
+                SearchDistributor.IsEnabled = false;
+            }
+        }
+
+        private void SearchDistributor_Click(object sender, RoutedEventArgs e)
+        {
+            List<Distributor> filteredDistributors = Helper.SearchForDistributors(KeywordTextBox.Text);
+            SearchDistributorDialog.IsOpen = false;
+            PopulateDistributors(filteredDistributors);
+            ClearButton.IsEnabled = true;
+        }
+
+        private void CancelSearchDistributor_Click(object sender, RoutedEventArgs e)
+        {
+            SearchDistributorDialog.IsOpen = false;
+        }
+
+        private void ClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            ClearButton.IsEnabled = false;
+            this.Frame.Navigate(typeof(DistributorsPage));
         }
     }
 }
