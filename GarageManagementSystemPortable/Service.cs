@@ -8,17 +8,16 @@
 
     public class Service
     {
-        // TODO: Add at least one more interface and implement it
-        // TODO: "StyleCop" the final code
-        // TODO: Create at least one exception class and implement it somewhere in the code
-        // TODO: Create and use at least one structure in the code
-        // TODO: Update the class diagram before submission
-        // TODO: Create a breaf documentation of the project
+        // TODO: MANDATORY Add at least one more interface and implement it
+        // TODO: MANDATORY "StyleCop" the final code
+        // TODO: MANDATORY Create at least one exception class and implement it somewhere in the code
+        // TODO: MANDATORY Create and use at least one structure in the code
+        // TODO: MANDATORY Update the class diagram before submission
+        // TODO: MANDATORY Create a brief documentation of the project
 
         // TODO: UI: Optimize the code in the UI
         // TODO: UI: Create a Settings page
         // TODO: UI: Create Repairs page
-        // TODO: UI: Implement edit popups for the Cars/Distibutors/Employees etc views
         // TODO: UI: Enhance the Add functions (i.e. with dropdowns for enums, etc)
         // TODO: UI: Implement email validation for the forms in the Helper class
 
