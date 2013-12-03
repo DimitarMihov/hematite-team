@@ -416,6 +416,11 @@
         <Setter Property="AutomationProperties.Name" Value="Skip Ahead"/>
         <Setter Property="Content" Value="&#xE101;"/>
     </Style>
+    <Style x:Key="ClearSelectionAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
+        <Setter Property="AutomationProperties.AutomationId" Value="ClearSelectionAppBarButton"/>
+        <Setter Property="AutomationProperties.Name" Value="Clear Search Results"/>
+        <Setter Property="Content" Value="&#xE1C5;"/>
+    </Style>
     <Style x:Key="PlayAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
         <Setter Property="AutomationProperties.AutomationId" Value="PlayAppBarButton"/>
         <Setter Property="AutomationProperties.Name" Value="Play"/>
@@ -516,6 +521,11 @@
         <Setter Property="AutomationProperties.Name" Value="Settings"/>
         <Setter Property="Content" Value="&#xE115;"/>
     </Style>
+    <Style x:Key="SearchAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
+        <Setter Property="AutomationProperties.AutomationId" Value="SearchAppBarButton"/>
+        <Setter Property="AutomationProperties.Name" Value="Search"/>
+        <Setter Property="Content" Value="&#xE11A;"/>
+    </Style>
 
     <!--
     <Style x:Key="VideoAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
@@ -538,11 +548,7 @@
         <Setter Property="AutomationProperties.Name" Value="Mail"/>
         <Setter Property="Content" Value="&#xE119;"/>
     </Style>
-    <Style x:Key="SearchAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
-        <Setter Property="AutomationProperties.AutomationId" Value="SearchAppBarButton"/>
-        <Setter Property="AutomationProperties.Name" Value="Search"/>
-        <Setter Property="Content" Value="&#xE11A;"/>
-    </Style>
+    
     <Style x:Key="HelpAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
         <Setter Property="AutomationProperties.AutomationId" Value="HelpAppBarButton"/>
         <Setter Property="AutomationProperties.Name" Value="Help"/>
@@ -1210,11 +1216,7 @@
         <Setter Property="AutomationProperties.Name" Value="Map"/>
         <Setter Property="Content" Value="&#xE1C4;"/>
     </Style>
-    <Style x:Key="ClearSelectionAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
-        <Setter Property="AutomationProperties.AutomationId" Value="ClearSelectionAppBarButton"/>
-        <Setter Property="AutomationProperties.Name" Value="Clear Selection"/>
-        <Setter Property="Content" Value="&#xE1C5;"/>
-    </Style>
+
     <Style x:Key="FontDecreaseAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
         <Setter Property="AutomationProperties.AutomationId" Value="FontDecreaseAppBarButton"/>
         <Setter Property="AutomationProperties.Name" Value="Decrease Font"/>
