@@ -79,7 +79,7 @@
             {
                 var property = userType.GetProperty(lines[index]);
 
-                if (property.Name == "Parts")
+                if (property.Name == "ExchangedParts")
                 {
                     List<Part> parts = new List<Part>();
 

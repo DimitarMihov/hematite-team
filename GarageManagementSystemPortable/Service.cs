@@ -131,7 +131,7 @@
             {
                 if (property.Name == "Vehicles")
                 {
-                    dynamic vehicleList = property.GetValue(serviceInstance, null);
+                    dynamic vehicleList = property.GetValue(AutoShopInstance, null);
                     builder.AppendLine("Vehicles");
                     builder.AppendLine(vehicleList.Count.ToString());
 
@@ -153,7 +153,7 @@
                 }
                 else if (property.Name == "Employees")
                 {
-                    dynamic employeeList = property.GetValue(serviceInstance, null);
+                    dynamic employeeList = property.GetValue(AutoShopInstance, null);
                     builder.AppendLine("Employees");
                     builder.AppendLine(employeeList.Count.ToString());
 
