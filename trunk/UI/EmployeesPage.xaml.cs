@@ -128,7 +128,7 @@ namespace UI
 
         private void DeleteEmployee_Click(object sender, RoutedEventArgs e)
         {
-            Service.AutoShopInstance.RemoveVehicle(Service.AutoShopInstance.GetVehicleByIndex(RegisteredEmployees.SelectedIndex));
+            Service.AutoShopInstance.RemoveEmployee(Service.AutoShopInstance.GetEmployeeByIndex(RegisteredEmployees.SelectedIndex));
             DeleteEmployeeConfirmationPopup.IsOpen = false;
             this.Frame.Navigate(typeof(EmployeesPage));
         }
@@ -168,6 +168,73 @@ namespace UI
             else
             {
                 AddEmployee.IsEnabled = false;
+            }
+        }
+
+        private void EditEmployeePropertyValuesField_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Employee currentlySelectedEmployee = Service.AutoShopInstance.GetEmployeeByIndex(RegisteredEmployees.SelectedIndex);
+
+            if (EditNameTextBox.Text != string.Empty &&
+                EditSalaryTextBox.Text != string.Empty &&
+                EditEmailTextBox.Text != string.Empty &&
+                    (EditNameTextBox.Text != currentlySelectedEmployee.Name ||
+                    EditSalaryTextBox.Text != currentlySelectedEmployee.Salary.ToString() ||
+                    EditEmailTextBox.Text != currentlySelectedEmployee.Email)
+               )
+            {
+                int result = 0;
+
+                if (Int32.TryParse(EditSalaryTextBox.Text, out result))
+                {
+                    SaveEmployee.IsEnabled = true;
+                }
+                else
+                {
+                    SaveEmployee.IsEnabled = false;
+                }
+            }
+            else
+            {
+                SaveEmployee.IsEnabled = false;
+            }
+        }
+
+        private void homeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(MainMenu));
+        }
+
+        private void SaveEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            Employee EmployeeToEdit = Service.AutoShopInstance.GetEmployeeByIndex(RegisteredEmployees.SelectedIndex);
+
+            EmployeeToEdit.Name = EditNameTextBox.Text;
+            EmployeeToEdit.Salary = int.Parse(EditSalaryTextBox.Text);
+            EmployeeToEdit.Email = EditEmailTextBox.Text;
+
+            this.Frame.Navigate(typeof(EmployeesPage));
+        }
+
+        private void CancelEmployeeEdit_Click(object sender, RoutedEventArgs e)
+        {
+            EditEmployeeDialog.IsOpen = false;
+        }
+
+        private void EditEmployeePropertyValues_Loaded(object sender, RoutedEventArgs e)
+        {
+            Employee currentlySelectedEmployee = Service.AutoShopInstance.GetEmployeeByIndex(RegisteredEmployees.SelectedIndex);
+
+            EditNameTextBox.Text = currentlySelectedEmployee.Name;
+            EditSalaryTextBox.Text = currentlySelectedEmployee.Salary.ToString();
+            EditEmailTextBox.Text = currentlySelectedEmployee.Email;
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (RegisteredEmployees.SelectedItems.Count != 0)
+            {
+                EditEmployeeDialog.IsOpen = true;
             }
         }
     }

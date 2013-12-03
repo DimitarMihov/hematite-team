@@ -170,5 +170,76 @@ namespace UI
                 AddCar.IsEnabled = false;
             }
         }
+
+        private void EditCarPropertyValuesField_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Vehicle currentlySelectedCar = Service.AutoShopInstance.GetVehicleByIndex(RegisteredCars.SelectedIndex);
+
+            if (EditManufacuturerTextBox.Text != string.Empty && 
+                EditModelTextBox.Text != string.Empty &&
+                EditYearTextBox.Text != string.Empty &&
+                EditRegNumberTextBox.Text != string.Empty &&
+                    (EditManufacuturerTextBox.Text != currentlySelectedCar.Manufacturer || 
+                    EditModelTextBox.Text != currentlySelectedCar.Model || 
+                    EditYearTextBox.Text != currentlySelectedCar.Year.ToString() || 
+                    EditRegNumberTextBox.Text != currentlySelectedCar.RegistrationNumber)
+               )
+            {
+                int result = 0;
+
+                if (Int32.TryParse(EditYearTextBox.Text, out result))
+                {
+                    SaveCar.IsEnabled = true;
+                }
+                else
+                {
+                    SaveCar.IsEnabled = false;
+                }
+            }
+            else
+            {
+                SaveCar.IsEnabled = false;
+            }
+        }
+
+        private void SaveCar_Click(object sender, RoutedEventArgs e)
+        {
+            Vehicle vehicleToEdit = Service.AutoShopInstance.GetVehicleByIndex(RegisteredCars.SelectedIndex);
+
+            vehicleToEdit.Manufacturer = EditManufacuturerTextBox.Text;
+            vehicleToEdit.Model = EditModelTextBox.Text;
+            vehicleToEdit.Year = int.Parse(EditYearTextBox.Text);
+            vehicleToEdit.RegistrationNumber = EditRegNumberTextBox.Text;
+
+            this.Frame.Navigate(typeof(CarsPage));
+        }
+
+        private void CancelCarEdit_Click(object sender, RoutedEventArgs e)
+        {
+            EditCarDialog.IsOpen = false;
+        }
+
+        private void EditCarPropertyValues_Loaded(object sender, RoutedEventArgs e)
+        {
+            Vehicle currentlySelectedCar = Service.AutoShopInstance.GetVehicleByIndex(RegisteredCars.SelectedIndex);
+
+            EditManufacuturerTextBox.Text = currentlySelectedCar.Manufacturer;
+            EditModelTextBox.Text = currentlySelectedCar.Model;
+            EditYearTextBox.Text = currentlySelectedCar.Year.ToString();
+            EditRegNumberTextBox.Text = currentlySelectedCar.RegistrationNumber;
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (RegisteredCars.SelectedItems.Count != 0)
+            {
+                EditCarDialog.IsOpen = true;
+            }            
+        }
+
+        private void homeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(MainMenu));
+        }
     }
 }

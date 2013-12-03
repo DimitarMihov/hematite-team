@@ -30,8 +30,8 @@
                         Orientation="Horizontal"
                         VerticalAlignment="Center">
 
-                <Button x:Name="backButton" 
-                        Click="GoBack" 
+                <Button x:Name="homeButton" 
+                        Click="homeButton_Click" 
                         IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" 
                         Style="{StaticResource HomeAppBarButtonStyle}" 
                         Height="103" />
@@ -46,6 +46,11 @@
                         Style="{StaticResource DeleteAppBarButtonStyle}" 
                         Width="99"
                         Click="DeleteButton_Click"/>
+
+                <Button x:Name="EditButton"
+                        Style="{StaticResource EditAppBarButtonStyle}" 
+                        Width="99"
+                        Click="EditButton_Click"/>
 
             </StackPanel>
 
@@ -136,6 +141,75 @@
                         <Button Name="CancelCarCreation"
                                         Content="Cancel"
                                         Click="CancelCarCreation_Click"/>
+
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Popup>
+
+        <Popup x:Name = "EditCarDialog"
+               HorizontalOffset="100"
+               VerticalOffset="0" >
+
+            <Border BorderBrush="Gray" 
+                           BorderThickness="2" 
+                           Background="Black" 
+                           Width="500" 
+                           Height="300"
+                           >
+
+                <StackPanel HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Width="434">
+
+                    <Grid Name="EditCarFields">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Name="EditCarPropetyNames" 
+                                    Grid.Column="0">
+
+                            <TextBlock Style="{StaticResource AddPopupField}">Manufacuturer</TextBlock>
+                            <TextBlock Style="{StaticResource AddPopupField}">Model</TextBlock>
+                            <TextBlock Style="{StaticResource AddPopupField}">Year</TextBlock>
+                            <TextBlock Style="{StaticResource AddPopupField}">Registration Number</TextBlock>
+
+                        </StackPanel>
+
+                        <StackPanel Name="EditCarPropertyValues"                            
+                                    Grid.Column="1"
+                                    Loaded="EditCarPropertyValues_Loaded">
+
+                            <TextBox Name="EditManufacuturerTextBox"
+                                     TextChanged="EditCarPropertyValuesField_TextChanged"/>
+
+                            <TextBox Name="EditModelTextBox"
+                                     TextChanged="EditCarPropertyValuesField_TextChanged"/>
+
+                            <TextBox Name="EditYearTextBox"
+                                     TextChanged="EditCarPropertyValuesField_TextChanged"/>
+
+                            <TextBox Name="EditRegNumberTextBox"
+                                     TextChanged="EditCarPropertyValuesField_TextChanged"/>
+
+                        </StackPanel>
+                    </Grid>
+
+                    <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Margin="0 10 0 0">
+
+                        <Button Name="SaveCar"
+                                Content="Save Car"
+                                IsEnabled="False"
+                                Click="SaveCar_Click" />
+
+                        <Button Name="CancelCarEdit"
+                                        Content="Cancel"
+                                        Click="CancelCarEdit_Click"/>
 
                     </StackPanel>
                 </StackPanel>

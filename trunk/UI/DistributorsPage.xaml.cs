@@ -149,6 +149,64 @@ namespace UI
             this.Frame.Navigate(typeof(DistributorsPage));
         }
 
+        private void EditDistributorPropertyValuesField_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Distributor currentlySelectedDistributor = Service.AutoShopInstance.GetDistributorByIndex(RegisteredDistributors.SelectedIndex);
+
+            if (EditNameTextBox.Text != string.Empty &&
+                EditPhoneTextBox.Text != string.Empty &&
+                EditEmailTextBox.Text != string.Empty &&
+                    (EditNameTextBox.Text != currentlySelectedDistributor.Name ||
+                    EditPhoneTextBox.Text != currentlySelectedDistributor.Phone.ToString() ||
+                    EditEmailTextBox.Text != currentlySelectedDistributor.Email)
+               )
+            {
+                SaveDistributor.IsEnabled = true;
+            }
+            else
+            {
+                SaveDistributor.IsEnabled = false;
+            }
+        }
+
+        private void homeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(MainMenu));
+        }
+
+        private void SaveDistributor_Click(object sender, RoutedEventArgs e)
+        {
+            Distributor distributorToEdit = Service.AutoShopInstance.GetDistributorByIndex(RegisteredDistributors.SelectedIndex);
+
+            distributorToEdit.Name = EditNameTextBox.Text;
+            distributorToEdit.Phone = EditPhoneTextBox.Text;
+            distributorToEdit.Email = EditEmailTextBox.Text;
+
+            this.Frame.Navigate(typeof(DistributorsPage));
+        }
+
+        private void CancelDistributorEdit_Click(object sender, RoutedEventArgs e)
+        {
+            EditDistributorDialog.IsOpen = false;
+        }
+
+        private void EditDistributorPropertyValues_Loaded(object sender, RoutedEventArgs e)
+        {
+            Distributor currentlySelectedDistributor = Service.AutoShopInstance.GetDistributorByIndex(RegisteredDistributors.SelectedIndex);
+
+            EditNameTextBox.Text = currentlySelectedDistributor.Name;
+            EditPhoneTextBox.Text = currentlySelectedDistributor.Phone;
+            EditEmailTextBox.Text = currentlySelectedDistributor.Email;
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (RegisteredDistributors.SelectedItems.Count != 0)
+            {
+                EditDistributorDialog.IsOpen = true;
+            }
+        }
+
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             AddDistributorDialog.IsOpen = true;
