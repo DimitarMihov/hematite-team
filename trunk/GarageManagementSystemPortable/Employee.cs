@@ -7,7 +7,25 @@
 
     public class Employee : Person
     {
-        public decimal Salary { get; set; }
+        private decimal salary;
+
+        public decimal Salary
+        {
+            get
+            {
+                return this.salary;
+            }
+            set
+            {
+                if (value <= 0.0m)
+                {
+                    throw new InvalidSalaryException("Salary cannot be negative!");
+                }
+
+                this.salary = value;
+            }
+        }
+
         public Position Position { get; set; }
         public int Rank { get; set; }
 

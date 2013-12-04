@@ -34,12 +34,9 @@ namespace UI
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            LoadServiceInformation();
 
-           // LoadHardCodeInformation(); // TODO: Comment that after creating the load methods
-           //SaveServiceInformation();
-
-            // TODO: Create methods to load cars, employees, distributors etc from a file
-           LoadServiceInformation();
+           // LoadHardCodeInformation(); 
          }
 
         /// <summary>
