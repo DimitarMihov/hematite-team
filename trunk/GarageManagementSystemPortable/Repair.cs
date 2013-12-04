@@ -61,7 +61,14 @@
                 else
                 {
                     builder.AppendLine(property.Name);
-                    builder.AppendLine(property.GetValue(repair, null).ToString());
+                    try
+                    {
+                        builder.AppendLine(property.GetValue(repair, null).ToString());
+                    }
+                    catch (NullReferenceException)
+                    {
+                        builder.AppendLine("-");
+                    }
                 }
             }
 
@@ -97,9 +104,13 @@
                 else
                 {
                     index++;
-                    var currentPropertyType = property.PropertyType;
-                    var convertedValue = Convert.ChangeType(lines[index], currentPropertyType, null);
-                    property.SetValue(repair, convertedValue, null);
+
+                    if (lines[index] != "-")
+                    {
+                        var currentPropertyType = property.PropertyType;
+                        var convertedValue = Convert.ChangeType(lines[index], currentPropertyType, null);
+                        property.SetValue(repair, convertedValue, null);
+                    }
                 }
             }
 

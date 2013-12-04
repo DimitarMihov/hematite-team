@@ -36,14 +36,11 @@ namespace UI
             this.Suspending += OnSuspending;
 
            // LoadHardCodeInformation(); // TODO: Comment that after creating the load methods
-           //SaveServiceInformation("serverInfo"); // TODO: Transfer this to the adding and removing methods
+           //SaveServiceInformation();
 
             // TODO: Create methods to load cars, employees, distributors etc from a file
-            LoadServiceInformation("serverInfo");
-            //SaveServiceInformation("serverInfo"); // TODO: Transfer this to the adding and removing methods
-
-            List<Distributor> sa = Service.AutoShopInstance.Distributors;
-        }
+           LoadServiceInformation();
+         }
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -94,8 +91,7 @@ namespace UI
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            SaveServiceInformation("serverInfo"); // TODO: Transfer this to the adding and removing methods
-
+            SaveServiceInformation();
             deferral.Complete();
         }
 
@@ -153,10 +149,10 @@ namespace UI
                 "Kiril Manolov", employee2Address, "0883212233", "kkks@ABV.BG", "no comment", 300, Position.JunorMechanic, 2));
         }
 
-        public async static void LoadServiceInformation(string fileName)
+        public async static void LoadServiceInformation()
         {
             StorageFile file = null;
-            string fullPath = fileName + ".txt";
+            string fullPath = "serviceInfo.txt";
             try
             {
                 file = await KnownFolders.PicturesLibrary.GetFileAsync(fullPath);
@@ -176,14 +172,14 @@ namespace UI
             catch (FileNotFoundException)
             {
                 CreateFile(fullPath);
-                LoadServiceInformation(fileName);
+                LoadServiceInformation();
             }
         }
 
 
-        public async static void SaveServiceInformation(string fileName)
+        public async static void SaveServiceInformation()
         {
-            string fullPath = fileName + ".txt";
+            string fullPath = "serviceInfo.txt";
             StorageFile writer = null;
 
             try
@@ -197,7 +193,7 @@ namespace UI
             catch (FileNotFoundException)
             {
                 CreateFile(fullPath);
-                SaveServiceInformation(fileName);
+                SaveServiceInformation();
             }
         }
 

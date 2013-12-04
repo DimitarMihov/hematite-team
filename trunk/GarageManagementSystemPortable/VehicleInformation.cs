@@ -36,7 +36,14 @@
             foreach (var property in ownerProperties)
             {
                 builder.AppendLine(property.Name);
-                builder.AppendLine(property.GetValue(vehicle, null).ToString());
+                try
+                {
+                    builder.AppendLine(property.GetValue(vehicle, null).ToString());
+                }
+                catch (NullReferenceException)
+                {
+                    builder.AppendLine("-");
+                }
             }
 
             return builder.ToString();
@@ -53,26 +60,28 @@
             {
                 var property = userType.GetProperty(lines[index]);
 
-                if (property.Name == "FuelType")
+                index++;
+
+                if (lines[index] != "-")
                 {
-                    index++;
-                    var currentPropertyType = property.PropertyType;
-                    FuelType fuilType = (FuelType)Enum.Parse(typeof(FuelType), lines[index], false);
-                    property.SetValue(vehicleInformation, fuilType, null);
-                }
-                else if (property.Name == "Gearbox")
-                {
-                    index++;
-                    var currentPropertyType = property.PropertyType;
-                    Gearbox gearBox = (Gearbox)Enum.Parse(typeof(Gearbox), lines[index], false);
-                    property.SetValue(vehicleInformation, gearBox, null);
-                }
-                else
-                {
-                    index++;
-                    Type t = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
-                    object safeValue = (lines[index] == null) ? null : Convert.ChangeType(lines[index], t, null);
-                    property.SetValue(vehicleInformation, safeValue, null);
+                    if (property.Name == "FuelType")
+                    {
+                        var currentPropertyType = property.PropertyType;
+                        FuelType fuilType = (FuelType)Enum.Parse(typeof(FuelType), lines[index], false);
+                        property.SetValue(vehicleInformation, fuilType, null);
+                    }
+                    else if (property.Name == "Gearbox")
+                    {
+                        var currentPropertyType = property.PropertyType;
+                        Gearbox gearBox = (Gearbox)Enum.Parse(typeof(Gearbox), lines[index], false);
+                        property.SetValue(vehicleInformation, gearBox, null);
+                    }
+                    else
+                    {
+                        Type t = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+                        object safeValue = (lines[index] == null) ? null : Convert.ChangeType(lines[index], t, null);
+                        property.SetValue(vehicleInformation, safeValue, null);
+                    }
                 }
             }
 

@@ -55,16 +55,30 @@
 
             foreach (var property in ownerProperties)
             {
-                if (property.GetValue(owner, null).ToString() == "GarageManagementSystem.Address")
+                if (property.Name == "Address")
                 {
                     builder.AppendLine("Address");
-                    builder.AppendLine("1");
-                    builder.Append(Address.SaveAddressInformation(owner.Address));
+                    if (owner.Address == null)
+                    {
+                        builder.AppendLine("-");
+                    }
+                    else
+                    {
+                        builder.AppendLine("1");
+                        builder.Append(Address.SaveAddressInformation(owner.Address));
+                    }
                 }
                 else
                 {
                     builder.AppendLine(property.Name);
-                    builder.AppendLine(property.GetValue(owner, null).ToString());
+                    try
+                    {
+                        builder.AppendLine(property.GetValue(owner, null).ToString());
+                    }
+                    catch (NullReferenceException)
+                    {
+                        builder.AppendLine("-");
+                    }
                 }
             }
 
@@ -82,21 +96,25 @@
             for (int i = 0; i < propertiesCount; i++, index++)
             {
                 var property = userType.GetProperty(lines[index]);
+                index++;
 
                 if (property.Name == "Address")
                 {
-                    index += 2;
-
-                    Address address = Address.LoadAddressInformation(lines, ref index);
-
-                    property.SetValue(owner, address, null);
+                    if (lines[index] != "-")
+                    {
+                        index++;
+                        Address address = Address.LoadAddressInformation(lines, ref index);
+                        property.SetValue(owner, address, null);
+                    }
                 }
                 else
                 {
-                    index++;
-                    var currentPropertyType = property.PropertyType;
-                    var convertedValue = Convert.ChangeType(lines[index], currentPropertyType, null);
-                    property.SetValue(owner, convertedValue, null);
+                    if (lines[index] != "-")
+                    {
+                        var currentPropertyType = property.PropertyType;
+                        var convertedValue = Convert.ChangeType(lines[index], currentPropertyType, null);
+                        property.SetValue(owner, convertedValue, null);
+                    }
                 }
             }
 

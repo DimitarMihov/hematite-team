@@ -44,7 +44,14 @@
             foreach (var property in ownerProperties)
             {
                 builder.AppendLine(property.Name);
-                builder.AppendLine(property.GetValue(address, null).ToString());
+                try
+                {
+                    builder.AppendLine(property.GetValue(address, null).ToString());
+                }
+                catch (NullReferenceException)
+                {
+                    builder.AppendLine("-");
+                }
             }
 
             return builder.ToString();
@@ -65,11 +72,14 @@
             {
                 var property = userType.GetProperty(lines[index]);
                 index++;
-                Type t = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
-                object safeValue = (lines[index] == null) ? null : Convert.ChangeType(lines[index], t, null);
-                property.SetValue(address, safeValue, null);
-            }
 
+                if (lines[index] != "-")
+                {
+                    Type t = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+                    object safeValue = (lines[index] == null) ? null : Convert.ChangeType(lines[index], t, null);
+                    property.SetValue(address, safeValue, null);
+                }
+            }
             index--;
 
             return address;

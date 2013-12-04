@@ -129,6 +129,7 @@ namespace UI
         private void DeleteEmployee_Click(object sender, RoutedEventArgs e)
         {
             Service.AutoShopInstance.RemoveEmployee(Service.AutoShopInstance.GetEmployeeByIndex(RegisteredEmployees.SelectedIndex));
+            App.SaveServiceInformation();
             DeleteEmployeeConfirmationPopup.IsOpen = false;
             this.Frame.Navigate(typeof(EmployeesPage));
         }
@@ -146,6 +147,7 @@ namespace UI
         private void AddEmployee_Click(object sender, RoutedEventArgs e)
         {
             Service.AutoShopInstance.AddEmployee(new Employee(NameTextBox.Text, decimal.Parse(SalaryTextBox.Text), PhoneTextBox.Text));
+            App.SaveServiceInformation();
             this.Frame.Navigate(typeof(EmployeesPage));
         }
 
@@ -212,6 +214,7 @@ namespace UI
             EmployeeToEdit.Name = EditNameTextBox.Text;
             EmployeeToEdit.Salary = int.Parse(EditSalaryTextBox.Text);
             EmployeeToEdit.Email = EditEmailTextBox.Text;
+            App.SaveServiceInformation();
 
             this.Frame.Navigate(typeof(EmployeesPage));
         }
