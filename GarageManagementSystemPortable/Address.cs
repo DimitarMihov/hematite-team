@@ -29,10 +29,8 @@
             this.District = district;
         }
 
-        public Address()
-        {
-            // TODO: Complete member initialization
-        }
+        public Address() { }
+
         public static string SaveAddressInformation(Address address)
         {
             StringBuilder builder = new StringBuilder();

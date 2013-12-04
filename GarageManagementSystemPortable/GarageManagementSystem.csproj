@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Address.cs" />
+    <Compile Include="InvalidSalaryException.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="DescriptionAttribute.cs" />
     <Compile Include="Distributor.cs" />

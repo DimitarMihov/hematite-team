@@ -10,11 +10,11 @@
     {
         // TODO: MANDATORY Add at least one more interface and implement it
         // TODO: MANDATORY "StyleCop" the final code
-        // TODO: MANDATORY Create at least one exception class and implement it somewhere in the code
         // TODO: MANDATORY Create and use at least one structure in the code
         // TODO: MANDATORY Update the class diagram before submission
         // TODO: MANDATORY Create a brief documentation of the project
-
+        
+        // TODO: UI: Fix the search methods (Now it takes the name of the searched item and the properties of the first element in the list)
         // TODO: UI: Optimize the code in the UI
         // TODO: UI: Create a Settings page
         // TODO: UI: Create Repairs page
