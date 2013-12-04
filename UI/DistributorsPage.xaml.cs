@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.Storage;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -130,6 +131,7 @@ namespace UI
         {
             Service.AutoShopInstance.RemoveDistributor(Service.AutoShopInstance.GetDistributorByIndex(RegisteredDistributors.SelectedIndex));
             DeleteDistributorConfirmationPopup.IsOpen = false;
+            App.SaveServiceInformation();
             this.Frame.Navigate(typeof(DistributorsPage));
         }
 
@@ -147,6 +149,7 @@ namespace UI
         {
             Service.AutoShopInstance.AddDistributor(new Distributor(NameTextBox.Text, PhoneTextBox.Text, EmailTextBox.Text));
             this.Frame.Navigate(typeof(DistributorsPage));
+            App.SaveServiceInformation();
         }
 
         private void EditDistributorPropertyValuesField_TextChanged(object sender, TextChangedEventArgs e)
@@ -182,6 +185,7 @@ namespace UI
             distributorToEdit.Phone = EditPhoneTextBox.Text;
             distributorToEdit.Email = EditEmailTextBox.Text;
 
+            App.SaveServiceInformation();
             this.Frame.Navigate(typeof(DistributorsPage));
         }
 

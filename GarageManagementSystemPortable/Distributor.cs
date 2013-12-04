@@ -8,11 +8,12 @@
 
     public class Distributor : Person
     {
-        public Distributor(string name, string phone, string email) 
+        public Distributor(string name, string phone, string email)
         {
             this.Name = name;
             this.Phone = phone;
             this.Email = email;
+            this.Parts = new List<Part>();
         }
 
         public Distributor(string name, Address address, string phone, string email, string comment, List<Part> parts)
@@ -35,11 +36,18 @@
 
             foreach (var property in distibutorProperties)
             {
-                if (property.GetValue(distributor, null).ToString() == "GarageManagementSystem.Address")
+                if (property.Name == "Address")
                 {
                     builder.AppendLine("Address");
-                    builder.AppendLine("1");
-                    builder.Append(Address.SaveAddressInformation(distributor.Address));
+                    if (distributor.Address == null)
+                    {
+                        builder.AppendLine("-");
+                    }
+                    else
+                    {
+                        builder.AppendLine("1");
+                        builder.Append(Address.SaveAddressInformation(distributor.Address));
+                    }
                 }
                 else if (property.Name == "Parts")
                 {
@@ -54,7 +62,14 @@
                 else
                 {
                     builder.AppendLine(property.Name);
-                    builder.AppendLine(property.GetValue(distributor, null).ToString());
+                    try
+                    {
+                        builder.AppendLine(property.GetValue(distributor, null).ToString());
+                    }
+                    catch (NullReferenceException)
+                    {
+                        builder.AppendLine("-");
+                    }
                 }
             }
 
@@ -66,7 +81,7 @@
             Distributor distributor = new Distributor();
             var assembly = Assembly.GetExecutingAssembly();
             var userType = assembly.GetType("GarageManagementSystem.Distributor");
-            int propertiesCount = Service.PropertiesCount(distributor); 
+            int propertiesCount = Service.PropertiesCount(distributor);
 
             for (int i = 0; i < propertiesCount; i++, index++)
             {
@@ -74,11 +89,14 @@
 
                 if (property.Name == "Address")
                 {
-                    index += 2;
+                    index++;
 
-                    Address address = Address.LoadAddressInformation(lines, ref index);
-
-                    property.SetValue(distributor, address, null);
+                    if (lines[index] != "-")
+                    {
+                        index++;
+                        Address address = Address.LoadAddressInformation(lines, ref index);
+                        property.SetValue(distributor, address, null);
+                    }
                 }
                 else if (property.Name == "Parts")
                 {
@@ -98,9 +116,13 @@
                 else
                 {
                     index++;
-                    var currentPropertyType = property.PropertyType;
-                    var convertedValue = Convert.ChangeType(lines[index], currentPropertyType, null);
-                    property.SetValue(distributor, convertedValue, null);
+
+                    if (lines[index] != "-")
+                    {
+                        var currentPropertyType = property.PropertyType;
+                        var convertedValue = Convert.ChangeType(lines[index], currentPropertyType, null);
+                        property.SetValue(distributor, convertedValue, null);
+                    }
                 }
             }
 

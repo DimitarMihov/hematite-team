@@ -219,15 +219,9 @@
                     index--;
                     property.SetValue(AutoShopInstance, employees, null); 
                 }
-                /*
-                    var currentPropertyType = property.PropertyType;
-
-                    var convertedValue = Convert.ChangeType(lines[index + 1], currentPropertyType, null);
-
-                    property.SetValue(serviceInstance, convertedValue, null);
-                */
             }
         }
+
         public static int PropertiesCount(object entity)
         {
             return entity.GetType()

@@ -28,7 +28,7 @@
         }
 
         public Employee(string name, Address address, string phone, string email, string comment, decimal salary, Position position, int rank)
-            : base(name,address, phone, email, comment)
+            : base(name, address, phone, email, comment)
         {
             this.Salary = salary;
             this.Position = position;
@@ -46,16 +46,30 @@
 
             foreach (var property in employeeProperties)
             {
-                if (property.GetValue(employee, null).ToString() == "GarageManagementSystem.Address")
+                if (property.Name == "Address")
                 {
                     builder.AppendLine("Address");
-                    builder.AppendLine("1");
-                    builder.Append(Address.SaveAddressInformation(employee.Address));
+                    if (employee.Address == null)
+                    {
+                        builder.AppendLine("-");
+                    }
+                    else
+                    {
+                        builder.AppendLine("1");
+                        builder.Append(Address.SaveAddressInformation(employee.Address));
+                    }
                 }
                 else
                 {
                     builder.AppendLine(property.Name);
-                    builder.AppendLine(property.GetValue(employee, null).ToString());
+                    try
+                    {
+                        builder.AppendLine(property.GetValue(employee, null).ToString());
+                    }
+                    catch (NullReferenceException)
+                    {
+                        builder.AppendLine("-");
+                    }
                 }
             }
 
@@ -72,28 +86,34 @@
             for (int i = 0; i < propertiesCount; i++, index++)
             {
                 var property = userType.GetProperty(lines[index]);
+                index++;
 
                 if (property.Name == "Address")
                 {
-                    index += 2;
-
-                    Address address = Address.LoadAddressInformation(lines, ref index);
-
-                    property.SetValue(employee, address, null);
+                    if (lines[index] != "-")
+                    {
+                        index++;
+                        Address address = Address.LoadAddressInformation(lines, ref index);
+                        property.SetValue(employee, address, null);
+                    }
                 }
                 else if (property.Name == "Position")
                 {
-                    index++;
-                    var currentPropertyType = property.PropertyType;
-                    Position position = (Position)Enum.Parse(typeof(Position), lines[index], false);
-                    property.SetValue(employee, position, null);
+                    if (lines[index] != "-")
+                    {
+                        var currentPropertyType = property.PropertyType;
+                        Position position = (Position)Enum.Parse(typeof(Position), lines[index], false);
+                        property.SetValue(employee, position, null);
+                    }
                 }
                 else
                 {
-                    index++;
-                    var currentPropertyType = property.PropertyType;
-                    var convertedValue = Convert.ChangeType(lines[index], currentPropertyType, null);
-                    property.SetValue(employee, convertedValue, null);
+                    if (lines[index] != "-")
+                    {
+                        var currentPropertyType = property.PropertyType;
+                        var convertedValue = Convert.ChangeType(lines[index], currentPropertyType, null);
+                        property.SetValue(employee, convertedValue, null);
+                    }
                 }
             }
 

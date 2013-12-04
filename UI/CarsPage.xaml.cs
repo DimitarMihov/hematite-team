@@ -129,6 +129,7 @@ namespace UI
         private void DeleteCar_Click(object sender, RoutedEventArgs e)
         {
             Service.AutoShopInstance.RemoveVehicle(Service.AutoShopInstance.GetVehicleByIndex(RegisteredCars.SelectedIndex));
+            App.SaveServiceInformation();
             DeleteCarConfirmationPopup.IsOpen = false;
             this.Frame.Navigate(typeof(CarsPage));
         }
@@ -146,6 +147,7 @@ namespace UI
         private void AddCar_Click(object sender, RoutedEventArgs e)
         {
             Service.AutoShopInstance.AddVehicle(new Vehicle(ManufacuturerTextBox.Text, ModelTextBox.Text, int.Parse(YearTextBox.Text), RegNumberTextBox.Text));
+            App.SaveServiceInformation();
             this.Frame.Navigate(typeof(CarsPage));
         }
 
@@ -210,7 +212,8 @@ namespace UI
             vehicleToEdit.Model = EditModelTextBox.Text;
             vehicleToEdit.Year = int.Parse(EditYearTextBox.Text);
             vehicleToEdit.RegistrationNumber = EditRegNumberTextBox.Text;
-
+            App.SaveServiceInformation();
+            
             this.Frame.Navigate(typeof(CarsPage));
         }
 

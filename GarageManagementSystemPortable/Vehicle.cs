@@ -32,6 +32,7 @@
             this.Model = model;
             this.Year = year;
             this.RegistrationNumber = registrationNumber;
+            this.Repairs = new List<Repair>();
         }
 
         public Vehicle(string manufacturer, string model, Status status = Status.Informational)
@@ -40,6 +41,7 @@
             this.Model = model;
             this.Status = status;
             this.Id = Interlocked.Increment(ref nextId);
+            this.Repairs = new List<Repair>();
         }
 
         public Vehicle(string manufacturer, string model, int? year, int? horsePower, int? mileage,
@@ -120,11 +122,18 @@
 
             foreach (var property in userTypeProperties)
             {
-                if (property.GetValue(vehicle, null).ToString() == "GarageManagementSystem.Owner")
+                if (property.Name == "Owner")
                 {
                     builder.AppendLine("Owner");
-                    builder.AppendLine("1");
-                    builder.Append(Person.SaveOwnerInformation(vehicle.Owner));
+                    if (vehicle.Owner == null)
+                    {
+                        builder.AppendLine("-");
+                    }
+                    else
+                    {
+                        builder.AppendLine("1");
+                        builder.Append(Person.SaveOwnerInformation(vehicle.Owner));
+                    }
                 }
                 else if (property.Name == "Repairs")
                 {
@@ -140,7 +149,15 @@
                 else
                 {
                     builder.AppendLine(property.Name);
-                    builder.AppendLine(property.GetValue(vehicle, null).ToString());
+
+                    try
+                    {
+                        builder.AppendLine(property.GetValue(vehicle, null).ToString());
+                    }
+                    catch (NullReferenceException)
+                    {
+                        builder.AppendLine("-");
+                    }
                 }
             }
 
@@ -160,32 +177,47 @@
 
                 if (property.Name == "Owner")
                 {
-                    index += 2;
+                     index++;
 
-                    Owner address = Person.LoadOwnerInformation(lines, ref index);
-
-                    property.SetValue(vehicle, address, null);
+                     if (lines[index] != "-")
+                     {
+                         index++;
+                         Owner address = Person.LoadOwnerInformation(lines, ref index);
+                         property.SetValue(vehicle, address, null);
+                     }
                 }
                 else if (property.Name == "Status")
                 {
                     index++;
-                    var currentPropertyType = property.PropertyType;
-                    Status status = (Status)Enum.Parse(typeof(Status), lines[index], false);
-                    property.SetValue(vehicle, status, null);
+
+                    if (lines[index] != "-")
+                    {
+                        var currentPropertyType = property.PropertyType;
+                        Status status = (Status)Enum.Parse(typeof(Status), lines[index], false);
+                        property.SetValue(vehicle, status, null);
+                    }
                 }
                 else if (property.Name == "FuelType")
                 {
                     index++;
-                    var currentPropertyType = property.PropertyType;
-                    FuelType fuilType = (FuelType)Enum.Parse(typeof(FuelType), lines[index], false);
-                    property.SetValue(vehicle, fuilType, null);
+
+                    if (lines[index] != "-")
+                    {
+                        var currentPropertyType = property.PropertyType;
+                        FuelType fuilType = (FuelType)Enum.Parse(typeof(FuelType), lines[index], false);
+                        property.SetValue(vehicle, fuilType, null);
+                    }
                 }
                 else if (property.Name == "Gearbox")
                 {
                     index++;
-                    var currentPropertyType = property.PropertyType;
-                    Gearbox gearBox = (Gearbox)Enum.Parse(typeof(Gearbox), lines[index], false);
-                    property.SetValue(vehicle, gearBox, null);
+
+                    if (lines[index] != "-")
+                    {
+                        var currentPropertyType = property.PropertyType;
+                        Gearbox gearBox = (Gearbox)Enum.Parse(typeof(Gearbox), lines[index], false);
+                        property.SetValue(vehicle, gearBox, null);
+                    }
                 }
                 else if (property.Name == "Repairs")
                 {
@@ -205,9 +237,13 @@
                 else
                 {
                     index++;
-                    Type t = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
-                    object safeValue = (lines[index] == null) ? null : Convert.ChangeType(lines[index], t, null);
-                    property.SetValue(vehicle, safeValue, null);
+
+                    if (lines[index] != "-")
+                    {
+                        Type t = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+                        object safeValue = (lines[index] == null) ? null : Convert.ChangeType(lines[index], t, null);
+                        property.SetValue(vehicle, safeValue, null);
+                    }
                 }
             }
 
