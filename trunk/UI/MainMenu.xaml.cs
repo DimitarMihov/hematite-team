@@ -49,6 +49,11 @@ namespace UI
         {
         }
 
+        private void RepairMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(RepairPage));
+        }
+
         private void CarsMenuButton_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(CarsPage));
