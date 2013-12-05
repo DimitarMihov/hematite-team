@@ -139,28 +139,28 @@
                             
                             <TextBox Name="RegNumberTextBox"
                                      TextChanged="AddCarPropertyValuesField_TextChanged"/>
-                            
+
                             <ComboBox x:Name="FuelTypeComboBox" SelectionChanged="ComboBox_SelectionChanged">
+                                <x:String>Petrol</x:String>
                                 <x:String>Diesel</x:String>
                                 <x:String>Electric</x:String>
-                                <x:String>Ethanol</x:String>
                                 <x:String>Gas</x:String>
                                 <x:String>Lpg</x:String>
                                 <x:String>NaturalGas</x:String>
+                                <x:String>Ethanol</x:String>
                                 <x:String>Hybrid</x:String>
                                 <x:String>HybridPetrol</x:String>
                                 <x:String>HybridDiesel</x:String>
-                                <x:String>Petrol</x:String>
                                 <x:String>Other</x:String>
                             </ComboBox>
 
-                            <ComboBox x:Name="GearBoxComboBox" SelectionChanged="ComboBox_SelectionChanged">
+                            <ComboBox x:Name="GearBoxComboBox" SelectionChanged="ComboBox_SelectionChanged" Margin="0,10,0,0">
                                 <x:String>Automatic</x:String>
                                 <x:String>Manual</x:String>
                                 <x:String>SemiAutomatic</x:String>
                             </ComboBox>
-                            
-                            <ComboBox x:Name="StatusComboBox" SelectionChanged="ComboBox_SelectionChanged">
+
+                            <ComboBox x:Name="StatusComboBox" SelectionChanged="ComboBox_SelectionChanged" Margin="0,10,0,0">
                                 <x:String>New</x:String>
                                 <x:String>Accepted</x:String>
                                 <x:String>Rejected</x:String>
@@ -168,7 +168,7 @@
                                 <x:String>Completed</x:String>
                                 <x:String>Informational</x:String>
                             </ComboBox>
-                            
+
                         </StackPanel>
                     </Grid>
                     
@@ -255,13 +255,13 @@
                                 <x:String>Other</x:String>
                             </ComboBox>
 
-                            <ComboBox x:Name="EditGearBoxComboBox" SelectionChanged="EditCarPropertyValuesField_SelectionChanged">
+                            <ComboBox x:Name="EditGearBoxComboBox" SelectionChanged="EditCarPropertyValuesField_SelectionChanged" Margin="0,10,0,0">
                                 <x:String>Automatic</x:String>
                                 <x:String>Manual</x:String>
                                 <x:String>SemiAutomatic</x:String>
                             </ComboBox>
 
-                            <ComboBox x:Name="EditStatusComboBox" SelectionChanged="EditCarPropertyValuesField_SelectionChanged">
+                            <ComboBox x:Name="EditStatusComboBox" SelectionChanged="EditCarPropertyValuesField_SelectionChanged" Margin="0,10,0,0">
                                 <x:String>New</x:String>
                                 <x:String>Accepted</x:String>
                                 <x:String>Rejected</x:String>
