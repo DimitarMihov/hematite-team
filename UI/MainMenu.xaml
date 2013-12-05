@@ -28,6 +28,11 @@
                        Margin="13,0,30,40"/>
         </Grid>
         
+        <Button Name="RepairMenuButton" 
+                Style="{StaticResource MenuItemButton}"
+                Content="Repair"
+                Click="RepairMenuButton_Click"/>
+        
         <Button Name="CarsMenuButton" 
                 Style="{StaticResource MenuItemButton}"
                 Content="Cars"

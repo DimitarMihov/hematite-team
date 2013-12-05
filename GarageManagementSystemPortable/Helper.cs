@@ -51,9 +51,9 @@ namespace GarageManagementSystem
 
             List<Employee> result = new List<Employee>();
 
-            foreach (var Employee in filteredEmployees)
+            foreach (var employee in filteredEmployees)
             {
-                result.Add(Employee as Employee);
+                result.Add(employee as Employee);
             }
 
             return result;
