@@ -146,7 +146,8 @@ namespace UI
 
         private void AddEmployee_Click(object sender, RoutedEventArgs e)
         {
-            Service.AutoShopInstance.AddEmployee(new Employee(NameTextBox.Text, decimal.Parse(SalaryTextBox.Text), PhoneTextBox.Text));
+            Position position = (Position)Enum.Parse(typeof(Position), PositionComboBox.SelectedValue.ToString(), false);
+            Service.AutoShopInstance.AddEmployee(new Employee(NameTextBox.Text, decimal.Parse(SalaryTextBox.Text), PhoneTextBox.Text, position));
             App.SaveServiceInformation();
             this.Frame.Navigate(typeof(EmployeesPage));
         }
@@ -158,7 +159,7 @@ namespace UI
 
         private void AddEmployeePropertyValuesField_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (NameTextBox.Text != string.Empty && SalaryTextBox.Text != string.Empty && PhoneTextBox.Text != string.Empty)
+            if (NameTextBox.Text != string.Empty && SalaryTextBox.Text != string.Empty && PhoneTextBox.Text != string.Empty && PositionComboBox.SelectedValue != null)
             {
                 decimal result = 0;
 
@@ -175,19 +176,22 @@ namespace UI
 
         private void EditEmployeePropertyValuesField_TextChanged(object sender, TextChangedEventArgs e)
         {
+            Position position = (Position)Enum.Parse(typeof(Position), EditPositionComboBox.SelectedValue.ToString(), false);
             Employee currentlySelectedEmployee = Service.AutoShopInstance.GetEmployeeByIndex(RegisteredEmployees.SelectedIndex);
 
             if (EditNameTextBox.Text != string.Empty &&
                 EditSalaryTextBox.Text != string.Empty &&
-                EditEmailTextBox.Text != string.Empty &&
+                EditPhoneTextBox.Text != string.Empty &&
+                 EditPositionComboBox.SelectedValue != null &&
                     (EditNameTextBox.Text != currentlySelectedEmployee.Name ||
                     EditSalaryTextBox.Text != currentlySelectedEmployee.Salary.ToString() ||
-                    EditEmailTextBox.Text != currentlySelectedEmployee.Email)
+                    EditPhoneTextBox.Text != currentlySelectedEmployee.Phone ||
+                    position != currentlySelectedEmployee.Position)
                )
             {
-                int result = 0;
+                decimal result = 0;
 
-                if (Int32.TryParse(EditSalaryTextBox.Text, out result))
+                if (decimal.TryParse(EditSalaryTextBox.Text, out result))
                 {
                     SaveEmployee.IsEnabled = true;
                 }
@@ -209,11 +213,13 @@ namespace UI
 
         private void SaveEmployee_Click(object sender, RoutedEventArgs e)
         {
+            Position position = (Position)Enum.Parse(typeof(Position), EditPositionComboBox.SelectedValue.ToString(), false);
             Employee EmployeeToEdit = Service.AutoShopInstance.GetEmployeeByIndex(RegisteredEmployees.SelectedIndex);
 
             EmployeeToEdit.Name = EditNameTextBox.Text;
             EmployeeToEdit.Salary = int.Parse(EditSalaryTextBox.Text);
-            EmployeeToEdit.Email = EditEmailTextBox.Text;
+            EmployeeToEdit.Phone = EditPhoneTextBox.Text;
+            EmployeeToEdit.Position = position;
             App.SaveServiceInformation();
 
             this.Frame.Navigate(typeof(EmployeesPage));
@@ -230,7 +236,8 @@ namespace UI
 
             EditNameTextBox.Text = currentlySelectedEmployee.Name;
             EditSalaryTextBox.Text = currentlySelectedEmployee.Salary.ToString();
-            EditEmailTextBox.Text = currentlySelectedEmployee.Email;
+            EditPhoneTextBox.Text = currentlySelectedEmployee.Phone;
+            EditPositionComboBox.SelectedValue = currentlySelectedEmployee.Position.ToString();
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
@@ -280,6 +287,55 @@ namespace UI
         {
             ClearButton.IsEnabled = false;
             this.Frame.Navigate(typeof(EmployeesPage));
+        }
+
+        private void ComboBox_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (NameTextBox.Text != string.Empty && SalaryTextBox.Text != string.Empty && PhoneTextBox.Text != string.Empty && PositionComboBox.SelectedValue != null)
+            {
+                decimal result = 0;
+
+                if (decimal.TryParse(SalaryTextBox.Text, out result))
+                {
+                    AddEmployee.IsEnabled = true;
+                }
+            }
+            else
+            {
+                AddEmployee.IsEnabled = false;
+            }
+        }
+
+        private void EditEmployeePropertyValuesField_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            Position position = (Position)Enum.Parse(typeof(Position), EditPositionComboBox.SelectedValue.ToString(), false);
+            Employee currentlySelectedEmployee = Service.AutoShopInstance.GetEmployeeByIndex(RegisteredEmployees.SelectedIndex);
+
+            if (EditNameTextBox.Text != string.Empty &&
+                EditSalaryTextBox.Text != string.Empty &&
+                EditPhoneTextBox.Text != string.Empty &&
+                 EditPositionComboBox.SelectedValue != null &&
+                    (EditNameTextBox.Text != currentlySelectedEmployee.Name ||
+                    EditSalaryTextBox.Text != currentlySelectedEmployee.Salary.ToString() ||
+                    EditPhoneTextBox.Text != currentlySelectedEmployee.Phone || 
+                    position != currentlySelectedEmployee.Position)
+               )
+            {
+                decimal result = 0;
+
+                if (decimal.TryParse(EditSalaryTextBox.Text, out result))
+                {
+                    SaveEmployee.IsEnabled = true;
+                }
+                else
+                {
+                    SaveEmployee.IsEnabled = false;
+                }
+            }
+            else
+            {
+                SaveEmployee.IsEnabled = false;
+            }
         }
     }
 }

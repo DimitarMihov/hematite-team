@@ -117,7 +117,7 @@
                             <TextBlock Style="{StaticResource AddPopupField}">Name</TextBlock>
                             <TextBlock Style="{StaticResource AddPopupField}">Salary</TextBlock>
                             <TextBlock Style="{StaticResource AddPopupField}">Phone</TextBlock>
-
+                            <TextBlock Style="{StaticResource AddPopupField}">Position</TextBlock>
                         </StackPanel>
 
                         <StackPanel Name="AddEmployeePropertyValues"                            
@@ -131,6 +131,13 @@
 
                             <TextBox Name="PhoneTextBox"
                                      TextChanged="AddEmployeePropertyValuesField_TextChanged"/>
+
+                            <ComboBox x:Name="PositionComboBox" SelectionChanged="ComboBox_SelectionChanged">
+                                <x:String>Manager</x:String>
+                                <x:String>JunorMechanic</x:String>
+                                <x:String>SeniorMechanic</x:String>
+                                <x:String>Accountant</x:String>
+                            </ComboBox>
 
                         </StackPanel>
                     </Grid>
@@ -213,7 +220,8 @@
 
                             <TextBlock Style="{StaticResource AddPopupField}">Name</TextBlock>
                             <TextBlock Style="{StaticResource AddPopupField}">Salary</TextBlock>
-                            <TextBlock Style="{StaticResource AddPopupField}">Email</TextBlock>
+                            <TextBlock Style="{StaticResource AddPopupField}">Phone</TextBlock>
+                            <TextBlock Style="{StaticResource AddPopupField}">Position</TextBlock>
 
                         </StackPanel>
 
@@ -227,8 +235,14 @@
                             <TextBox Name="EditSalaryTextBox"
                                      TextChanged="EditEmployeePropertyValuesField_TextChanged"/>
 
-                            <TextBox Name="EditEmailTextBox"
+                            <TextBox Name="EditPhoneTextBox"
                                      TextChanged="EditEmployeePropertyValuesField_TextChanged"/>
+                            <ComboBox x:Name="EditPositionComboBox" SelectionChanged="EditEmployeePropertyValuesField_SelectionChanged">
+                                <x:String>Manager</x:String>
+                                <x:String>JunorMechanic</x:String>
+                                <x:String>SeniorMechanic</x:String>
+                                <x:String>Accountant</x:String>
+                            </ComboBox>
 
                         </StackPanel>
                     </Grid>
