@@ -26,12 +26,15 @@
 
         public List<Repair> Repairs { get; private set; }
 
-        public Vehicle(string manufacturer, string model, int year, string registrationNumber)
+        public Vehicle(string manufacturer, string model, int year, string registrationNumber, FuelType fuelType, Gearbox gearbox, Status status)
         {
             this.Manufacturer = manufacturer;
             this.Model = model;
             this.Year = year;
             this.RegistrationNumber = registrationNumber;
+            this.FuelType = fuelType;
+            this.Gearbox = gearbox;
+            this.Status = status;
             this.Repairs = new List<Repair>();
         }
 

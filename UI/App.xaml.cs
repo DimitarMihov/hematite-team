@@ -141,9 +141,9 @@ namespace UI
             Address employee2Address = new Address("Sofia", "2000", "j.k. Lulin", "ul. Todor Kableshkov", 24, "no comment");
 
             Service.AutoShopInstance.AddEmployee(new Employee(
-                "Marin Ivanov", employee1Address, "0883442233", "coco@ABV.BG", "no comment", 500, Position.Accountant, 2));
+                "Marin Ivanov", employee1Address, "0883442233", "coco@ABV.BG", "no comment", 500, Position.Accountant));
             Service.AutoShopInstance.AddEmployee(new Employee(
-                "Kiril Manolov", employee2Address, "0883212233", "kkks@ABV.BG", "no comment", 300, Position.JunorMechanic, 2));
+                "Kiril Manolov", employee2Address, "0883212233", "kkks@ABV.BG", "no comment", 300, Position.JunorMechanic));
         }
 
         public async static void LoadServiceInformation()

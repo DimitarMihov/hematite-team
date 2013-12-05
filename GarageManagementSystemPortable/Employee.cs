@@ -27,30 +27,27 @@
         }
 
         public Position Position { get; set; }
-        public int Rank { get; set; }
-
-        public Employee(string phone, decimal salary, Position position, int rank)
+    
+        public Employee(string phone, decimal salary, Position position)
             : base(phone)
         {
             this.Salary = salary;
             this.Position = position;
-            this.Rank = rank;
         }
 
-        public Employee(string name, decimal salary, string phone)
+        public Employee(string name, decimal salary, string phone, Position position)
         {
             this.Name = name;
             this.Salary = salary;
             this.Phone = phone;
-            this.Position = Position.JunorMechanic;
+            this.Position = position;
         }
 
-        public Employee(string name, Address address, string phone, string email, string comment, decimal salary, Position position, int rank)
+        public Employee(string name, Address address, string phone, string email, string comment, decimal salary, Position position)
             : base(name, address, phone, email, comment)
         {
             this.Salary = salary;
             this.Position = position;
-            this.Rank = rank;
         }
 
         public Employee() { }

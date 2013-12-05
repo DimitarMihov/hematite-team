@@ -146,7 +146,11 @@ namespace UI
 
         private void AddCar_Click(object sender, RoutedEventArgs e)
         {
-            Service.AutoShopInstance.AddVehicle(new Vehicle(ManufacuturerTextBox.Text, ModelTextBox.Text, int.Parse(YearTextBox.Text), RegNumberTextBox.Text));
+            FuelType fuelType = (FuelType)Enum.Parse(typeof(FuelType), FuelTypeComboBox.SelectedValue.ToString(), false);
+            Gearbox gearbox = (Gearbox)Enum.Parse(typeof(Gearbox), GearBoxComboBox.SelectedValue.ToString(), false);
+            Status status = (Status)Enum.Parse(typeof(Status), StatusComboBox.SelectedValue.ToString(), false);
+           
+            Service.AutoShopInstance.AddVehicle(new Vehicle(ManufacuturerTextBox.Text, ModelTextBox.Text, int.Parse(YearTextBox.Text), RegNumberTextBox.Text, fuelType, gearbox, status));
             App.SaveServiceInformation();
             this.Frame.Navigate(typeof(CarsPage));
         }
@@ -158,7 +162,9 @@ namespace UI
 
         private void AddCarPropertyValuesField_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (ManufacuturerTextBox.Text != string.Empty && ModelTextBox.Text != string.Empty && YearTextBox.Text != string.Empty && RegNumberTextBox.Text != string.Empty)
+            if (ManufacuturerTextBox.Text != string.Empty && ModelTextBox.Text != string.Empty
+               && YearTextBox.Text != string.Empty && RegNumberTextBox.Text != string.Empty
+               && FuelTypeComboBox.SelectedValue != null && GearBoxComboBox.SelectedValue != null && StatusComboBox.SelectedValue != null)
             {
                 int result = 0;
 
@@ -175,16 +181,24 @@ namespace UI
 
         private void EditCarPropertyValuesField_TextChanged(object sender, TextChangedEventArgs e)
         {
+            FuelType fuelType = (FuelType)Enum.Parse(typeof(FuelType), EditFuelTypeComboBox.SelectedValue.ToString(), false);
+            Gearbox gearbox = (Gearbox)Enum.Parse(typeof(Gearbox), EditGearBoxComboBox.SelectedValue.ToString(), false);
+            Status status = (Status)Enum.Parse(typeof(Status), EditStatusComboBox.SelectedValue.ToString(), false);
+
             Vehicle currentlySelectedCar = Service.AutoShopInstance.GetVehicleByIndex(RegisteredCars.SelectedIndex);
 
             if (EditManufacuturerTextBox.Text != string.Empty && 
                 EditModelTextBox.Text != string.Empty &&
                 EditYearTextBox.Text != string.Empty &&
                 EditRegNumberTextBox.Text != string.Empty &&
+                 EditFuelTypeComboBox.SelectedValue != null && EditGearBoxComboBox.SelectedValue != null && EditStatusComboBox.SelectedValue != null &&
                     (EditManufacuturerTextBox.Text != currentlySelectedCar.Manufacturer || 
                     EditModelTextBox.Text != currentlySelectedCar.Model || 
                     EditYearTextBox.Text != currentlySelectedCar.Year.ToString() || 
-                    EditRegNumberTextBox.Text != currentlySelectedCar.RegistrationNumber)
+                    EditRegNumberTextBox.Text != currentlySelectedCar.RegistrationNumber ||
+                    fuelType != currentlySelectedCar.FuelType ||
+                    gearbox != currentlySelectedCar.Gearbox ||
+                    status != currentlySelectedCar.Status)
                )
             {
                 int result = 0;
@@ -206,12 +220,20 @@ namespace UI
 
         private void SaveCar_Click(object sender, RoutedEventArgs e)
         {
+            FuelType fuelType = (FuelType)Enum.Parse(typeof(FuelType), EditFuelTypeComboBox.SelectedValue.ToString(), false);
+            Gearbox gearbox = (Gearbox)Enum.Parse(typeof(Gearbox), EditGearBoxComboBox.SelectedValue.ToString(), false);
+            Status status = (Status)Enum.Parse(typeof(Status), EditStatusComboBox.SelectedValue.ToString(), false);
+
             Vehicle vehicleToEdit = Service.AutoShopInstance.GetVehicleByIndex(RegisteredCars.SelectedIndex);
 
             vehicleToEdit.Manufacturer = EditManufacuturerTextBox.Text;
             vehicleToEdit.Model = EditModelTextBox.Text;
             vehicleToEdit.Year = int.Parse(EditYearTextBox.Text);
             vehicleToEdit.RegistrationNumber = EditRegNumberTextBox.Text;
+            vehicleToEdit.FuelType = fuelType;
+            vehicleToEdit.Gearbox = gearbox;
+            vehicleToEdit.Status = status;
+
             App.SaveServiceInformation();
             
             this.Frame.Navigate(typeof(CarsPage));
@@ -230,6 +252,9 @@ namespace UI
             EditModelTextBox.Text = currentlySelectedCar.Model;
             EditYearTextBox.Text = currentlySelectedCar.Year.ToString();
             EditRegNumberTextBox.Text = currentlySelectedCar.RegistrationNumber;
+            EditFuelTypeComboBox.SelectedItem = currentlySelectedCar.FuelType.ToString();
+            EditGearBoxComboBox.SelectedItem = currentlySelectedCar.Gearbox.ToString();
+            EditStatusComboBox.SelectedItem = currentlySelectedCar.Status.ToString();
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
@@ -284,6 +309,69 @@ namespace UI
         {
             ClearButton.IsEnabled = false;
             this.Frame.Navigate(typeof(CarsPage));
+        }
+
+        private void ComboBox_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (ManufacuturerTextBox.Text != string.Empty && ModelTextBox.Text != string.Empty 
+                && YearTextBox.Text != string.Empty && RegNumberTextBox.Text != string.Empty
+                && FuelTypeComboBox.SelectedValue != null && GearBoxComboBox.SelectedValue != null && StatusComboBox.SelectedValue != null)
+            {
+                int result = 0;
+
+                if (Int32.TryParse(YearTextBox.Text, out result))
+                {
+                    AddCar.IsEnabled = true;
+                }
+            }
+            else
+            {
+                AddCar.IsEnabled = false;
+            }
+        }
+
+        private void EditCarPropertyValuesField_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (EditGearBoxComboBox.SelectedValue == null || EditStatusComboBox.SelectedValue == null)
+            {
+                return;
+            }
+        
+            FuelType fuelType = (FuelType)Enum.Parse(typeof(FuelType), EditFuelTypeComboBox.SelectedValue.ToString(), false);
+            Gearbox gearbox = (Gearbox)Enum.Parse(typeof(Gearbox), EditGearBoxComboBox.SelectedValue.ToString(), false);
+            Status status = (Status)Enum.Parse(typeof(Status), EditStatusComboBox.SelectedValue.ToString(), false);
+
+            Vehicle currentlySelectedCar = Service.AutoShopInstance.GetVehicleByIndex(RegisteredCars.SelectedIndex);
+
+            if (EditManufacuturerTextBox.Text != string.Empty &&
+                EditModelTextBox.Text != string.Empty &&
+                EditYearTextBox.Text != string.Empty &&
+                EditRegNumberTextBox.Text != string.Empty &&
+                 EditFuelTypeComboBox.SelectedValue != null && EditGearBoxComboBox.SelectedValue != null && EditStatusComboBox.SelectedValue != null &&
+                    (EditManufacuturerTextBox.Text != currentlySelectedCar.Manufacturer ||
+                    EditModelTextBox.Text != currentlySelectedCar.Model ||
+                    EditYearTextBox.Text != currentlySelectedCar.Year.ToString() ||
+                    EditRegNumberTextBox.Text != currentlySelectedCar.RegistrationNumber ||
+                    fuelType != currentlySelectedCar.FuelType ||
+                    gearbox != currentlySelectedCar.Gearbox ||
+                    status != currentlySelectedCar.Status)
+               )
+            {
+                int result = 0;
+
+                if (Int32.TryParse(EditYearTextBox.Text, out result))
+                {
+                    SaveCar.IsEnabled = true;
+                }
+                else
+                {
+                    SaveCar.IsEnabled = false;
+                }
+            }
+            else
+            {
+                SaveCar.IsEnabled = false;
+            }
         }
     }
 }
