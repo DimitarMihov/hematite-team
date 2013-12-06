@@ -56,7 +56,7 @@ namespace UI
             if (RegisteredCars.SelectedValue != null)
             {
                 DeleteCarConfirmationPopup.IsOpen = true;
-            }            
+            }
         }
 
         private void RegisteredCars_Loaded(object sender, RoutedEventArgs e)
@@ -123,7 +123,7 @@ namespace UI
                     propertyValue.Text = value;
                     propertyValueGrid.Children.Add(propertyValue);
                 }
-            }            
+            }
         }
 
         private void DeleteCar_Click(object sender, RoutedEventArgs e)
@@ -149,8 +149,13 @@ namespace UI
             FuelType fuelType = (FuelType)Enum.Parse(typeof(FuelType), FuelTypeComboBox.SelectedValue.ToString(), false);
             Gearbox gearbox = (Gearbox)Enum.Parse(typeof(Gearbox), GearBoxComboBox.SelectedValue.ToString(), false);
             Status status = (Status)Enum.Parse(typeof(Status), StatusComboBox.SelectedValue.ToString(), false);
-           
-            Service.AutoShopInstance.AddVehicle(new Vehicle(ManufacuturerTextBox.Text, ModelTextBox.Text, int.Parse(YearTextBox.Text), RegNumberTextBox.Text, fuelType, gearbox, status));
+            Vehicle newVehicle = new Vehicle(ManufacuturerTextBox.Text, ModelTextBox.Text, int.Parse(YearTextBox.Text), RegNumberTextBox.Text, fuelType, gearbox, status);
+
+            Service.AutoShopInstance.AddVehicle(newVehicle);
+            if (status.ToString() == "Completed")
+            {
+                SendEmail(newVehicle);
+            }
             App.SaveServiceInformation();
             this.Frame.Navigate(typeof(CarsPage));
         }
@@ -187,14 +192,14 @@ namespace UI
 
             Vehicle currentlySelectedCar = Service.AutoShopInstance.GetVehicleByIndex(RegisteredCars.SelectedIndex);
 
-            if (EditManufacuturerTextBox.Text != string.Empty && 
+            if (EditManufacuturerTextBox.Text != string.Empty &&
                 EditModelTextBox.Text != string.Empty &&
                 EditYearTextBox.Text != string.Empty &&
                 EditRegNumberTextBox.Text != string.Empty &&
                  EditFuelTypeComboBox.SelectedValue != null && EditGearBoxComboBox.SelectedValue != null && EditStatusComboBox.SelectedValue != null &&
-                    (EditManufacuturerTextBox.Text != currentlySelectedCar.Manufacturer || 
-                    EditModelTextBox.Text != currentlySelectedCar.Model || 
-                    EditYearTextBox.Text != currentlySelectedCar.Year.ToString() || 
+                    (EditManufacuturerTextBox.Text != currentlySelectedCar.Manufacturer ||
+                    EditModelTextBox.Text != currentlySelectedCar.Model ||
+                    EditYearTextBox.Text != currentlySelectedCar.Year.ToString() ||
                     EditRegNumberTextBox.Text != currentlySelectedCar.RegistrationNumber ||
                     fuelType != currentlySelectedCar.FuelType ||
                     gearbox != currentlySelectedCar.Gearbox ||
@@ -234,8 +239,13 @@ namespace UI
             vehicleToEdit.Gearbox = gearbox;
             vehicleToEdit.Status = status;
 
+            if (status.ToString() == "Completed")
+            {
+                SendEmail(vehicleToEdit);
+            }
+
             App.SaveServiceInformation();
-            
+
             this.Frame.Navigate(typeof(CarsPage));
         }
 
@@ -262,7 +272,7 @@ namespace UI
             if (RegisteredCars.SelectedItems.Count != 0)
             {
                 EditCarDialog.IsOpen = true;
-            }            
+            }
         }
 
         private void homeButton_Click(object sender, RoutedEventArgs e)
@@ -313,7 +323,7 @@ namespace UI
 
         private void ComboBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            if (ManufacuturerTextBox.Text != string.Empty && ModelTextBox.Text != string.Empty 
+            if (ManufacuturerTextBox.Text != string.Empty && ModelTextBox.Text != string.Empty
                 && YearTextBox.Text != string.Empty && RegNumberTextBox.Text != string.Empty
                 && FuelTypeComboBox.SelectedValue != null && GearBoxComboBox.SelectedValue != null && StatusComboBox.SelectedValue != null)
             {
@@ -336,7 +346,7 @@ namespace UI
             {
                 return;
             }
-        
+
             FuelType fuelType = (FuelType)Enum.Parse(typeof(FuelType), EditFuelTypeComboBox.SelectedValue.ToString(), false);
             Gearbox gearbox = (Gearbox)Enum.Parse(typeof(Gearbox), EditGearBoxComboBox.SelectedValue.ToString(), false);
             Status status = (Status)Enum.Parse(typeof(Status), EditStatusComboBox.SelectedValue.ToString(), false);
@@ -372,6 +382,16 @@ namespace UI
             {
                 SaveCar.IsEnabled = false;
             }
+        }
+
+        private async void SendEmail(Vehicle vehicle)
+        {
+            // TODO: Add option to add owner for the car (name and email)
+            string sendTo = "nikolay.kirilov.radkov@gmail.com"; // TODO: Get the email from the owner after implement it
+            string subject = "Car is fully repaired"; // TODO: Change this if you want
+            string body = string.Format("Dear Mr./Mrs., {0}%0d%0AWe inform you that your car {1} is completely repaired and you can take it whenever you want.%0d%0ABest wishes,%0d%0AService \"The CARS\"", "Pesho", vehicle.Manufacturer + " " + vehicle.Model);
+            var mailto = new Uri(string.Format("mailto:?to={0}&subject={1}&body={2}.", sendTo, subject, body));
+            await Windows.System.Launcher.LaunchUriAsync(mailto);
         }
     }
 }
