@@ -7,13 +7,9 @@
 
     public abstract class Person : IContactable
     {
-        public Person() { }
-
-        public string Name { get; set; }
-        public Address Address { get; set; }
-        public string Phone { get; set; }
-        public string Email { get; set; }
-        public string Comment { get; set; }
+        public Person()
+        {
+        }
 
         protected Person(string phone)
         {
@@ -34,16 +30,15 @@
             this.Email = email;
         }
 
+        public string Name { get; set; }
 
-        public void SendSms()
-        {
-            // TODO: Implement the SendSms() method
-        }
+        public Address Address { get; set; }
 
-        public void SendEmail()
-        {
-            // TODO: Implement the SendEmail() method
-        }
+        public string Phone { get; set; }
+
+        public string Email { get; set; }
+
+        public string Comment { get; set; }
 
         public static string SaveOwnerInformation(Person owner)
         {
@@ -85,7 +80,6 @@
             return builder.ToString();
         }
 
-
         public static Owner LoadOwnerInformation(string[] lines, ref int index)
         {
             Owner owner = new Owner();
@@ -121,6 +115,16 @@
             index--;
 
             return owner;
+        }
+
+        public void SendSms()
+        {
+            // TODO: Implement the SendSms() method
+        }
+
+        public void SendEmail()
+        {
+            // TODO: Implement the SendEmail() method
         }
     }
 }

@@ -4,16 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    class Procedure : IPricable
+    public class Procedure : IPricable
     {
-        public string Description { get; set; }
-        public string Comment { get; set; }
-        public List<Part> Part { get; set; }
-        public List<Employee> EmployeeList { get; set; }
-        public DateTime DateTime { get; set; } 
-        public Status Status { get; set; }
-        public decimal Price { get; set; }
-
         public Procedure(string description, DateTime dateTime, List<Employee> employeeList, Status status, string comment, decimal price)
             : this(description, dateTime, employeeList, new List<Part>(), status, comment, price)
         {
@@ -29,6 +21,20 @@
             this.Status = status;
             this.Price = price;
         }
+
+        public string Description { get; set; }
+
+        public string Comment { get; set; }
+
+        public List<Part> Part { get; set; }
+
+        public List<Employee> EmployeeList { get; set; }
+
+        public DateTime DateTime { get; set; }
+
+        public Status Status { get; set; }
+
+        public decimal Price { get; set; }
 
         public decimal CalculateMargin()
         {

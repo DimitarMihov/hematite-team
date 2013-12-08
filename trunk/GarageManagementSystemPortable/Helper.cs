@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace GarageManagementSystem
+﻿namespace GarageManagementSystem
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class Helper
     {
         // TODO: Implement data validations and other auxiliary methods in the Helper class
@@ -12,7 +11,7 @@ namespace GarageManagementSystem
         {
             var filteredVehicles =
                 from vehicle in Service.AutoShopInstance.GetVehiclesList()
-                where String.Format("{0} {1} {2} {3}", vehicle.Manufacturer, vehicle.Model, vehicle.Year, vehicle.RegistrationNumber).ToLower().Contains(keyword.ToLower())
+                where string.Format("{0} {1} {2} {3}", vehicle.Manufacturer, vehicle.Model, vehicle.Year, vehicle.RegistrationNumber).ToLower().Contains(keyword.ToLower())
                 select vehicle;
 
             List<Vehicle> result = new List<Vehicle>();
@@ -29,7 +28,7 @@ namespace GarageManagementSystem
         {
             var filteredDistributors =
                 from distributor in Service.AutoShopInstance.GetDistributorsList()
-                where String.Format("{0} {1} {2}", distributor.Name, distributor.Phone, distributor.Email).ToLower().Contains(keyword.ToLower())
+                where string.Format("{0} {1} {2}", distributor.Name, distributor.Phone, distributor.Email).ToLower().Contains(keyword.ToLower())
                 select distributor;
 
             List<Distributor> result = new List<Distributor>();
@@ -46,7 +45,7 @@ namespace GarageManagementSystem
         {
             var filteredEmployees =
                 from Employee in Service.AutoShopInstance.GetEmployeesList()
-                where String.Format("{0} {1} {2}", Employee.Name, Employee.Salary, Employee.Email).ToLower().Contains(keyword.ToLower())
+                where string.Format("{0} {1} {2}", Employee.Name, Employee.Salary, Employee.Email).ToLower().Contains(keyword.ToLower())
                 select Employee;
 
             List<Employee> result = new List<Employee>();

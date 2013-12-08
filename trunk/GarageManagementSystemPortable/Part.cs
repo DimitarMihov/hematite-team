@@ -7,15 +7,6 @@
 
     public class Part : IPricable
     {
-        public long Id { get; set; }
-
-        public string Name { get; set; }
-
-        // This parts is approved for this List of Vehicle
-        public List<VehicleInformation> VehicleList { get; private set; }
-
-        public decimal Price { get; set; }
-
         public Part(long id, string name, decimal price)
         {
             this.Id = id;
@@ -30,12 +21,18 @@
             this.VehicleList = vehicleList;
         }
 
-        public Part() { }
-
-        public decimal CalculateMargin()
+        public Part()
         {
-            return this.Price;
         }
+
+        public long Id { get; set; }
+
+        public string Name { get; set; }
+
+        // This parts is approved for this List of Vehicle
+        public List<VehicleInformation> VehicleList { get; private set; }
+
+        public decimal Price { get; set; }
 
         public static string SavePartInformation(Part part)
         {
@@ -103,7 +100,7 @@
                 else
                 {
                     index++;
-                 
+
                     if (lines[index] != "-")
                     {
                         var currentPropertyType = property.PropertyType;
@@ -112,8 +109,13 @@
                     }
                 }
             }
-            
+
             return part;
+        }
+
+        public decimal CalculateMargin()
+        {
+            return this.Price;
         }
     }
 }

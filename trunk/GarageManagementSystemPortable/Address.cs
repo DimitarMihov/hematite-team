@@ -7,12 +7,9 @@
 
     public class Address
     {
-        public string City { get; set; }
-        public string PostalCode { get; set; }
-        public string District { get; set; }
-        public string Street { get; set; }
-        public int? Number { get; set; }
-        public string Comment { get; set; }
+        public Address()
+        {
+        }
 
         public Address(string city, string street, int? number, string comment)
         {
@@ -29,7 +26,17 @@
             this.District = district;
         }
 
-        public Address() { }
+        public string City { get; set; }
+
+        public string PostalCode { get; set; }
+
+        public string District { get; set; }
+
+        public string Street { get; set; }
+
+        public int? Number { get; set; }
+
+        public string Comment { get; set; }
 
         public static string SaveAddressInformation(Address address)
         {
@@ -55,7 +62,6 @@
             return builder.ToString();
         }
 
-
         public static Address LoadAddressInformation(string[] lines, ref int index)
         {
             Address address = new Address();
@@ -78,6 +84,7 @@
                     property.SetValue(address, safeValue, null);
                 }
             }
+
             index--;
 
             return address;

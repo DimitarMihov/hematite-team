@@ -1,10 +1,10 @@
-﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Windows.UI.Xaml.Data;
-
-namespace UI.Common
+﻿namespace UI.Common
 {
+    using System;
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+    using Windows.UI.Xaml.Data;
+
     /// <summary>
     /// Implementation of <see cref="INotifyPropertyChanged"/> to simplify models.
     /// </summary>
@@ -28,9 +28,12 @@ namespace UI.Common
         /// support CallerMemberName.</param>
         /// <returns>True if the value was changed, false if the existing value matched the
         /// desired value.</returns>
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] String propertyName = null)
+        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {
-            if (object.Equals(storage, value)) return false;
+            if (object.Equals(storage, value))
+            {
+                return false;
+            }
 
             storage = value;
             this.OnPropertyChanged(propertyName);
