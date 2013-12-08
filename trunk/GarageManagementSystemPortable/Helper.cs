@@ -44,15 +44,32 @@
         public static List<Employee> SearchForEmployees(string keyword)
         {
             var filteredEmployees =
-                from Employee in Service.AutoShopInstance.GetEmployeesList()
-                where string.Format("{0} {1} {2}", Employee.Name, Employee.Salary, Employee.Email).ToLower().Contains(keyword.ToLower())
-                select Employee;
+                from employee in Service.AutoShopInstance.GetEmployeesList()
+                where string.Format("{0} {1} {2}", employee.Name, employee.Salary, employee.Email).ToLower().Contains(keyword.ToLower())
+                select employee;
 
             List<Employee> result = new List<Employee>();
 
             foreach (var employee in filteredEmployees)
             {
                 result.Add(employee as Employee);
+            }
+
+            return result;
+        }
+
+        public static List<Repair> SearchForRepairs(string keyword, Vehicle vehicle)
+        {
+            var repairs =
+                from repair in vehicle.Repairs
+                where string.Format("{0} {1}", repair.Caption, repair.Guarantee).ToLower().Contains(keyword.ToLower())
+                select repair;
+
+            List<Repair> result = new List<Repair>();
+
+            foreach (var repair in repairs)
+            {
+                result.Add(repair as Repair);
             }
 
             return result;
