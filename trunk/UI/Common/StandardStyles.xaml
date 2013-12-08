@@ -142,7 +142,7 @@
     </Style>
 
     <!-- Button styles -->
-    
+
     <!--
         TextButtonStyle is used to style a Button using subheader-styled text with no other adornment.  There
         are two styles that are based on TextButtonStyle (TextPrimaryButtonStyle and TextSecondaryButtonStyle)
@@ -405,7 +405,11 @@
         An AppBarButton Style is provided for each of the glyphs in the Segoe UI Symbol font.  
         Uncomment any style you reference (as not all may be required).
     -->
-    
+    <Style x:Key="BackAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
+        <Setter Property="AutomationProperties.AutomationId" Value="BackAppBarButton"/>
+        <Setter Property="AutomationProperties.Name" Value="Back"/>
+        <Setter Property="Content" Value="&#xE112;"/>
+    </Style>
     <Style x:Key="SkipBackAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
         <Setter Property="AutomationProperties.AutomationId" Value="SkipBackAppBarButton"/>
         <Setter Property="AutomationProperties.Name" Value="Skip Back"/>

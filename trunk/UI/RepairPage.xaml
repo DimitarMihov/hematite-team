@@ -30,11 +30,11 @@
                         Orientation="Horizontal"
                         VerticalAlignment="Center">
 
-                <Button x:Name="homeButton" 
-                        Click="homeButton_Click" 
-                        IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" 
-                        Style="{StaticResource HomeAppBarButtonStyle}" 
-                        Height="103" />
+                <Button x:Name="BackButton_Copy"
+                	    IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" 
+                	    Style="{StaticResource BackAppBarButtonStyle}" 
+                	    Width="99"
+                	    Click="BackButton_Click"/>
 
                 <Button x:Name="AddButton"
                         IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" 
@@ -66,8 +66,8 @@
                        Style="{StaticResource PageHeaderTextStyle}"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Right"/>
-        </Grid>     
-        
+        </Grid>
+
         <StackPanel Grid.Row="1" 
                     Orientation="Horizontal" 
                     Margin="10 0 0 0">
@@ -76,14 +76,14 @@
                      Loaded="RegisteredRepairs_Loaded"
                      Width="356" 
                      SelectionChanged="RegisteredRepairs_SelectionChanged"/>
-           
+
             <StackPanel Name="SelectedRepairDetails"
                         Background="Black"
                         Margin="10 3 0 0"
-                        Width="1000">        
-                              
+                        Width="1000">
+
             </StackPanel>
-            
+
         </StackPanel>
 
         <Popup x:Name = "AddRepairDialog"
@@ -96,11 +96,11 @@
                            Width="500" 
                            Height="200"
                            >
-                
+
                 <StackPanel HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Width="434">
-                    
+
                     <Grid Name="AddRepairFields">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -120,14 +120,14 @@
 
                             <TextBox Name="CaptionTextBox"
                                      TextChanged="AddRepairPropertyValuesField_TextChanged"/>
-                            
+
                             <TextBox Name="GuaranteeTextBox"
                                      TextChanged="AddRepairPropertyValuesField_TextChanged"/>
-   
-                            
+
+
                         </StackPanel>
                     </Grid>
-                    
+
                     <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
@@ -170,7 +170,7 @@
 
                         <StackPanel Name="EditRepairPropetyNames" 
                                     Grid.Column="0">
-                            
+
                             <TextBlock Style="{StaticResource AddPopupField}">Caption</TextBlock>
                             <TextBlock Style="{StaticResource AddPopupField}">Guarantee</TextBlock>
 
