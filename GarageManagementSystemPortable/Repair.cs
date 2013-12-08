@@ -8,35 +8,28 @@
 
     public class Repair : IPricable
     {
-        public string Caption { get; set; }
-        public int Guarantee { get; set; }
-        public List<Part> ExchangedParts { get; set; }
-        public DateTime Date { get; set; }
-        public decimal Price { get; set; }
-
         public Repair(string caption, int guarantee, List<Part> exchangedParts, DateTime date)
         {
             this.Caption = caption;
             this.Guarantee = guarantee;
             this.ExchangedParts = exchangedParts;
             this.Date = date;
-            this.Price = CalculateMargin();
+            this.Price = this.CalculateMargin();
         }
 
-        public Repair() { }
-
-        public decimal CalculateMargin()
+        public Repair()
         {
-            decimal sum = 0.0m;
-            foreach (var part in ExchangedParts)
-            {
-                sum += part.Price;
-            }
-
-            sum += 10; // 10 levs for work
-
-            return sum;
         }
+
+        public string Caption { get; set; }
+
+        public int Guarantee { get; set; }
+
+        public List<Part> ExchangedParts { get; set; }
+
+        public DateTime Date { get; set; }
+
+        public decimal Price { get; set; }
 
         public static string SaveRepairInformation(Repair repair)
         {
@@ -115,6 +108,19 @@
             }
 
             return repair;
+        }
+
+        public decimal CalculateMargin()
+        {
+            decimal sum = 0.0m;
+            foreach (var part in this.ExchangedParts)
+            {
+                sum += part.Price;
+            }
+
+            sum += 10; // 10 levs for work
+
+            return sum;
         }
     }
 }

@@ -9,26 +9,7 @@
     {
         private decimal salary;
 
-        public decimal Salary
-        {
-            get
-            {
-                return this.salary;
-            }
-            set
-            {
-                if (value <= 0.0m)
-                {
-                    throw new InvalidSalaryException("Salary cannot be negative!");
-                }
-
-                this.salary = value;
-            }
-        }
-
-        public Position Position { get; set; }
-    
-        public Employee(string phone, decimal salary, Position position)
+                public Employee(string phone, decimal salary, Position position)
             : base(phone)
         {
             this.Salary = salary;
@@ -50,7 +31,30 @@
             this.Position = position;
         }
 
-        public Employee() { }
+        public Employee()
+        {
+        }
+
+        public decimal Salary
+        {
+            get
+            {
+                return this.salary;
+            }
+
+            set
+            {
+                if (value <= 0.0m)
+                {
+                    throw new InvalidSalaryException("Salary cannot be negative!");
+                }
+
+                this.salary = value;
+            }
+        }
+
+        public Position Position { get; set; }
+
         public static string SaveEmployeeInformation(Employee employee)
         {
             StringBuilder builder = new StringBuilder();

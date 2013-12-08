@@ -22,7 +22,9 @@
             this.Parts = parts;
         }
 
-        public Distributor() { }
+        public Distributor() 
+        {
+        }
 
         public List<Part> Parts { get; set; }
 

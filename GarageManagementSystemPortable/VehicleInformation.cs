@@ -1,19 +1,12 @@
 ﻿namespace GarageManagementSystem
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Text;
 
     public class VehicleInformation
     {
-        public string Manufacturer { get; set; }
-        public string Model { get; set; }
-        public int? Year { get; set; }
-        public FuelType FuelType { get; set; }
-        public Gearbox Gearbox { get; set; }
-
         public VehicleInformation(string manufacturer, string model, int? year, FuelType fuelType, Gearbox gearbox)
         {
             this.Manufacturer = manufacturer;
@@ -23,7 +16,19 @@
             this.Gearbox = gearbox;
         }
 
-        public VehicleInformation() { }
+        public VehicleInformation()
+        { 
+        }
+
+        public string Manufacturer { get; set; }
+
+        public string Model { get; set; }
+
+        public int? Year { get; set; }
+
+        public FuelType FuelType { get; set; }
+
+        public Gearbox Gearbox { get; set; }
 
         public static string SaveVehicleListInformation(VehicleInformation vehicle)
         {
