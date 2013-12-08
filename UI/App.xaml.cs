@@ -112,10 +112,10 @@ namespace UI
 
             // Repairs
             List<Repair> repairsCar1 = new List<Repair>();
-            repairsCar1.Add(new Repair("Change wheels", 48, parts, DateTime.Now));
+            repairsCar1.Add(new Repair("Change wheels", 48, parts));
 
             List<Repair> repairsCar2 = new List<Repair>();
-            repairsCar2.Add(new Repair("Change front wheels", 48, parts, DateTime.Now));
+            repairsCar2.Add(new Repair("Change front wheels", 48, parts));
 
             // Vehicles
             Service.AutoShopInstance.AddVehicle(new Vehicle("Peugeot", "106", 1999, 80, 30000,
