@@ -225,9 +225,10 @@ namespace UI
             }
         }
 
-        private void homeButton_Click(object sender, RoutedEventArgs e)
+        private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(MainMenu));
+            //this.Frame.Navigate(typeof(MainMenu));
+            this.Frame.Navigate(typeof(CarsPage));
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
