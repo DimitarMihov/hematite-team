@@ -105,9 +105,11 @@ namespace UI
                     var propertyNameBlock = new TextBlock();
                     propertyNameBlock.Text = "Repairs";
                     propertyNameGrid.Children.Add(propertyNameBlock);
-
+              
                     HyperlinkButton hb = new HyperlinkButton();
-                    hb.Content = "Go to Repairs";
+                    dynamic list = property.GetValue(selectedCar);
+                    List<Repair> repairs = list as List<Repair>;
+                    hb.Content = repairs.Count().ToString();
                     hb.Click += HyperlinkButton_Click;
 
                     propertyValueGrid.Children.Add(hb);
