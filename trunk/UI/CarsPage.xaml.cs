@@ -99,6 +99,11 @@ namespace UI
                 var propertyValueGrid = new Grid();
                 propertyStack.Children.Add(propertyValueGrid);
 
+                if (property.Name == "Repairs")
+                {
+                    
+                }
+
                 if (property.GetValue(selectedCar) != null)
                 {
                     var propertyNameBlock = new TextBlock();
@@ -388,8 +393,8 @@ namespace UI
         {
             // TODO: Add option to add owner for the car (name and email)
             string sendTo = "nikolay.kirilov.radkov@gmail.com"; // TODO: Get the email from the owner after implement it
-            string subject = "Car is fully repaired"; // TODO: Change this if you want
-            string body = string.Format("Dear Mr./Mrs., {0}%0d%0AWe inform you that your car {1} is completely repaired and you can take it whenever you want.%0d%0ABest wishes,%0d%0AService \"The CARS\"", "Pesho", vehicle.Manufacturer + " " + vehicle.Model);
+            string subject = "Car is fully repaired"; 
+            string body = string.Format("Dear Mr./Mrs., {0}%0d%0AWe inform you that your car {1} is completely repaired and you can take it whenever you want.%0d%0ABest wishes,%0d%0AService \"The CARS\"", "Pesho", vehicle.Manufacturer + " " + vehicle.Model + " " + vehicle.RegistrationNumber);
             var mailto = new Uri(string.Format("mailto:?to={0}&subject={1}&body={2}.", sendTo, subject, body));
             await Windows.System.Launcher.LaunchUriAsync(mailto);
         }
