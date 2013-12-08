@@ -8,12 +8,12 @@
 
     public class Repair : IPricable
     {
-        public Repair(string caption, int guarantee, List<Part> exchangedParts, DateTime date)
+        public Repair(string caption, int guarantee, List<Part> exchangedParts)
         {
             this.Caption = caption;
             this.Guarantee = guarantee;
             this.ExchangedParts = exchangedParts;
-            this.Date = date;
+            this.Date = DateTime.Now;
             this.Price = this.CalculateMargin();
         }
 

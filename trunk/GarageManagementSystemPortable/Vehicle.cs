@@ -11,6 +11,21 @@
     {
         static long nextId;
 
+        public long Id { get; private set; }
+
+        public string Color { get; set; }
+        public int? HorsePower { get; set; }
+        public int? Mileage { get; set; }
+        public Status Status { get; set; }
+        public string Comments { get; set; }
+
+        [DescriptionAttribute("Registration Number")]
+        public string RegistrationNumber { get; set; }
+
+        public Person Owner { get; set; }
+
+        public List<Repair> Repairs { get; set; }
+
         public Vehicle(string manufacturer, string model, int year, string registrationNumber, FuelType fuelType, Gearbox gearbox, Status status)
         {
             this.Manufacturer = manufacturer;
@@ -47,36 +62,66 @@
             this.Status = status;
         }
 
-        public Vehicle()
+        public Vehicle() { }
+
+        public override int GetHashCode()
         {
+            unchecked
+            {
+                int result = 17;
+                result = result * 23 + ((Manufacturer != null) ? this.Manufacturer.GetHashCode() : 0);
+                result = result * 23 + ((Model != null) ? this.Model.GetHashCode() : 0);
+                result = result * 23 + ((Year != null) ? this.Year.GetHashCode() : 0);
+                result = result * 23 + ((RegistrationNumber != null) ? this.RegistrationNumber.GetHashCode() : 0);
+                result = result * 23 + ((Owner != null) ? this.Owner.GetHashCode() : 0);
+                return result;
+            }
         }
-                
-        public long Id { get; private set; }
 
-        public string Color { get; set; }
+        public bool Equals(Vehicle value)
+        {
+            if (ReferenceEquals(null, value))
+            {
+                return false;
+            }
 
-        public int? HorsePower { get; set; }
+            if (ReferenceEquals(this, value))
+            {
+                return true;
+            }
 
-        public int? Mileage { get; set; }
+            return Equals(this.Manufacturer, value.Manufacturer) &&
+                   Equals(this.Model, value.Model) &&
+                   this.Year.Equals(value.Year) &&
+                   Equals(this.RegistrationNumber, value.RegistrationNumber) &&
+                   Equals(this.Owner, value.Owner);
+        }
 
-        public Status Status { get; set; }
+        public override bool Equals(object obj)
+        {
+            Vehicle temp = obj as Vehicle;
+            if (temp == null)
+            {
+                return false;
+            }
 
-        public string Comments { get; set; }
+            return this.Equals(temp);
+        }
 
-        [DescriptionAttribute("Registration Number")]
-        public string RegistrationNumber { get; set; }
+        public void AddRepair(Repair repair)
+        {
+            // TODO: check if this repair not exist yet
+            this.Repairs.Add(repair);
+        }
 
-        public Person Owner { get; set; }
-
-        public List<Repair> Repairs { get; private set; }
-
-                public static string SaveVehicleInformation(Vehicle vehicle)
+        public static string SaveVehicleInformation(Vehicle vehicle)
         {
             var assembly = Assembly.GetExecutingAssembly();
 
             StringBuilder builder = new StringBuilder();
 
             var userTypeProperties = assembly.GetType("GarageManagementSystem.Vehicle").GetProperties();
+
 
             foreach (var property in userTypeProperties)
             {
@@ -135,14 +180,14 @@
 
                 if (property.Name == "Owner")
                 {
-                    index++;
+                     index++;
 
-                    if (lines[index] != "-")
-                    {
-                        index++;
-                        Owner address = Person.LoadOwnerInformation(lines, ref index);
-                        property.SetValue(vehicle, address, null);
-                    }
+                     if (lines[index] != "-")
+                     {
+                         index++;
+                         Owner address = Person.LoadOwnerInformation(lines, ref index);
+                         property.SetValue(vehicle, address, null);
+                     }
                 }
                 else if (property.Name == "Status")
                 {
@@ -206,56 +251,6 @@
             }
 
             return vehicle;
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                int result = 17;
-                result = (result * 23) + ((this.Manufacturer != null) ? this.Manufacturer.GetHashCode() : 0);
-                result = (result * 23) + ((this.Model != null) ? this.Model.GetHashCode() : 0);
-                result = (result * 23) + ((this.Year != null) ? this.Year.GetHashCode() : 0);
-                result = (result * 23) + ((this.RegistrationNumber != null) ? this.RegistrationNumber.GetHashCode() : 0);
-                result = (result * 23) + ((this.Owner != null) ? this.Owner.GetHashCode() : 0);
-                return result;
-            }
-        }
-
-        public bool Equals(Vehicle value)
-        {
-            if (object.ReferenceEquals(null, value))
-            {
-                return false;
-            }
-
-            if (object.ReferenceEquals(this, value))
-            {
-                return true;
-            }
-
-            return object.Equals(this.Manufacturer, value.Manufacturer) &&
-                   object.Equals(this.Model, value.Model) &&
-                   this.Year.Equals(value.Year) &&
-                   object.Equals(this.RegistrationNumber, value.RegistrationNumber) &&
-                   object.Equals(this.Owner, value.Owner);
-        }
-
-        public override bool Equals(object obj)
-        {
-            Vehicle temp = obj as Vehicle;
-            if (temp == null)
-            {
-                return false;
-            }
-
-            return this.Equals(temp);
-        }
-
-        public void AddRepair(Repair repair)
-        {
-            // TODO: check if this repair not exist yet
-            this.Repairs.Add(repair);
         }
     }
 }

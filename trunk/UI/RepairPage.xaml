@@ -11,7 +11,7 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <x:String x:Key="AppName">Cars</x:String>
+        <x:String x:Key="AppName">Repairs</x:String>
     </Page.Resources>
 
     <Grid Style="{StaticResource LayoutRootStyle}">
@@ -41,11 +41,6 @@
                         Style="{StaticResource AddAppBarButtonStyle}" 
                         Width="99"
                         Click="AddButton_Click"/>
-
-                <Button x:Name="DeleteButton"
-                        Style="{StaticResource DeleteAppBarButtonStyle}" 
-                        Width="99"
-                        Click="DeleteButton_Click"/>
 
                 <Button x:Name="EditButton"
                         Style="{StaticResource EditAppBarButtonStyle}" 
@@ -77,12 +72,12 @@
                     Orientation="Horizontal" 
                     Margin="10 0 0 0">
 
-            <ListBox x:Name="RegisteredCars"
-                     Loaded="RegisteredCars_Loaded"
+            <ListBox x:Name="RegisteredRepairs"
+                     Loaded="RegisteredRepairs_Loaded"
                      Width="356" 
-                     SelectionChanged="RegisteredCars_SelectionChanged"/>
+                     SelectionChanged="RegisteredRepairs_SelectionChanged"/>
            
-            <StackPanel Name="SelectedCarDetails"
+            <StackPanel Name="SelectedRepairDetails"
                         Background="Black"
                         Margin="10 3 0 0"
                         Width="1000">        
@@ -91,7 +86,7 @@
             
         </StackPanel>
 
-        <Popup x:Name = "AddCarDialog"
+        <Popup x:Name = "AddRepairDialog"
                HorizontalOffset="100"
                VerticalOffset="0" >
 
@@ -99,76 +94,37 @@
                            BorderThickness="2" 
                            Background="Black" 
                            Width="500" 
-                           Height="500"
+                           Height="200"
                            >
                 
                 <StackPanel HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Width="434">
                     
-                    <Grid Name="AddCarFields">
+                    <Grid Name="AddRepairFields">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel Name="AddCarPropetyNames" 
+                        <StackPanel Name="AddRepairPropetyNames" 
                                     Grid.Column="0">
 
-                            <TextBlock Style="{StaticResource AddPopupField}">Manufacuturer</TextBlock>
-                            <TextBlock Style="{StaticResource AddPopupField}">Model</TextBlock>
-                            <TextBlock Style="{StaticResource AddPopupField}">Year</TextBlock>
-                            <TextBlock Style="{StaticResource AddPopupField}">Registration Number</TextBlock>
-                            <TextBlock Style="{StaticResource AddPopupField}">Fuel Type</TextBlock>
-                            <TextBlock Style="{StaticResource AddPopupField}">Gearbox</TextBlock>
-                            <TextBlock Style="{StaticResource AddPopupField}">Status</TextBlock>
+                            <TextBlock Style="{StaticResource AddPopupField}">Caption</TextBlock>
+                            <TextBlock Style="{StaticResource AddPopupField}">Guarantee</TextBlock>
 
                         </StackPanel>
 
-                        <StackPanel Name="AddCarPropertyValues"                            
+                        <StackPanel Name="AddRepairPropertyValues"                            
                                     Grid.Column="1">
 
-                            <TextBox Name="ManufacuturerTextBox"
-                                     TextChanged="AddCarPropertyValuesField_TextChanged"/>
+                            <TextBox Name="CaptionTextBox"
+                                     TextChanged="AddRepairPropertyValuesField_TextChanged"/>
                             
-                            <TextBox Name="ModelTextBox"
-                                     TextChanged="AddCarPropertyValuesField_TextChanged"/>
+                            <TextBox Name="GuaranteeTextBox"
+                                     TextChanged="AddRepairPropertyValuesField_TextChanged"/>
+   
                             
-                            <TextBox Name="YearTextBox"
-                                     TextChanged="AddCarPropertyValuesField_TextChanged"/>
-                            
-                            <TextBox Name="RegNumberTextBox"
-                                     TextChanged="AddCarPropertyValuesField_TextChanged"/>
-
-                            <ComboBox x:Name="FuelTypeComboBox" SelectionChanged="ComboBox_SelectionChanged">
-                                <x:String>Petrol</x:String>
-                                <x:String>Diesel</x:String>
-                                <x:String>Electric</x:String>
-                                <x:String>Gas</x:String>
-                                <x:String>Lpg</x:String>
-                                <x:String>NaturalGas</x:String>
-                                <x:String>Ethanol</x:String>
-                                <x:String>Hybrid</x:String>
-                                <x:String>HybridPetrol</x:String>
-                                <x:String>HybridDiesel</x:String>
-                                <x:String>Other</x:String>
-                            </ComboBox>
-
-                            <ComboBox x:Name="GearBoxComboBox" SelectionChanged="ComboBox_SelectionChanged" Margin="0,10,0,0">
-                                <x:String>Automatic</x:String>
-                                <x:String>Manual</x:String>
-                                <x:String>SemiAutomatic</x:String>
-                            </ComboBox>
-
-                            <ComboBox x:Name="StatusComboBox" SelectionChanged="ComboBox_SelectionChanged" Margin="0,10,0,0">
-                                <x:String>New</x:String>
-                                <x:String>Accepted</x:String>
-                                <x:String>Rejected</x:String>
-                                <x:String>InProgress</x:String>
-                                <x:String>Completed</x:String>
-                                <x:String>Informational</x:String>
-                            </ComboBox>
-
                         </StackPanel>
                     </Grid>
                     
@@ -177,21 +133,21 @@
                                         VerticalAlignment="Center"
                                         Margin="0 10 0 0">
 
-                        <Button Name="AddCar"
-                                Content="Add Car"
+                        <Button Name="AddRepair"
+                                Content="Add Repair"
                                 IsEnabled="False"
-                                Click="AddCar_Click" />
+                                Click="AddRepair_Click" />
 
-                        <Button Name="CancelCarCreation"
+                        <Button Name="CancelRepairCreation"
                                         Content="Cancel"
-                                        Click="CancelCarCreation_Click"/>
+                                        Click="CancelRepairCreation_Click"/>
 
                     </StackPanel>
                 </StackPanel>
             </Border>
         </Popup>
 
-        <Popup x:Name = "EditCarDialog"
+        <Popup x:Name = "EditRepairDialog"
                HorizontalOffset="100"
                VerticalOffset="0" >
 
@@ -199,76 +155,37 @@
                            BorderThickness="2" 
                            Background="Black" 
                            Width="500" 
-                           Height="500"
+                           Height="200"
                            >
 
                 <StackPanel HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Width="434">
 
-                    <Grid Name="EditCarFields">
+                    <Grid Name="EditRepairFields">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel Name="EditCarPropetyNames" 
+                        <StackPanel Name="EditRepairPropetyNames" 
                                     Grid.Column="0">
-
-                            <TextBlock Style="{StaticResource AddPopupField}">Manufacuturer</TextBlock>
-                            <TextBlock Style="{StaticResource AddPopupField}">Model</TextBlock>
-                            <TextBlock Style="{StaticResource AddPopupField}">Year</TextBlock>
-                            <TextBlock Style="{StaticResource AddPopupField}">Registration Number</TextBlock>
-                            <TextBlock Style="{StaticResource AddPopupField}">Fuel Type</TextBlock>
-                            <TextBlock Style="{StaticResource AddPopupField}">Gearbox</TextBlock>
-                            <TextBlock Style="{StaticResource AddPopupField}">Status</TextBlock>
                             
+                            <TextBlock Style="{StaticResource AddPopupField}">Caption</TextBlock>
+                            <TextBlock Style="{StaticResource AddPopupField}">Guarantee</TextBlock>
+
                         </StackPanel>
 
-                        <StackPanel Name="EditCarPropertyValues"                            
+                        <StackPanel Name="EditRepairPropertyValues"                            
                                     Grid.Column="1"
-                                    Loaded="EditCarPropertyValues_Loaded">
+                                    Loaded="EditRepairPropertyValues_Loaded">
 
-                            <TextBox Name="EditManufacuturerTextBox"
-                                     TextChanged="EditCarPropertyValuesField_TextChanged"/>
+                            <TextBox Name="EditCaptionTextBox"
+                                     TextChanged="EditRepairPropertyValuesField_TextChanged"/>
 
-                            <TextBox Name="EditModelTextBox"
-                                     TextChanged="EditCarPropertyValuesField_TextChanged"/>
 
-                            <TextBox Name="EditYearTextBox"
-                                     TextChanged="EditCarPropertyValuesField_TextChanged"/>
-
-                            <TextBox Name="EditRegNumberTextBox"
-                                     TextChanged="EditCarPropertyValuesField_TextChanged"/>
-
-                            <ComboBox x:Name="EditFuelTypeComboBox" SelectionChanged="EditCarPropertyValuesField_SelectionChanged">
-                                <x:String>Diesel</x:String>
-                                <x:String>Electric</x:String>
-                                <x:String>Ethanol</x:String>
-                                <x:String>Gas</x:String>
-                                <x:String>Lpg</x:String>
-                                <x:String>NaturalGas</x:String>
-                                <x:String>Hybrid</x:String>
-                                <x:String>HybridPetrol</x:String>
-                                <x:String>HybridDiesel</x:String>
-                                <x:String>Petrol</x:String>
-                                <x:String>Other</x:String>
-                            </ComboBox>
-
-                            <ComboBox x:Name="EditGearBoxComboBox" SelectionChanged="EditCarPropertyValuesField_SelectionChanged" Margin="0,10,0,0">
-                                <x:String>Automatic</x:String>
-                                <x:String>Manual</x:String>
-                                <x:String>SemiAutomatic</x:String>
-                            </ComboBox>
-
-                            <ComboBox x:Name="EditStatusComboBox" SelectionChanged="EditCarPropertyValuesField_SelectionChanged" Margin="0,10,0,0">
-                                <x:String>New</x:String>
-                                <x:String>Accepted</x:String>
-                                <x:String>Rejected</x:String>
-                                <x:String>InProgress</x:String>
-                                <x:String>Completed</x:String>
-                                <x:String>Informational</x:String>
-                            </ComboBox>
+                            <TextBox Name="EditGuaranteeTextBox"
+                                     TextChanged="EditRepairPropertyValuesField_TextChanged"/>
 
                         </StackPanel>
                     </Grid>
@@ -278,54 +195,21 @@
                                         VerticalAlignment="Center"
                                         Margin="0 10 0 0">
 
-                        <Button Name="SaveCar"
-                                Content="Save Car"
+                        <Button Name="SaveRepair"
+                                Content="Save Repair"
                                 IsEnabled="False"
-                                Click="SaveCar_Click" />
+                                Click="SaveRepair_Click" />
 
-                        <Button Name="CancelCarEdit"
+                        <Button Name="CancelRepairEdit"
                                         Content="Cancel"
-                                        Click="CancelCarEdit_Click"/>
+                                        Click="CancelRepairEdit_Click"/>
 
                     </StackPanel>
                 </StackPanel>
             </Border>
         </Popup>
 
-        <Popup x:Name = "DeleteCarConfirmationPopup"
-                       HorizontalOffset="100"
-                       VerticalOffset="200">
-
-            <Border BorderBrush="Gray" 
-                           BorderThickness="2" 
-                           Background="Black" 
-                           Width="500" 
-                           Height="100"
-                           >
-                <StackPanel HorizontalAlignment="Center"
-                                    VerticalAlignment="Center">
-
-                    <TextBlock>Do you really want to delete the selected car?</TextBlock>
-
-                    <StackPanel Orientation="Horizontal"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Margin="0 10 0 0">
-
-                        <Button Name="DeleteCar"
-                                        Content="Yes"
-                                        Click="DeleteCar_Click"/>
-
-                        <Button Name="CancelCarDeletion"
-                                        Content="No"
-                                        Click="CancelCarDeletion_Click" />
-
-                    </StackPanel>
-                </StackPanel>
-            </Border>
-        </Popup>
-
-        <Popup x:Name = "SearchCarDialog"
+        <Popup x:Name = "SearchRepairDialog"
                HorizontalOffset="100"
                VerticalOffset="200">
 
@@ -340,22 +224,22 @@
                             VerticalAlignment="Center"
                             Width="434">
 
-                    <Grid Name="SearchCarFields">
+                    <Grid Name="SearchRepairFields">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel Name="SearchCarPropetyNames" 
+                        <StackPanel Name="SearchRepairPropetyNames" 
                                     Grid.Column="0">
 
                             <TextBlock Style="{StaticResource AddPopupField}">Keyword</TextBlock>
 
                         </StackPanel>
 
-                        <StackPanel Name="SearchCarPropertyValues"                            
+                        <StackPanel Name="SearchRepairPropertyValues"                            
                                     Grid.Column="1"
-                                    Loaded="SearchCarPropertyValues_Loaded">
+                                    Loaded="SearchRepairPropertyValues_Loaded">
 
                             <TextBox Name="KeywordTextBox"
                                      TextChanged="KeywordTextBox_TextChanged"/>
@@ -368,15 +252,15 @@
                                         VerticalAlignment="Center"
                                         Margin="0 10 0 0">
 
-                        <Button Name="SearchCar"
+                        <Button Name="SearchRepair"
                                 Content="Search"
                                 IsEnabled="False"
-                                Click="SearchCar_Click" />
+                                Click="SearchRepair_Click" />
 
-                        <Button Name="CancelSearchCar"
+                        <Button Name="CancelSearchRepair"
                                 Content="Cancel"
                                 IsEnabled="True"
-                                Click="CancelSearchCar_Click" />
+                                Click="CancelSearchRepair_Click" />
 
                     </StackPanel>
                 </StackPanel>

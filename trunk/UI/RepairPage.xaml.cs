@@ -28,6 +28,9 @@ namespace UI
             this.InitializeComponent();
         }
 
+        private List<Repair> repairs;
+        private Vehicle vehicle;
+
         /// <summary>
         /// Populates the page with content passed during navigation.  Any saved state is also
         /// provided when recreating a page from a prior session.
@@ -39,11 +42,13 @@ namespace UI
         /// session.  This will be null the first time a page is visited.</param>
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
+            vehicle = navigationParameter as Vehicle;
+            repairs = vehicle.Repairs;
         }
 
         /// <summary>
         /// Preserves state associated with this page in case the application is suspended or the
-        /// page is discarded from the navigation cache.  Values must conform to the serialization
+        /// page is disRepairded from the navigation cache.  Values must conform to the serialization
         /// requirements of <see cref="SuspensionManager.SessionState"/>.
         /// </summary>
         /// <param name="pageState">An empty dictionary to be populated with serializable state.</param>
@@ -51,46 +56,38 @@ namespace UI
         {
         }
 
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        private void RegisteredRepairs_Loaded(object sender, RoutedEventArgs e)
         {
-            if (RegisteredCars.SelectedValue != null)
-            {
-                DeleteCarConfirmationPopup.IsOpen = true;
-            }            
+            PopulateRepairs(repairs);
         }
 
-        private void RegisteredCars_Loaded(object sender, RoutedEventArgs e)
+        private void PopulateRepairs(List<Repair> RepairsToDisplay)
         {
-            PopulateVehicles(Service.AutoShopInstance.GetVehiclesList());
-        }
+            RegisteredRepairs.Items.Clear();
 
-        private void PopulateVehicles(List<Vehicle> carsToDisplay)
-        {
-            RegisteredCars.Items.Clear();
-
-            foreach (var vehicle in carsToDisplay)
+            foreach (var Repair in RepairsToDisplay)
             {
                 var newListBoxItem = new ListBoxItem();
 
-                newListBoxItem.Content = vehicle.Manufacturer + " " + vehicle.Model + " " + vehicle.RegistrationNumber;
-                newListBoxItem.Tag = vehicle;
+                newListBoxItem.Content = Repair.Caption + " " + Repair.Date;
+                newListBoxItem.Tag = Repair;
 
-                RegisteredCars.Items.Add(newListBoxItem);
+                RegisteredRepairs.Items.Add(newListBoxItem);
             }
         }
 
-        private void RegisteredCars_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void RegisteredRepairs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Vehicle selectedCar = Service.AutoShopInstance.GetVehicleByIndex(RegisteredCars.SelectedIndex);
-            SelectedCarDetails.Children.Clear();
+            Repair selectedRepair = repairs[RegisteredRepairs.SelectedIndex];
+            SelectedRepairDetails.Children.Clear();
 
-            var selectedCarProperties = selectedCar.GetType().GetRuntimeProperties();
+            var selectedRepairProperties = selectedRepair.GetType().GetRuntimeProperties();
 
-            foreach (var property in selectedCarProperties)
+            foreach (var property in selectedRepairProperties)
             {
                 var propertyStack = new StackPanel();
                 propertyStack.Orientation = Orientation.Horizontal;
-                SelectedCarDetails.Children.Add(propertyStack);
+                SelectedRepairDetails.Children.Add(propertyStack);
 
                 var propertyNameGrid = new Grid();
                 propertyNameGrid.Width = 200;
@@ -99,7 +96,7 @@ namespace UI
                 var propertyValueGrid = new Grid();
                 propertyStack.Children.Add(propertyValueGrid);
 
-                if (property.GetValue(selectedCar) != null)
+                if (property.GetValue(selectedRepair) != null)
                 {
                     var propertyNameBlock = new TextBlock();
                     string propertyName;
@@ -119,149 +116,128 @@ namespace UI
                     propertyNameGrid.Children.Add(propertyNameBlock);
 
                     var propertyValue = new TextBlock();
-                    var value = property.GetValue(selectedCar).ToString();
+                    var value = property.GetValue(selectedRepair).ToString();
                     propertyValue.Text = value;
                     propertyValueGrid.Children.Add(propertyValue);
                 }
             }            
         }
 
-        private void DeleteCar_Click(object sender, RoutedEventArgs e)
+   
+
+        private void CancelRepairCreation_Click(object sender, RoutedEventArgs e)
         {
-            Service.AutoShopInstance.RemoveVehicle(Service.AutoShopInstance.GetVehicleByIndex(RegisteredCars.SelectedIndex));
+            AddRepairDialog.IsOpen = false;
+        }
+
+        private void AddRepair_Click(object sender, RoutedEventArgs e)
+        {
+            int guarantee = int.Parse(GuaranteeTextBox.Text);
+            repairs.Add(new Repair(CaptionTextBox.Text, guarantee, new List<Part>())); // TODO: make page for parts
+            Service.AutoShopInstance.GetVehicleByIndex((int)vehicle.Id).Repairs = repairs; 
             App.SaveServiceInformation();
-            DeleteCarConfirmationPopup.IsOpen = false;
-            this.Frame.Navigate(typeof(CarsPage));
-        }
-
-        private void CancelCarDeletion_Click(object sender, RoutedEventArgs e)
-        {
-            DeleteCarConfirmationPopup.IsOpen = false;
-        }
-
-        private void CancelCarCreation_Click(object sender, RoutedEventArgs e)
-        {
-            AddCarDialog.IsOpen = false;
-        }
-
-        private void AddCar_Click(object sender, RoutedEventArgs e)
-        {
-            FuelType fuelType = (FuelType)Enum.Parse(typeof(FuelType), FuelTypeComboBox.SelectedValue.ToString(), false);
-            Gearbox gearbox = (Gearbox)Enum.Parse(typeof(Gearbox), GearBoxComboBox.SelectedValue.ToString(), false);
-            Status status = (Status)Enum.Parse(typeof(Status), StatusComboBox.SelectedValue.ToString(), false);
-           
-            Service.AutoShopInstance.AddVehicle(new Vehicle(ManufacuturerTextBox.Text, ModelTextBox.Text, int.Parse(YearTextBox.Text), RegNumberTextBox.Text, fuelType, gearbox, status));
-            App.SaveServiceInformation();
-            this.Frame.Navigate(typeof(CarsPage));
+            this.Frame.Navigate(typeof(RepairPage), vehicle);
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            AddCarDialog.IsOpen = true;
+            AddRepairDialog.IsOpen = true;
         }
 
-        private void AddCarPropertyValuesField_TextChanged(object sender, TextChangedEventArgs e)
+        private void AddRepairPropertyValuesField_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (ManufacuturerTextBox.Text != string.Empty && ModelTextBox.Text != string.Empty
-               && YearTextBox.Text != string.Empty && RegNumberTextBox.Text != string.Empty
-               && FuelTypeComboBox.SelectedValue != null && GearBoxComboBox.SelectedValue != null && StatusComboBox.SelectedValue != null)
+            if (CaptionTextBox.Text != string.Empty && GuaranteeTextBox.Text != string.Empty)
             {
                 int result = 0;
 
-                if (Int32.TryParse(YearTextBox.Text, out result))
+                if (int.TryParse(GuaranteeTextBox.Text, out result))
                 {
-                    AddCar.IsEnabled = true;
+                    AddRepair.IsEnabled = true;
                 }
             }
             else
             {
-                AddCar.IsEnabled = false;
+                AddRepair.IsEnabled = false;
             }
         }
 
-        private void EditCarPropertyValuesField_TextChanged(object sender, TextChangedEventArgs e)
+        private void EditRepairPropertyValuesField_TextChanged(object sender, TextChangedEventArgs e)
         {
-            FuelType fuelType = (FuelType)Enum.Parse(typeof(FuelType), EditFuelTypeComboBox.SelectedValue.ToString(), false);
-            Gearbox gearbox = (Gearbox)Enum.Parse(typeof(Gearbox), EditGearBoxComboBox.SelectedValue.ToString(), false);
-            Status status = (Status)Enum.Parse(typeof(Status), EditStatusComboBox.SelectedValue.ToString(), false);
 
-            Vehicle currentlySelectedCar = Service.AutoShopInstance.GetVehicleByIndex(RegisteredCars.SelectedIndex);
+            //Repair currentlySelectedRepair = Service.AutoShopInstance.GetRepairByIndex(RegisteredRepairs.SelectedIndex);
 
-            if (EditManufacuturerTextBox.Text != string.Empty && 
-                EditModelTextBox.Text != string.Empty &&
-                EditYearTextBox.Text != string.Empty &&
-                EditRegNumberTextBox.Text != string.Empty &&
-                 EditFuelTypeComboBox.SelectedValue != null && EditGearBoxComboBox.SelectedValue != null && EditStatusComboBox.SelectedValue != null &&
-                    (EditManufacuturerTextBox.Text != currentlySelectedCar.Manufacturer || 
-                    EditModelTextBox.Text != currentlySelectedCar.Model || 
-                    EditYearTextBox.Text != currentlySelectedCar.Year.ToString() || 
-                    EditRegNumberTextBox.Text != currentlySelectedCar.RegistrationNumber ||
-                    fuelType != currentlySelectedCar.FuelType ||
-                    gearbox != currentlySelectedCar.Gearbox ||
-                    status != currentlySelectedCar.Status)
-               )
-            {
-                int result = 0;
+            //if (EditManufacuturerTextBox.Text != string.Empty && 
+            //    EditModelTextBox.Text != string.Empty &&
+            //    EditYearTextBox.Text != string.Empty &&
+            //    EditRegNumberTextBox.Text != string.Empty &&
+            //     EditFuelTypeComboBox.SelectedValue != null && EditGearBoxComboBox.SelectedValue != null && EditStatusComboBox.SelectedValue != null &&
+            //        (EditManufacuturerTextBox.Text != currentlySelectedRepair.Manufacturer || 
+            //        EditModelTextBox.Text != currentlySelectedRepair.Model || 
+            //        EditYearTextBox.Text != currentlySelectedRepair.Year.ToString() || 
+            //        EditRegNumberTextBox.Text != currentlySelectedRepair.RegistrationNumber ||
+            //        fuelType != currentlySelectedRepair.FuelType ||
+            //        gearbox != currentlySelectedRepair.Gearbox ||
+            //        status != currentlySelectedRepair.Status)
+            //   )
+            //{
+            //    int result = 0;
 
-                if (Int32.TryParse(EditYearTextBox.Text, out result))
-                {
-                    SaveCar.IsEnabled = true;
-                }
-                else
-                {
-                    SaveCar.IsEnabled = false;
-                }
-            }
-            else
-            {
-                SaveCar.IsEnabled = false;
-            }
+            //    if (Int32.TryParse(EditYearTextBox.Text, out result))
+            //    {
+            //        SaveRepair.IsEnabled = true;
+            //    }
+            //    else
+            //    {
+            //        SaveRepair.IsEnabled = false;
+            //    }
+            //}
+            //else
+            //{
+            //    SaveRepair.IsEnabled = false;
+            //}
         }
 
-        private void SaveCar_Click(object sender, RoutedEventArgs e)
+        private void SaveRepair_Click(object sender, RoutedEventArgs e)
         {
-            FuelType fuelType = (FuelType)Enum.Parse(typeof(FuelType), EditFuelTypeComboBox.SelectedValue.ToString(), false);
-            Gearbox gearbox = (Gearbox)Enum.Parse(typeof(Gearbox), EditGearBoxComboBox.SelectedValue.ToString(), false);
-            Status status = (Status)Enum.Parse(typeof(Status), EditStatusComboBox.SelectedValue.ToString(), false);
+ 
+            //Repair RepairToEdit = Service.AutoShopInstance.GetRepairByIndex(RegisteredRepairs.SelectedIndex);
 
-            Vehicle vehicleToEdit = Service.AutoShopInstance.GetVehicleByIndex(RegisteredCars.SelectedIndex);
+            //RepairToEdit.Manufacturer = EditManufacuturerTextBox.Text;
+            //RepairToEdit.Model = EditModelTextBox.Text;
+            //RepairToEdit.Year = int.Parse(EditYearTextBox.Text);
+            //RepairToEdit.RegistrationNumber = EditRegNumberTextBox.Text;
+            //RepairToEdit.FuelType = fuelType;
+            //RepairToEdit.Gearbox = gearbox;
+            //RepairToEdit.Status = status;
 
-            vehicleToEdit.Manufacturer = EditManufacuturerTextBox.Text;
-            vehicleToEdit.Model = EditModelTextBox.Text;
-            vehicleToEdit.Year = int.Parse(EditYearTextBox.Text);
-            vehicleToEdit.RegistrationNumber = EditRegNumberTextBox.Text;
-            vehicleToEdit.FuelType = fuelType;
-            vehicleToEdit.Gearbox = gearbox;
-            vehicleToEdit.Status = status;
-
-            App.SaveServiceInformation();
+            //App.SaveServiceInformation();
             
-            this.Frame.Navigate(typeof(CarsPage));
+            //this.Frame.Navigate(typeof(RepairPage), vehicle);
         }
 
-        private void CancelCarEdit_Click(object sender, RoutedEventArgs e)
+        private void CancelRepairEdit_Click(object sender, RoutedEventArgs e)
         {
-            EditCarDialog.IsOpen = false;
+            EditRepairDialog.IsOpen = false;
         }
 
-        private void EditCarPropertyValues_Loaded(object sender, RoutedEventArgs e)
+        private void EditRepairPropertyValues_Loaded(object sender, RoutedEventArgs e)
         {
-            Vehicle currentlySelectedCar = Service.AutoShopInstance.GetVehicleByIndex(RegisteredCars.SelectedIndex);
+            //Repair currentlySelectedRepair = Service.AutoShopInstance.GetRepairByIndex(RegisteredRepairs.SelectedIndex);
 
-            EditManufacuturerTextBox.Text = currentlySelectedCar.Manufacturer;
-            EditModelTextBox.Text = currentlySelectedCar.Model;
-            EditYearTextBox.Text = currentlySelectedCar.Year.ToString();
-            EditRegNumberTextBox.Text = currentlySelectedCar.RegistrationNumber;
-            EditFuelTypeComboBox.SelectedItem = currentlySelectedCar.FuelType.ToString();
-            EditGearBoxComboBox.SelectedItem = currentlySelectedCar.Gearbox.ToString();
-            EditStatusComboBox.SelectedItem = currentlySelectedCar.Status.ToString();
+            //EditManufacuturerTextBox.Text = currentlySelectedRepair.Manufacturer;
+            //EditModelTextBox.Text = currentlySelectedRepair.Model;
+            //EditYearTextBox.Text = currentlySelectedRepair.Year.ToString();
+            //EditRegNumberTextBox.Text = currentlySelectedRepair.RegistrationNumber;
+            //EditFuelTypeComboBox.SelectedItem = currentlySelectedRepair.FuelType.ToString();
+            //EditGearBoxComboBox.SelectedItem = currentlySelectedRepair.Gearbox.ToString();
+            //EditStatusComboBox.SelectedItem = currentlySelectedRepair.Status.ToString();
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            if (RegisteredCars.SelectedItems.Count != 0)
+            if (RegisteredRepairs.SelectedItems.Count != 0)
             {
-                EditCarDialog.IsOpen = true;
+                EditRepairDialog.IsOpen = true;
             }            
         }
 
@@ -272,10 +248,10 @@ namespace UI
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            SearchCarDialog.IsOpen = true;
+            SearchRepairDialog.IsOpen = true;
         }
 
-        private void SearchCarPropertyValues_Loaded(object sender, RoutedEventArgs e)
+        private void SearchRepairPropertyValues_Loaded(object sender, RoutedEventArgs e)
         {
 
         }
@@ -284,94 +260,85 @@ namespace UI
         {
             if (KeywordTextBox.Text.Length >= 3)
             {
-                SearchCar.IsEnabled = true;
+                SearchRepair.IsEnabled = true;
             }
             else
             {
-                SearchCar.IsEnabled = false;
+                SearchRepair.IsEnabled = false;
             }
         }
 
-        private void SearchCar_Click(object sender, RoutedEventArgs e)
+        private void SearchRepair_Click(object sender, RoutedEventArgs e)
         {
-            List<Vehicle> filteredCars = Helper.SearchForVehicles(KeywordTextBox.Text);
-            SearchCarDialog.IsOpen = false;
-            PopulateVehicles(filteredCars);
-            ClearButton.IsEnabled = true;
+        //    List<Repair> filteredRepairs = Helper.SearchForRepairs(KeywordTextBox.Text);
+        //    SearchRepairDialog.IsOpen = false;
+        //    PopulateRepairs(filteredRepairs);
+        //    ClearButton.IsEnabled = true;
         }
 
-        private void CancelSearchCar_Click(object sender, RoutedEventArgs e)
+        private void CancelSearchRepair_Click(object sender, RoutedEventArgs e)
         {
-            SearchCarDialog.IsOpen = false;
+            SearchRepairDialog.IsOpen = false;
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
             ClearButton.IsEnabled = false;
-            this.Frame.Navigate(typeof(CarsPage));
+            this.Frame.Navigate(typeof(RepairPage), vehicle);
         }
 
         private void ComboBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            if (ManufacuturerTextBox.Text != string.Empty && ModelTextBox.Text != string.Empty 
-                && YearTextBox.Text != string.Empty && RegNumberTextBox.Text != string.Empty
-                && FuelTypeComboBox.SelectedValue != null && GearBoxComboBox.SelectedValue != null && StatusComboBox.SelectedValue != null)
-            {
-                int result = 0;
+            //if (ManufacuturerTextBox.Text != string.Empty && ModelTextBox.Text != string.Empty 
+            //    && YearTextBox.Text != string.Empty && RegNumberTextBox.Text != string.Empty
+            //    && FuelTypeComboBox.SelectedValue != null && GearBoxComboBox.SelectedValue != null && StatusComboBox.SelectedValue != null)
+            //{
+            //    int result = 0;
 
-                if (Int32.TryParse(YearTextBox.Text, out result))
-                {
-                    AddCar.IsEnabled = true;
-                }
-            }
-            else
-            {
-                AddCar.IsEnabled = false;
-            }
+            //    if (Int32.TryParse(YearTextBox.Text, out result))
+            //    {
+            //        AddRepair.IsEnabled = true;
+            //    }
+            //}
+            //else
+            //{
+            //    AddRepair.IsEnabled = false;
+            //}
         }
 
-        private void EditCarPropertyValuesField_SelectionChanged(object sender, RoutedEventArgs e)
+        private void EditRepairPropertyValuesField_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            if (EditGearBoxComboBox.SelectedValue == null || EditStatusComboBox.SelectedValue == null)
-            {
-                return;
-            }
-        
-            FuelType fuelType = (FuelType)Enum.Parse(typeof(FuelType), EditFuelTypeComboBox.SelectedValue.ToString(), false);
-            Gearbox gearbox = (Gearbox)Enum.Parse(typeof(Gearbox), EditGearBoxComboBox.SelectedValue.ToString(), false);
-            Status status = (Status)Enum.Parse(typeof(Status), EditStatusComboBox.SelectedValue.ToString(), false);
 
-            Vehicle currentlySelectedCar = Service.AutoShopInstance.GetVehicleByIndex(RegisteredCars.SelectedIndex);
+            //Repair currentlySelectedRepair = repairs[RegisteredRepairs.SelectedIndex];
+            //if (EditManufacuturerTextBox.Text != string.Empty &&
+            //    EditModelTextBox.Text != string.Empty &&
+            //    EditYearTextBox.Text != string.Empty &&
+            //    EditRegNumberTextBox.Text != string.Empty &&
+            //     EditFuelTypeComboBox.SelectedValue != null && EditGearBoxComboBox.SelectedValue != null && EditStatusComboBox.SelectedValue != null &&
+            //        (EditManufacuturerTextBox.Text != currentlySelectedRepair.Manufacturer ||
+            //        EditModelTextBox.Text != currentlySelectedRepair.Model ||
+            //        EditYearTextBox.Text != currentlySelectedRepair.Year.ToString() ||
+            //        EditRegNumberTextBox.Text != currentlySelectedRepair.RegistrationNumber ||
+            //        fuelType != currentlySelectedRepair.FuelType ||
+            //        gearbox != currentlySelectedRepair.Gearbox ||
+            //        status != currentlySelectedRepair.Status)
+            //   )
+            //{
+            //    int result = 0;
 
-            if (EditManufacuturerTextBox.Text != string.Empty &&
-                EditModelTextBox.Text != string.Empty &&
-                EditYearTextBox.Text != string.Empty &&
-                EditRegNumberTextBox.Text != string.Empty &&
-                 EditFuelTypeComboBox.SelectedValue != null && EditGearBoxComboBox.SelectedValue != null && EditStatusComboBox.SelectedValue != null &&
-                    (EditManufacuturerTextBox.Text != currentlySelectedCar.Manufacturer ||
-                    EditModelTextBox.Text != currentlySelectedCar.Model ||
-                    EditYearTextBox.Text != currentlySelectedCar.Year.ToString() ||
-                    EditRegNumberTextBox.Text != currentlySelectedCar.RegistrationNumber ||
-                    fuelType != currentlySelectedCar.FuelType ||
-                    gearbox != currentlySelectedCar.Gearbox ||
-                    status != currentlySelectedCar.Status)
-               )
-            {
-                int result = 0;
-
-                if (Int32.TryParse(EditYearTextBox.Text, out result))
-                {
-                    SaveCar.IsEnabled = true;
-                }
-                else
-                {
-                    SaveCar.IsEnabled = false;
-                }
-            }
-            else
-            {
-                SaveCar.IsEnabled = false;
-            }
+            //    if (Int32.TryParse(EditYearTextBox.Text, out result))
+            //    {
+            //        SaveRepair.IsEnabled = true;
+            //    }
+            //    else
+            //    {
+            //        SaveRepair.IsEnabled = false;
+            //    }
+            //}
+            //else
+            //{
+            //    SaveRepair.IsEnabled = false;
+            //}
         }
     }
 }
