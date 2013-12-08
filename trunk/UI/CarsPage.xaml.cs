@@ -86,6 +86,7 @@ namespace UI
 
             var selectedCarProperties = selectedCar.GetType().GetRuntimeProperties();
 
+       
             foreach (var property in selectedCarProperties)
             {
                 var propertyStack = new StackPanel();
@@ -101,10 +102,18 @@ namespace UI
 
                 if (property.Name == "Repairs")
                 {
-                    
-                }
+                    var propertyNameBlock = new TextBlock();
+                    propertyNameBlock.Text = "Repairs";
+                    propertyNameGrid.Children.Add(propertyNameBlock);
 
-                if (property.GetValue(selectedCar) != null)
+                    HyperlinkButton hb = new HyperlinkButton();
+                    hb.Content = "Go to Repairs";
+                    hb.Click  += HyperlinkButton_Click;
+
+                    hb.CommandParameter = "Binding";
+                    propertyValueGrid.Children.Add(hb);
+                }
+                else if (property.GetValue(selectedCar) != null)
                 {
                     var propertyNameBlock = new TextBlock();
                     string propertyName;
@@ -398,5 +407,11 @@ namespace UI
             var mailto = new Uri(string.Format("mailto:?to={0}&subject={1}&body={2}.", sendTo, subject, body));
             await Windows.System.Launcher.LaunchUriAsync(mailto);
         }
+
+        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(RepairPage));
+        }
+
     }
 }
