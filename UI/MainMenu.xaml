@@ -43,9 +43,5 @@
                 Content="Employees"
                 Click="EmployeesMenuButton_Click"/>
 
-        <Button Name="SettingsMenuButton" 
-                Style="{StaticResource MenuItemButton}"
-                Content="Settings"
-                Click="SettingsMenuButton_Click"/>
     </StackPanel>
 </common:LayoutAwarePage>

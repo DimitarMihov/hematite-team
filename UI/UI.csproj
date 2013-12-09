@@ -110,6 +110,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PartsPage.xaml.cs">
+      <DependentUpon>PartsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RepairPage.xaml.cs">
       <DependentUpon>RepairPage.xaml</DependentUpon>
     </Compile>
@@ -154,6 +157,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="PartsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="RepairPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
