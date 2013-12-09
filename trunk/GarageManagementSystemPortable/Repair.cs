@@ -111,7 +111,7 @@
         }
 
         public decimal CalculateMargin()
-        {
+        {//TODO : FIX IT
             decimal sum = 0.0m;
             foreach (var part in this.ExchangedParts)
             {

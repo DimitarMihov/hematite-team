@@ -73,6 +73,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repair.cs" />
     <Compile Include="Service.cs" />
+    <Compile Include="StructNavigator.cs" />
     <Compile Include="ToDo.cs" />
     <Compile Include="Vehicle.cs" />
     <Compile Include="VehicleInformation.cs" />

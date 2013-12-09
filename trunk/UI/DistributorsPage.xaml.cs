@@ -100,7 +100,21 @@ namespace UI
                 var propertyValueGrid = new Grid();
                 propertyStack.Children.Add(propertyValueGrid);
 
-                if (property.GetValue(selectedDistributor) != null)
+                if (property.Name == "Parts")
+                {
+                    var propertyNameBlock = new TextBlock();
+                    propertyNameBlock.Text = "Parts";
+                    propertyNameGrid.Children.Add(propertyNameBlock);
+
+                    HyperlinkButton hb = new HyperlinkButton();
+                    dynamic list = property.GetValue(selectedDistributor);
+                    List<Part> parts = list as List<Part>;
+                    hb.Content = parts.Count().ToString();
+                    hb.Click += HyperlinkButton_Click;
+
+                    propertyValueGrid.Children.Add(hb);
+                }
+                else if (property.GetValue(selectedDistributor) != null)
                 {
                     var propertyNameBlock = new TextBlock();
                     string propertyName;
@@ -267,6 +281,14 @@ namespace UI
         {
             ClearButton.IsEnabled = false;
             this.Frame.Navigate(typeof(DistributorsPage));
+        }
+
+        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            StructNavigator sn = new StructNavigator();
+            sn.DistributorIndex = RegisteredDistributors.SelectedIndex;
+            sn.IsDistributor = true;
+            this.Frame.Navigate(typeof(PartPage), sn);
         }
     }
 }

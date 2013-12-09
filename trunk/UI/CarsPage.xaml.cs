@@ -411,7 +411,9 @@ namespace UI
 
         private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(RepairPage), Service.AutoShopInstance.GetVehicleByIndex(RegisteredCars.SelectedIndex));
+            StructNavigator sn = new StructNavigator();
+            sn.VehicleIndex = RegisteredCars.SelectedIndex;
+            this.Frame.Navigate(typeof(RepairPage), sn);
         }
     }
 }

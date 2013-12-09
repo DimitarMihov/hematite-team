@@ -74,5 +74,22 @@
 
             return result;
         }
+
+        public static List<Part> SearchForParts(string keyword, Repair repair)
+        {
+            var parts =
+                from part in repair.ExchangedParts
+                where string.Format("{0}", part.Name).ToLower().Contains(keyword.ToLower())
+                select part;
+
+            List<Part> result = new List<Part>();
+
+            foreach (var part in parts)
+            {
+                result.Add(part as Part);
+            }
+
+            return result;
+        }
     }
 }

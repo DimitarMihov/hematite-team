@@ -30,6 +30,7 @@ namespace UI
 
         private List<Repair> repairs;
         private Vehicle vehicle;
+        private StructNavigator sn;
 
         /// <summary>
         /// Populates the page with content passed during navigation.  Any saved state is also
@@ -42,7 +43,8 @@ namespace UI
         /// session.  This will be null the first time a page is visited.</param>
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
-            vehicle = navigationParameter as Vehicle;
+            sn = (StructNavigator)navigationParameter;
+            vehicle = Service.AutoShopInstance.GetVehicleByIndex(sn.VehicleIndex);
             repairs = vehicle.Repairs;
         }
 
@@ -95,8 +97,21 @@ namespace UI
 
                 var propertyValueGrid = new Grid();
                 propertyStack.Children.Add(propertyValueGrid);
+                if (property.Name == "ExchangedParts")
+                {
+                    var propertyNameBlock = new TextBlock();
+                    propertyNameBlock.Text = "ExchangedParts";
+                    propertyNameGrid.Children.Add(propertyNameBlock);
 
-                if (property.GetValue(selectedRepair) != null)
+                    HyperlinkButton hb = new HyperlinkButton();
+                    dynamic list = property.GetValue(selectedRepair);
+                    List<Part> parts = list as List<Part>;
+                    hb.Content = parts.Count().ToString();
+                    hb.Click += HyperlinkButton_Click;
+
+                    propertyValueGrid.Children.Add(hb);
+                }
+                else if (property.GetValue(selectedRepair) != null)
                 {
                     var propertyNameBlock = new TextBlock();
                     string propertyName;
@@ -122,8 +137,6 @@ namespace UI
                 }
             }
         }
-
-
 
         private void CancelRepairCreation_Click(object sender, RoutedEventArgs e)
         {
@@ -201,7 +214,7 @@ namespace UI
            
             App.SaveServiceInformation();
 
-            this.Frame.Navigate(typeof(RepairPage), vehicle);
+            this.Frame.Navigate(typeof(RepairPage), sn);
         }
 
         private void CancelRepairEdit_Click(object sender, RoutedEventArgs e)
@@ -269,7 +282,7 @@ namespace UI
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
             ClearButton.IsEnabled = false;
-            this.Frame.Navigate(typeof(RepairPage), vehicle);
+            this.Frame.Navigate(typeof(RepairPage), sn);
         }
 
         private void ComboBox_SelectionChanged(object sender, RoutedEventArgs e)
@@ -315,6 +328,12 @@ namespace UI
             {
                 SaveRepair.IsEnabled = false;
             }
+        }
+
+        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            sn.RepairIndex = RegisteredRepairs.SelectedIndex;
+            this.Frame.Navigate(typeof(PartPage), sn);
         }
     }
 }
