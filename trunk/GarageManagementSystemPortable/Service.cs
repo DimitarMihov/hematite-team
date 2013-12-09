@@ -8,8 +8,8 @@
 
     public class Service
     {
-        // TODO: MANDATORY Add at least one more interface and implement it
-        // TODO: MANDATORY Create and use at least one structure in the code
+        // TODO: DONE MANDATORY Add at least one more interface and implement it
+        // TODO: DONE MANDATORY Create and use at least one structure in the code
         // TODO: MANDATORY Update the class diagram before submission
         // TODO: MANDATORY Create a brief documentation of the project
 
@@ -17,7 +17,7 @@
         // TODO: UI: Optimize the code in the UI
         // TODO: UI: Create a Settings page
         // TODO: UI: Create Repairs page
-        // TODO: UI: Enhance the Add functions (i.e. with dropdowns for enums, etc)
+        // TODO: UI: DONE Enhance the Add functions (i.e. with dropdowns for enums, etc)
         // TODO: UI: Implement email validation for the forms in the Helper class
 
         private static Service serviceInstance;
