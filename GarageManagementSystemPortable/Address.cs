@@ -7,9 +7,7 @@
 
     public class Address
     {
-        public Address()
-        {
-        }
+        public Address() { }
 
         public Address(string city, string street, int? number, string comment)
         {

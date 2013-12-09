@@ -1,11 +1,12 @@
 ﻿namespace GarageManagementSystem
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Text;
 
-    public abstract class Person : IContactable
+    public abstract class Person : IContactable, iTask
     {
         public Person()
         {
@@ -125,6 +126,31 @@
         public void SendEmail()
         {
             // TODO: Implement the SendEmail() method
+        }
+
+        public List<ToDo> Tasks
+        {
+            get { return this.Tasks; }
+        }
+
+        public ToDo GetTaskByIndex(int toDoIndex)
+        {
+            return this.Tasks[toDoIndex];
+        }
+
+        public void AddTask(ToDo task)
+        {
+            this.Tasks.Add(task);
+        }
+
+        public void RemoveTask(ToDo task)
+        {
+            this.Tasks.Remove(task);
+        }
+
+        public string Alarm(ToDo task)
+        {
+            return string.Format("You need to perform the following task in relation to\n {0} {1} \n {2}", this.GetType().Name, this.Name, task.TaskContent.ToUpper());
         }
     }
 }
