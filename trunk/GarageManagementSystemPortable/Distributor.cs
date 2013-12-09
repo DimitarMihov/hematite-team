@@ -6,7 +6,7 @@
     using System.Reflection;
     using System.Text;
 
-    public class Distributor : Person, iTask
+    public class Distributor : Person
     {
         public Distributor(string name, string phone, string email)
         {
@@ -60,6 +60,10 @@
                     {
                         builder.Append(Part.SavePartInformation(part));
                     }
+                }
+                else if (property.Name == "Tasks")
+                {
+                    // TODO: Implement saving tasks in Distributor class
                 }
                 else
                 {
@@ -115,6 +119,10 @@
                     index--;
                     property.SetValue(distributor, parts, null);
                 }
+                else if (property.Name == "Tasks")
+                {
+                    // TODO: Implement loading tasks in Distributor class
+                }
                 else
                 {
                     index++;
@@ -131,29 +139,29 @@
             return distributor;
         }
 
-        public List<ToDo> Tasks
-        {
-            get { return this.Tasks; }
-        }
+        //public List<ToDo> Tasks
+        //{
+        //    get { return this.Tasks; }
+        //}
 
-        public ToDo GetTaskByIndex(int toDoIndex)
-        {
-            return this.Tasks[toDoIndex];
-        }
+        //public ToDo GetTaskByIndex(int toDoIndex)
+        //{
+        //    return this.Tasks[toDoIndex];
+        //}
 
-        public void AddTask(ToDo task)
-        {
-            this.Tasks.Add(task);
-        }
+        //public void AddTask(ToDo task)
+        //{
+        //    this.Tasks.Add(task);
+        //}
 
-        public void RemoveTask(ToDo task)
-        {
-            this.Tasks.Remove(task);
-        }
+        //public void RemoveTask(ToDo task)
+        //{
+        //    this.Tasks.Remove(task);
+        //}
 
-        public string Alarm(ToDo task)
-        {
-            return string.Format("You need to perform the following task in relation to\n distributor {0} ({1}) \n {2}", this.Name, this.Email, task.TaskContent.ToUpper());
-        }
+        //public string Alarm(ToDo task)
+        //{
+        //    return string.Format("You need to perform the following task in relation to\n distributor {0} ({1}) \n {2}", this.Name, this.Email, task.TaskContent.ToUpper());
+        //}
     }
 }
